@@ -20,7 +20,6 @@ public class FireFighterGame extends ApplicationAdapter {
 	private OrthographicCamera hudCam;
 	private GameStateManager gsm;
 	
-	private ParticleEffect pe;
 	
 	@Override
 	public void create () {
@@ -38,28 +37,21 @@ public class FireFighterGame extends ApplicationAdapter {
 		// load up game
 		gsm = new GameStateManager(this);
 		
-		pe = new ParticleEffect();
-		pe.load(Gdx.files.internal("Particles/Fire.par"), Gdx.files.internal(""));
-		pe.getEmitters().first().setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-		pe.start();
+		
 	}
 
 	public void update(float dt){
-		pe.update(dt);
-		if(pe.isComplete()){
-			pe.start();
-		}
+
+		gsm.update(dt);
+			
 	}
-	
+
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-		update(Gdx.graphics.getDeltaTime());
-		
 		batch.begin();
-		pe.draw(batch);
+		gsm.render();
 		batch.end();
 	}
 	
