@@ -1,11 +1,8 @@
 package com.picklegames.managers;
 
-import java.io.FileNotFoundException;
 import java.util.Stack;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.picklegames.game.FireFighterGame;
-import com.picklegames.gameStates.Dialogue;
 import com.picklegames.gameStates.GameState;
 import com.picklegames.gameStates.Menu;
 import com.picklegames.gameStates.Play;
@@ -13,7 +10,6 @@ import com.picklegames.gameStates.Play;
 public class GameStateManager {
 
 	private FireFighterGame game;
-	private SpriteBatch spriteBatch;
 	private Stack<GameState> gameStates;
 
 	public static final int MENU = 123;
@@ -24,8 +20,7 @@ public class GameStateManager {
 	public GameStateManager(FireFighterGame game) {
 		this.game = game;
 		gameStates = new Stack<GameState>();
-		spriteBatch = game.getBatch();
-		pushState(DIALOGUE);
+		pushState(PLAY);
 	}
 	public FireFighterGame game() {
 		return game;
@@ -36,7 +31,7 @@ public class GameStateManager {
 	}
 
 	public void render() {
-		gameStates.peek().render(spriteBatch);
+		gameStates.peek().render();
 	}
 
 	private GameState getState(int state) {
@@ -44,13 +39,6 @@ public class GameStateManager {
 			return new Menu(this);
 		if (state == PLAY)
 			return new Play(this);
-		if (state == DIALOGUE){
-			try {
-				return new Dialogue(this);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
 		return null;
 
 	}
