@@ -1,28 +1,30 @@
-package com.picklegames.gameStates;
+package com.picklegames.levelStates;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.picklegames.game.FireFighterGame;
-import com.picklegames.managers.GameStateManager;
+import com.picklegames.managers.LevelStateManager;
 
-public abstract class GameState {
+public abstract class LevelState {
 
-	protected GameStateManager gsm;
+	protected LevelStateManager lsm;
 	protected FireFighterGame game;
 
 	protected SpriteBatch batch;
 	protected OrthographicCamera cam;
 	protected OrthographicCamera hudCam;
 
-	public GameState(GameStateManager gsm) {
-		this.gsm = gsm;
-		game = gsm.game();
+	public LevelState(LevelStateManager lsm) {
+		this.lsm = lsm;
+		game = lsm.game();
 		batch = game.getBatch();
 		cam = game.getCam();
 		hudCam = game.getHudCam();
 
 	}
-
+	
+	public abstract void init();
+	
 	public abstract void handleInput();
 
 	public abstract void update(float dt);

@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.picklegames.handlers.Content;
 import com.picklegames.managers.GameStateManager;
@@ -30,7 +29,7 @@ public class FireFighterGame extends ApplicationAdapter {
 		// set up cameras
 		batch = new SpriteBatch();
 		cam = new OrthographicCamera();
-		cam.setToOrtho(false, V_WIDTH, V_HEIGHT);
+		cam.setToOrtho(false, V_WIDTH / SCALE, V_HEIGHT / SCALE);
 		hudCam = new OrthographicCamera();
 		hudCam.setToOrtho(false, V_WIDTH, V_HEIGHT);
 		
@@ -50,6 +49,10 @@ public class FireFighterGame extends ApplicationAdapter {
 	public void render () {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		//batch.setProjectionMatrix(cam.combined);
+
+		update(Gdx.graphics.getDeltaTime());
 		batch.begin();
 		gsm.render();
 		batch.end();

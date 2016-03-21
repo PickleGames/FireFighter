@@ -1,36 +1,38 @@
 package com.picklegames.gameStates;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.picklegames.managers.GameStateManager;
+import com.picklegames.managers.LevelStateManager;
 
 public class Play extends GameState{
 
+	private LevelStateManager lsm;
+	
 	public Play(GameStateManager gsm) {
 		super(gsm);
-		// TODO Auto-generated constructor stub
+		lsm = new LevelStateManager(game, gsm);
 	}
 
 	@Override
 	public void handleInput() {
-		// TODO Auto-generated method stub
+
 		
 	}
 
 	@Override
 	public void update(float dt) {
-		// TODO Auto-generated method stub
-		
+
+		lsm.update(dt);
 	}
 
 	@Override
-	public void render(SpriteBatch spriteBatch) {
-		// TODO Auto-generated method stub
+	public void render() {
+		lsm.render();
 		
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+
 		
 	}
 

@@ -1,96 +1,117 @@
 package com.picklegames.gameStates;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.picklegames.managers.GameStateManager;
 
-public class Dialogue extends GameState {
+public class Dialogue{
 
 	private BitmapFont font;
-	
+
+	private FileHandle file;
 	private Scanner diaScanner;
 	private int scene = 1;
-	
+
 	private String name;
 	private ArrayList<String> dialogue;
-	private String line;
-	
+	private String line = "";
+	private FileHandle fileHandle;
 	private float timeElap;
-	
-	public Dialogue(GameStateManager gsm) throws FileNotFoundException{
-		super(gsm);
-		//diaScanner = new Scanner(setFile("dialogue.txt"));
-		diaScanner = new Scanner("dialogue/dialogue.txt");
+
+	public Dialogue() throws FileNotFoundException {
+		// diaScanner = new Scanner(setFile("assets/dialogue/dialogue.txt"));
+		// diaScanner = new Scanner(new File("assets/dialogue/dialogue.txt"));
+		fileHandle = Gdx.files.internal("dialogue/dialogue.txt");
+		diaScanner = new Scanner(fileHandle.readString());
+//		while(diaScanner.hasNext()){
+//			System.out.println(diaScanner.next());
+//		}
 		setInputCursor(diaScanner);
+		dialogue = new ArrayList<String>();
+		font = new BitmapFont();
 
 	}
 
-	@Override
 	public void handleInput() {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
+	int i = 0;
+	float delay = .1f;
 	public void update(float dt) {
 		// TODO Auto-generated method stub
-		while(getScene() != getScene()+ 1){
-			dialogue = readLine(diaScanner);
-			line = dialogue.get(0);
-			timeElap+=dt;
-			if(timeElap>3){
-				line += dialogue.get(+1);
-			}
+		timeElap += dt;
 		
-		}
+		//while (getScene() != getScene() + 1) {
+//			for(String s: ){
+//				
+//			}
+			dialogue = readLine(diaScanner);
+			//if(i == 0) line = dialogue.get(i);
+
+			if (timeElap > delay && !dialogue.isEmpty() && dialogue != null) {
+				line += dialogue.get(i++);
+				timeElap = 0;
+			}
+
+		//}
 	}
 
-	@Override
-	public void render(SpriteBatch spriteBatch) {
+	public void render(SpriteBatch batch) {
 		// TODO Auto-generated method stub
-		font.draw(spriteBatch, line, 100, 100);
+		System.out.println(line);
+		font.draw(batch, line, 100, 100);
+
 	}
 
-	//@param Scanner
-	//post: sets input cursor to the end of scene identifier
+	// @param Scanner
+	// post: sets input cursor to the end of scene identifier
 	private void setInputCursor(Scanner input) {
-		String sceneStart = "1";
-		while (input.hasNextLine() && Integer.parseInt(sceneStart.substring(0, 1)) != getScene()) {
+		String sceneStart = "";
+		while (input.hasNextLine()) {
 			sceneStart = input.nextLine();
+			if (sceneStart.length() < 3 && Integer.parseInt(sceneStart) == getScene()) {
+				return;
+			}
 		}
 	}
-	
-	//@param Scanner
-	//@return returns an ArrayList of tokens in line
-	//pre: Scanner input cursor remains in current scene
-	//post: input cursor moved to next line, name is set 
-	private ArrayList<String> readLine(Scanner input){
+
+	// @param Scanner
+	// @return returns an ArrayList of tokens in line
+	// pre: Scanner input cursor remains in current scene
+	// post: input cursor moved to next line, name is set
+	private ArrayList<String> readLine(Scanner input) {
 		String line;
-		ArrayList<String> dialogue = new ArrayList<String>();
-		Scanner lineScan;
-		if(input.hasNextLine()){
+		//ArrayList<String> dialogue = new ArrayList<String>();
+		if (input.hasNextLine()) {
 			line = input.nextLine();
+			if(line.length() < 3){
+				return new ArrayList<String>();
+			}
 			Scanner tokenScan = new Scanner(line);
 			setName(tokenScan.next());
-			while(tokenScan.hasNext()){
+			while (tokenScan.hasNext()) {
 				String cToken = tokenScan.next();
 				dialogue.add(cToken + " ");
 			}
+			tokenScan.close();
 		}
-		
+
 		return dialogue;
 	}
-	
-	private File setFile(String fileName) {
 
-		return new File("dialogue/" + fileName);
+	private String setFile(String fileName) {
+
+		file = Gdx.files.internal(fileName);
+		String s = file.readString();
+		return s;
 	}
-	
+
 	private int getScene() {
 		return scene;
 	}
@@ -107,7 +128,6 @@ public class Dialogue extends GameState {
 		this.name = name;
 	}
 
-	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 

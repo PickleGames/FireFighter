@@ -1,6 +1,5 @@
 package com.picklegames.gameStates;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.picklegames.managers.GameStateManager;
 
 public class Menu extends GameState{
@@ -23,7 +22,7 @@ public class Menu extends GameState{
 	}
 
 	@Override
-	public void render(SpriteBatch spriteBatch) {
+	public void render() {
 		// TODO Auto-generated method stub
 		
 	}
