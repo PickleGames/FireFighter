@@ -9,6 +9,7 @@ import com.picklegames.managers.LevelStateManager;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
+import aurelienribon.tweenengine.equations.Bounce;
 
 public class Level2 extends LevelState {
 
@@ -21,7 +22,6 @@ public class Level2 extends LevelState {
 
 	}
 
-	private float segment = Gdx.graphics.getWidth() / 10;
 
 	@Override
 	public void init() {
@@ -47,7 +47,12 @@ public class Level2 extends LevelState {
 
 		if (timeElapsed >= 3) {
 			for (ParticleEffect p : lsm.getTe().getEffectList()) {
-				Tween.to(p, ParticleEffectTweenAccessor.GRAVITY, 2).target(-500, -1000).ease(TweenEquations.easeInCubic).start(tweenManager);
+				System.out.println("min " + p.getEmitters().get(0).getGravity().getHighMin());
+				System.out.println("max " + p.getEmitters().get(0).getGravity().getHighMax());
+				//p.getEmitters().get(0).getGravity().setHighMin(-500);
+				//p.getEmitters().get(0).getGravity().setHighMax(-1000);
+				Tween.to(p, ParticleEffectTweenAccessor.GRAVITY, 1f).target(-500, -1000).ease(TweenEquations.easeNone).start(tweenManager);
+				Tween.to(p, ParticleEffectTweenAccessor.LIFE, 1f).delay(0f).target(0, 0).ease(TweenEquations.easeNone).start(tweenManager);
 			}
 
 		}

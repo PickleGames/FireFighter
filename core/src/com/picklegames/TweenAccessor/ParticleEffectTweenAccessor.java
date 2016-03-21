@@ -28,12 +28,12 @@ public class ParticleEffectTweenAccessor implements TweenAccessor<ParticleEffect
 	public void setValues(ParticleEffect target, int tweenType, float[] newValues) {
 		switch(tweenType){
 		case GRAVITY:
-			target.getEmitters().get(0).getGravity().setHighMax(newValues[0]);
+			target.getEmitters().get(0).getGravity().setHighMin(newValues[0]);
 			target.getEmitters().get(0).getGravity().setHighMax(newValues[1]);
 			break;
 		case LIFE:
 			target.getEmitters().get(0).getLife().setHighMin(newValues[0]);
-			target.getEmitters().get(0).getLife().setHighMin(newValues[0]);
+			target.getEmitters().get(0).getLife().setHighMax(newValues[1]);
 			break;
 		}
 	}
