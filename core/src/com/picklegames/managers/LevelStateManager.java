@@ -8,6 +8,7 @@ import com.picklegames.game.FireFighterGame;
 import com.picklegames.handlers.TransitionEffect;
 import com.picklegames.levelStates.Level1;
 import com.picklegames.levelStates.Level2;
+import com.picklegames.levelStates.Level3;
 import com.picklegames.levelStates.LevelState;
 
 import aurelienribon.tweenengine.Tween;
@@ -37,7 +38,7 @@ public class LevelStateManager {
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 		
-		pushState(Level_1);
+		pushState(Level_3);
 	}
 
 	public FireFighterGame game() {
@@ -65,6 +66,8 @@ public class LevelStateManager {
 			return new Level1(this);
 		} else if (state == Level_2) {
 			return new Level2(this);
+		} else if (state == Level_3){
+			return new Level3(this);
 		}
 		return null;
 

@@ -1,14 +1,4 @@
-1
-MOM put mom dialogue in a single line (don't move to next line)
-YOU your dialogue in a single line (don't move to next line)
-MOM mom's second line (but still in first conversation)
-YOU your second line (but still in first conversation)
-2
-MOM mom's first line in the second converstaion 
-YOU your first line in the second converstaion 
-MED medics line 
-YOU your line
-3
-<name> words words words
-<name> words words words
-<name> words words words
+MOM:2:put mom dialogue in a single line (don't move to next line)
+YOU:2:your dialogue in a single line (don't move to next line)
+MOM:2:mom's second line (but still in first conversation)
+YOU:2:your second line (but still in first conversation)
