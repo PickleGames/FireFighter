@@ -1,5 +1,8 @@
 package com.picklegames.levelStates;
 
+
+import com.picklegames.game.FireFighterGame;
+
 import com.picklegames.handlers.Dialogue;
 import com.picklegames.managers.LevelStateManager;
 
@@ -11,6 +14,8 @@ public class Level3 extends LevelState{
 		super(lsm);
 		// TODO Auto-generated constructor stub
 		init();
+		FireFighterGame.res.loadTexture("Character/momFace.png", "mommy");
+		FireFighterGame.res.loadTexture("Character/youFace.png", "you");
 	}
 
 	@Override
@@ -36,6 +41,8 @@ public class Level3 extends LevelState{
 	public void render() {
 		// TODO Auto-generated method stub
 		batch.begin();
+			batch.draw(FireFighterGame.res.getTexture("mommy"), 55, 385);
+			batch.draw(FireFighterGame.res.getTexture("you"), 55, 75);
 			d.render(batch);
 		batch.end();
 	}

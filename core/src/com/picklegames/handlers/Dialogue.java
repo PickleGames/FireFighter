@@ -117,8 +117,8 @@ public class Dialogue {
 		// TODO Auto-generated method stub
 		System.out.println("top: " + top);
 		System.out.println("bototm : " + bottom);
-		font.draw(batch, "MOM: " + top, 100, 400);
-		font.draw(batch, "YOU: " + bottom, 100, 100);
+		font.draw(batch, "MOM: " + top, 120, 425);
+		font.draw(batch,  "YOU: " + bottom, 120, 100);
 	}
 
 	public void dispose() {
