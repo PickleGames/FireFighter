@@ -14,7 +14,7 @@ public class ParticleEffectTweenAccessor implements TweenAccessor<ParticleEffect
 		case GRAVITY:
 			returnValues[0] = target.getEmitters().get(0).getGravity().getHighMin();
 			returnValues[1] = target.getEmitters().get(0).getGravity().getHighMax();
-			return 1;
+			return 2;
 		case LIFE:
 			returnValues[0] = target.getEmitters().get(0).getLife().getHighMin();
 			returnValues[1] = target.getEmitters().get(0).getLife().getHighMax();
