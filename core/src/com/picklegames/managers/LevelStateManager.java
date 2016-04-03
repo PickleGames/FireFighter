@@ -31,7 +31,7 @@ public class LevelStateManager {
 
 	public LevelStateManager(FireFighterGame game, GameStateManager gsm) {
 		this.game = game;
-		this.gsm = gsm;
+		this.setGsm(gsm);
 		levelStates = new Stack<LevelState>();
 
 		te = new TransitionEffect();
@@ -55,10 +55,17 @@ public class LevelStateManager {
 	}
 
 	public void render() {
+		
 		levelStates.peek().render();
+		
+		
+		game.getBatch().begin();
 		if (isTeActivated) {
 			te.render(game.getBatch());
 		}
+		game.getBatch().end();
+	
+
 	}
 
 	private LevelState getState(int state) {
@@ -105,6 +112,14 @@ public class LevelStateManager {
 
 	public TweenManager getTweenManager() {
 		return tweenManager;
+	}
+
+	public GameStateManager getGsm() {
+		return gsm;
+	}
+
+	public void setGsm(GameStateManager gsm) {
+		this.gsm = gsm;
 	}
 
 
