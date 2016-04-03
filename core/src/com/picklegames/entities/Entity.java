@@ -33,10 +33,16 @@ public class Entity {
 	}
 
 	public void render(SpriteBatch batch) {
-		batch.begin();
-		batch.draw(animation.getFrame(), body.getPosition().x * B2DVars.PPM
-				- width / 2, body.getPosition().y * B2DVars.PPM - height / 2);
-		batch.end();
+		try {
+			if (animation.getFrame() != null) {
+				batch.begin();
+				batch.draw(animation.getFrame(), body.getPosition().x * B2DVars.PPM - width / 2,
+						body.getPosition().y * B2DVars.PPM - height / 2);
+				batch.end();
+			}
+		} catch (NullPointerException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public Body getBody() {
@@ -45,6 +51,11 @@ public class Entity {
 
 	public Vector2 getPosition() {
 		return body.getPosition();
+	}
+	
+	public void setPosition(float x, float y) {
+		body.setTransform(x, y, 0);
+		
 	}
 
 	public float getWidth() {

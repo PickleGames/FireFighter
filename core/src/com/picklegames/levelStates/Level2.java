@@ -1,35 +1,56 @@
 package com.picklegames.levelStates;
 
+import static com.picklegames.handlers.B2DVars.PPM;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.picklegames.TweenAccessor.EntityTweenAccessor;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
+import com.picklegames.entities.Entity;
+import com.picklegames.handlers.CreateBox2D;
 import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
-import aurelienribon.tweenengine.TweenManager;
+
 
 public class Level2 extends LevelState {
 
-	private TweenManager tweenManager;
 	private BitmapFont font;
-
+	private Entity box;
+	private Box2DDebugRenderer b2dr;
+	
+	private TiledMap tileMap;
+	private OrthogonalTiledMapRenderer tmr;
+	
+	
 	public Level2(LevelStateManager lsm) {
 		super(lsm);
 		init();
 
 	}
 
-	private float segment = Gdx.graphics.getWidth() / 10;
 
 	@Override
 	public void init() {
-		tweenManager = new TweenManager();
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
-
+		Tween.registerAccessor(Entity.class, new EntityTweenAccessor());
+		
+		box = new Entity(CreateBox2D.createBox(game.getWorld(), 100, 100, 20, 20, "box"));
+		box.setAnimation(new TextureRegion(new Texture("fire.png")), .5f);
+		
+		b2dr = new Box2DDebugRenderer();
 		font = new BitmapFont();
 
+		tileMap = new TmxMapLoader().load("map/catlevel.tmx");
+		tmr = new OrthogonalTiledMapRenderer(tileMap);
 	}
 
 	@Override
@@ -47,26 +68,52 @@ public class Level2 extends LevelState {
 
 		if (timeElapsed >= 3) {
 			for (ParticleEffect p : lsm.getTe().getEffectList()) {
-				Tween.to(p, ParticleEffectTweenAccessor.GRAVITY, 2).target(-500, -1000).ease(TweenEquations.easeInCubic).start(tweenManager);
+				System.out.println("min " + p.getEmitters().get(0).getGravity().getHighMin());
+				System.out.println("max " + p.getEmitters().get(0).getGravity().getHighMax());
+
+				Tween.to(p, ParticleEffectTweenAccessor.GRAVITY, 1f).target(-500, -1000).ease(TweenEquations.easeNone).start(lsm.getTweenManager());
+				Tween.to(p, ParticleEffectTweenAccessor.LIFE, 1f).delay(0f).target(0, 0).ease(TweenEquations.easeNone).start(lsm.getTweenManager());
 			}
-
+			if(timeElapsed >= 5){
+				Tween.to(box, EntityTweenAccessor.XY, 2f).target(200, 200).ease(TweenEquations.easeOutSine).start(lsm.getTweenManager());
+				System.out.println("postition xy: " + box.getPosition().x * PPM+ " "+box.getPosition().y * PPM);
+				
+			}
+			
+			if(timeElapsed >= 10) {
+				lsm.setTeActivated(false);
+			}
 		}
-
-		tweenManager.update(dt);
-
+		
+		
+		box.update(dt);
 	}
 
 	@Override
 	public void render() {
-
+		cam.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0);
+		cam.update();
+		tmr.setView(cam);
+		
+		batch.begin();
+			tmr.render();
+			
+			b2dr.render(game.getWorld(), cam.combined.scl(PPM));
+		batch.end();
+		
+		box.render(batch);
+		
+		batch.begin();
 		font.draw(batch, "Level 2, time: " + timeElapsed, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-
+		batch.end();
 	}
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-
+		tmr.dispose();
+		font.dispose();
+		b2dr.dispose();
 	}
 
 }

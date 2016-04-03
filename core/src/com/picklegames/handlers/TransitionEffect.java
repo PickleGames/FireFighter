@@ -22,7 +22,7 @@ public class TransitionEffect {
 		for(int i = 0; i < 10; i++){
 			ParticleEffect temp = new ParticleEffect();
 			temp.load(Gdx.files.internal("Particles/RealFire.par"), Gdx.files.internal(""));
-			temp.setPosition(segment * i + 25, 0);
+			temp.setPosition(segment * i + 25, -50);
 			effectList.add(temp);
 		}
 	}
