@@ -1,4 +1,4 @@
-package com.picklegames.gameStates;
+package com.picklegames.handlers;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.picklegames.handlers.Line;
 
 public class Dialogue {
 
@@ -16,7 +15,6 @@ public class Dialogue {
 	private Scanner diaScanner;
 
 	private Line currentLine;
-	private Line previousLine;
 
 	private String top = "";
 	private String bottom = "";
@@ -124,7 +122,7 @@ public class Dialogue {
 	}
 
 	public void dispose() {
-		// TODO Auto-generated method stub
+		font.dispose();
 
 	}
 

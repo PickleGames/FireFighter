@@ -38,7 +38,7 @@ public class LevelStateManager {
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 		
-		pushState(Level_3);
+		pushState(Level_1);
 	}
 
 	public FireFighterGame game() {

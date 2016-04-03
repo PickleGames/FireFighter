@@ -13,11 +13,19 @@ public class Entity {
 	protected float width;
 	protected float height;
 
+	public Entity(){
+		animation = new Animation();
+	}
+	
 	public Entity(Body body) {
 		this.body = body;
 		animation = new Animation();
 	}
 
+	public void setBody(Body body){
+		this.body = body;
+	}
+	
 	public void setAnimation(TextureRegion reg, float delay) {
 		setAnimation(new TextureRegion[] { reg }, delay);
 	}

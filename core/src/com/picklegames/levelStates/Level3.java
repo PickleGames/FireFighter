@@ -1,6 +1,6 @@
 package com.picklegames.levelStates;
 
-import com.picklegames.gameStates.Dialogue;
+import com.picklegames.handlers.Dialogue;
 import com.picklegames.managers.LevelStateManager;
 
 public class Level3 extends LevelState{

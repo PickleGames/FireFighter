@@ -47,7 +47,7 @@ public class FireFighterGame extends ApplicationAdapter {
 	public void update(float dt) {
 
 		gsm.update(dt);
-
+		world.step(dt, 2, 2);
 	}
 
 	@Override

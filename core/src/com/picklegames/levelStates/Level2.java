@@ -43,7 +43,8 @@ public class Level2 extends LevelState {
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 		Tween.registerAccessor(Entity.class, new EntityTweenAccessor());
 		
-		box = new Entity(CreateBox2D.createBox(game.getWorld(), 100, 100, 20, 20, "box"));
+		box = new Entity();
+		box.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, 20, 20, "box"));
 		box.setAnimation(new TextureRegion(new Texture("fire.png")), .5f);
 		
 		b2dr = new Box2DDebugRenderer();
