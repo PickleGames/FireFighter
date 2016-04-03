@@ -35,7 +35,9 @@ public class Level3 extends LevelState{
 	@Override
 	public void render() {
 		// TODO Auto-generated method stub
-		d.render(batch);
+		batch.begin();
+			d.render(batch);
+		batch.end();
 	}
 
 	@Override

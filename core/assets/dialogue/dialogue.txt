@@ -2,3 +2,4 @@ MOM:2:put mom dialogue in a single line (don't move to next line)
 YOU:2:your dialogue in a single line (don't move to next line)
 MOM:2:mom's second line (but still in first conversation)
 YOU:2:your second line (but still in first conversation)
+MOM:2:Wait <.> <.> <.> . <.> . <.> . <.> don't go
