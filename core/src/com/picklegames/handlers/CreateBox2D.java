@@ -2,6 +2,7 @@ package com.picklegames.handlers;
 
 import static com.picklegames.handlers.B2DVars.PPM;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -41,7 +42,7 @@ public final class CreateBox2D {
 		return body;
 	}
 	
-	public static Body createBox(World world, float x, float y, float width, float height, String userData){
+	public static Body createBox(World world, float x, float y, float width, float height, Vector2 center, String userData){
 
 		// create body definition
 		BodyDef bdef = new BodyDef();
@@ -54,7 +55,7 @@ public final class CreateBox2D {
 		// create box shape for player collision
 		PolygonShape shape = new PolygonShape();
 		//shape.set(new float[]{0,,1,1});
-		shape.setAsBox(width / PPM, height / PPM);
+		shape.setAsBox(width / PPM, height / PPM, new Vector2(center.x / PPM, center.y / PPM), 0);
 
 		// create fixture definition
 		FixtureDef fdef = new FixtureDef();

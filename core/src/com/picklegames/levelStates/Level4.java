@@ -15,12 +15,12 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.entities.Lamp;
 import com.picklegames.handlers.CreateBox2D;
+import com.picklegames.handlers.TileObject;
 import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
 
-public class Level1 extends LevelState {
-
+public class Level4 extends LevelState {
 	private BitmapFont font;
 	private OrthogonalTiledMapRenderer tmr;
 	private TiledMap tileMap;
@@ -28,7 +28,7 @@ public class Level1 extends LevelState {
 	private Box2DDebugRenderer b2dr;
 	private Lamp player;
 
-	public Level1(LevelStateManager lsm) {
+	public Level4(LevelStateManager lsm) {
 		super(lsm);
 		init();
 
@@ -48,6 +48,7 @@ public class Level1 extends LevelState {
 
 		font = new BitmapFont();
 
+		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects());
 	}
 
 	@Override
@@ -76,15 +77,6 @@ public class Level1 extends LevelState {
 	public void update(float dt) {
 		handleInput();
 		timeElapsed += dt;
-
-		if (timeElapsed >= 4) {
-			lsm.setTeActivated(true);
-		}
-		if (timeElapsed >= 6) {
-			lsm.setState(LevelStateManager.Level_2);
-
-		}
-
 		player.update(dt);
 		player.getBody().setLinearVelocity(player.getVelocity());
 	}
@@ -105,7 +97,7 @@ public class Level1 extends LevelState {
 		player.render(batch);
 
 		batch.begin();
-		font.draw(batch, "Level 1, time: " + timeElapsed, Gdx.graphics.getWidth() / 2,
+		font.draw(batch, "Level 4, time: " + timeElapsed, Gdx.graphics.getWidth() / 2,
 				Gdx.graphics.getHeight() / 2 + 50);
 		batch.end();
 	}
