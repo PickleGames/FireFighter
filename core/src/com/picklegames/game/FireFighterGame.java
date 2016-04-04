@@ -72,7 +72,9 @@ public class FireFighterGame extends ApplicationAdapter {
 	@Override
 	public void dispose() {
 		super.dispose();
-
+		batch.dispose();
+		world.dispose();
+		res.removeAll();
 	}
 
 	public SpriteBatch getBatch() {

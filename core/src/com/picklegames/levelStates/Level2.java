@@ -33,7 +33,7 @@ public class Level2 extends LevelState {
 	
 	public Level2(LevelStateManager lsm) {
 		super(lsm);
-		init();
+		//init();
 
 	}
 

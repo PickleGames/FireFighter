@@ -29,7 +29,7 @@ public class Level1 extends LevelState {
 
 	public Level1(LevelStateManager lsm) {
 		super(lsm);
-		init();
+		//init();
 
 	}
 
@@ -114,6 +114,7 @@ public class Level1 extends LevelState {
 		font.dispose();
 		tmr.dispose();
 		b2dr.dispose();
+		player.dispose();
 	}
 
 }

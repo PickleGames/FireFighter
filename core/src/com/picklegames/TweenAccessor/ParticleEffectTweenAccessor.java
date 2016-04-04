@@ -5,12 +5,17 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import aurelienribon.tweenengine.TweenAccessor;
 
 public class ParticleEffectTweenAccessor implements TweenAccessor<ParticleEffect>{
-	public static final int GRAVITY = 0;
-	public static final int LIFE = 1;
+	public static final int XY = 1;
+	public static final int GRAVITY = 2;
+	public static final int LIFE = 3;
 	
 	@Override
 	public int getValues(ParticleEffect target, int tweenType, float[] returnValues) {
 		switch(tweenType){
+		case XY:
+			returnValues[0] = target.getEmitters().get(0).getX();
+			returnValues[1] = target.getEmitters().get(0).getY();
+			return 2;
 		case GRAVITY:
 			returnValues[0] = target.getEmitters().get(0).getGravity().getHighMin();
 			returnValues[1] = target.getEmitters().get(0).getGravity().getHighMax();
@@ -27,6 +32,9 @@ public class ParticleEffectTweenAccessor implements TweenAccessor<ParticleEffect
 	@Override
 	public void setValues(ParticleEffect target, int tweenType, float[] newValues) {
 		switch(tweenType){
+		case XY:
+			target.getEmitters().get(0).setPosition(newValues[0], newValues[1]);
+			break;
 		case GRAVITY:
 			target.getEmitters().get(0).getGravity().setHighMin(newValues[0]);
 			target.getEmitters().get(0).getGravity().setHighMax(newValues[1]);

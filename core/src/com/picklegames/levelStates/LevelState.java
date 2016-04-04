@@ -20,7 +20,7 @@ public abstract class LevelState {
 		batch = game.getBatch();
 		cam = game.getCam();
 		hudCam = game.getHudCam();
-
+		init();
 	}
 	
 	public abstract void init();

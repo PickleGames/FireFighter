@@ -108,7 +108,7 @@ public class Dialogue {
 	}
 
 	private boolean isToken(String line){
-		if(line.equals("<.>")){
+		if(line.equals("<>")){
 			return true;
 		}return false;
 	}

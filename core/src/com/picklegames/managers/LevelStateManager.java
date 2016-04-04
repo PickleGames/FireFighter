@@ -12,6 +12,7 @@ import com.picklegames.levelStates.Level3;
 import com.picklegames.levelStates.LevelState;
 
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
 public class LevelStateManager {
@@ -23,7 +24,7 @@ public class LevelStateManager {
 	private TransitionEffect te;
 	private boolean isTeActivated = false;
 	private TweenManager tweenManager;
-	
+
 	public static final int Level_1 = 12;
 	public static final int Level_2 = 23;
 	public static final int Level_3 = 34;
@@ -37,7 +38,7 @@ public class LevelStateManager {
 		te = new TransitionEffect();
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
-		
+
 		pushState(Level_1);
 	}
 
@@ -47,24 +48,27 @@ public class LevelStateManager {
 
 	public void update(float dt) {
 		levelStates.peek().update(dt);
-		
+
 		tweenManager.update(dt);
 		if (isTeActivated) {
+//			Tween.to(te.getEffect(), ParticleEffectTweenAccessor.XY, 1f)
+//				.target(game.getCam().viewportWidth, -50)
+//				.ease(TweenEquations.easeInQuad)
+//				.repeatYoyo(5, .1f).start(tweenManager);
+//			System.out.println(te.getEffect().getEmitters().get(0).getX() + " " + te.getEffect().getEmitters().get(0).getY()) ;
 			te.update(dt);
 		}
 	}
 
 	public void render() {
-		
+
 		levelStates.peek().render();
-		
-		
+
 		game.getBatch().begin();
 		if (isTeActivated) {
 			te.render(game.getBatch());
 		}
 		game.getBatch().end();
-	
 
 	}
 
@@ -73,7 +77,7 @@ public class LevelStateManager {
 			return new Level1(this);
 		} else if (state == Level_2) {
 			return new Level2(this);
-		} else if (state == Level_3){
+		} else if (state == Level_3) {
 			return new Level3(this);
 		}
 		return null;
@@ -105,7 +109,7 @@ public class LevelStateManager {
 	public void setTeActivated(boolean isTeActivated) {
 		this.isTeActivated = isTeActivated;
 	}
-	
+
 	public TransitionEffect getTe() {
 		return te;
 	}
@@ -121,6 +125,5 @@ public class LevelStateManager {
 	public void setGsm(GameStateManager gsm) {
 		this.gsm = gsm;
 	}
-
 
 }

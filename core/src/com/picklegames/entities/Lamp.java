@@ -34,8 +34,8 @@ public class Lamp extends Entity {
 		textureStand = FireFighterGame.res.getTexture("Lamp_Stand");
 		animation.setFrames(textureR, 1 / 8f);
 
-		width = textureR[0].getRegionWidth();
-		height = textureR[0].getRegionHeight();
+		width = textureR[0].getRegionWidth() * 1.5f;
+		height = textureR[0].getRegionHeight() * 1.5f;
 
 		velocity = new Vector2(0,0);
 	}
@@ -70,6 +70,12 @@ public class Lamp extends Entity {
 		spriteBatch.end();
 	}
 
+	public void dispose(){
+		body.getFixtureList().clear();
+		textureStand.dispose();
+	}
+	
+	
 	public Vector2 getVelocity() {
 		return velocity;
 	}

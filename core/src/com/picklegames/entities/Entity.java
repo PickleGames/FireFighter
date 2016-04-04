@@ -53,6 +53,10 @@ public class Entity {
 		}
 	}
 
+	public void dispose(){
+		
+	}
+	
 	public Body getBody() {
 		return body;
 	}
