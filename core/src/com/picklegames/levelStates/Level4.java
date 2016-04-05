@@ -9,12 +9,10 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.entities.Lamp;
-import com.picklegames.handlers.CreateBox2D;
 import com.picklegames.handlers.TileObject;
 import com.picklegames.managers.LevelStateManager;
 
@@ -41,9 +39,8 @@ public class Level4 extends LevelState {
 		tileMap = new TmxMapLoader().load("map/catlevel.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
-		player = new Lamp();
-		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
-				new Vector2(0, -player.getHeight() / 3), "lamp"));
+		player = lsm.getPlayer();
+		
 		b2dr = new Box2DDebugRenderer();
 
 		font = new BitmapFont();

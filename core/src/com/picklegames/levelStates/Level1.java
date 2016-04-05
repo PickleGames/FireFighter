@@ -9,12 +9,9 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.entities.Lamp;
-import com.picklegames.handlers.CreateBox2D;
 import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
@@ -41,13 +38,12 @@ public class Level1 extends LevelState {
 		tileMap = new TmxMapLoader().load("map/catlevel.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
-		player = new Lamp();
-		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
-				new Vector2(0, -player.getHeight() / 3), "lamp"));
+		player = lsm.getPlayer();
+				
 		b2dr = new Box2DDebugRenderer();
 
 		font = new BitmapFont();
-
+		font.getData().setScale(2);
 	}
 
 	@Override
@@ -67,6 +63,10 @@ public class Level1 extends LevelState {
 			player.setVelocityY(0);
 		}
 
+		if(Gdx.input.isKeyPressed(Keys.SPACE)){
+			lsm.getTe().start();
+		}
+		
 		System.out.println(player.getVelocity().toString());
 	}
 
@@ -77,8 +77,11 @@ public class Level1 extends LevelState {
 		handleInput();
 		timeElapsed += dt;
 
+		System.out.println(lsm.getTe().isStart());
+		
 		if (timeElapsed >= 4) {
-			lsm.setTeActivated(true);
+			if(!lsm.getTe().isStart())
+				lsm.getTe().start();
 		}
 		if (timeElapsed >= 6) {
 			lsm.setState(LevelStateManager.Level_2);
@@ -95,11 +98,11 @@ public class Level1 extends LevelState {
 		batch.setProjectionMatrix(cam.combined);
 		tmr.setView(cam);
 		batch.begin();
-		tmr.render();
-		b2dr.render(game.getWorld(), cam.combined.scl(PPM));
+			tmr.render();
+			b2dr.render(game.getWorld(), cam.combined.scl(PPM));
 		batch.end();
 
-		cam.unproject(new Vector3(player.getPosition(), 0));
+		//cam.unproject(new Vector3(player.getPosition(), 0));
 		cam.update();
 
 		player.render(batch);
