@@ -65,9 +65,10 @@ public class LevelStateManager {
 
 	public void update(float dt) {
 		levelStates.peek().update(dt);
-
+		te.update(dt);
 		tweenManager.update(dt);
 
+<<<<<<< HEAD
 
 			// Tween.to(te.getEffect(), ParticleEffectTweenAccessor.XY, 1f)
 			// .target(game.getCam().viewportWidth, -50)
@@ -78,6 +79,8 @@ public class LevelStateManager {
 
 		te.update(dt);
 		//System.out.println("is transition finished : " + te.isFinished());
+=======
+>>>>>>> 89bf0ff15625011df35bd29381c112eb21a84f45
 	}
 
 	public void render(SpriteBatch batch) {
