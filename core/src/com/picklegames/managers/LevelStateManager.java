@@ -68,19 +68,7 @@ public class LevelStateManager {
 		te.update(dt);
 		tweenManager.update(dt);
 
-<<<<<<< HEAD
 
-			// Tween.to(te.getEffect(), ParticleEffectTweenAccessor.XY, 1f)
-			// .target(game.getCam().viewportWidth, -50)
-			// .ease(TweenEquations.easeInQuad)
-			// .repeatYoyo(5, .1f).start(tweenManager);
-			// System.out.println(te.getEffect().getEmitters().get(0).getX() + "
-			// " + te.getEffect().getEmitters().get(0).getY()) ;
-
-		te.update(dt);
-		//System.out.println("is transition finished : " + te.isFinished());
-=======
->>>>>>> 89bf0ff15625011df35bd29381c112eb21a84f45
 	}
 
 	public void render(SpriteBatch batch) {
