@@ -2,17 +2,23 @@ package com.picklegames.levelStates;
 
 import static com.picklegames.handlers.B2DVars.PPM;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
+import com.picklegames.entities.Fire;
 import com.picklegames.entities.Lamp;
 import com.picklegames.handlers.CreateBox2D;
 import com.picklegames.handlers.TileObject;
@@ -27,6 +33,10 @@ public class Level4 extends LevelState {
 
 	private Box2DDebugRenderer b2dr;
 	private Lamp player;
+	
+	private ArrayList<ParticleEffect> pFires;
+
+	private ArrayList<Fire> fires;
 
 	public Level4(LevelStateManager lsm) {
 		super(lsm);
@@ -49,6 +59,11 @@ public class Level4 extends LevelState {
 		font = new BitmapFont();
 
 		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects());
+
+		fires = new ArrayList<Fire>();
+		pFires = new ArrayList<ParticleEffect>();
+		
+		createFiresBox2D();
 	}
 
 	@Override
@@ -67,6 +82,14 @@ public class Level4 extends LevelState {
 		} else {
 			player.setVelocityY(0);
 		}
+		
+		if(Gdx.input.isKeyPressed(Keys.Q)){
+			cam.viewportHeight += 10;
+			cam.viewportWidth += 10;
+		}else if(Gdx.input.isKeyPressed(Keys.E)){
+			cam.viewportHeight -= 10;
+			cam.viewportWidth -= 10;
+		}
 
 		System.out.println(player.getVelocity().toString());
 	}
@@ -79,12 +102,24 @@ public class Level4 extends LevelState {
 		timeElapsed += dt;
 		player.update(dt);
 		player.getBody().setLinearVelocity(player.getVelocity());
+		
+		for(ParticleEffect p : pFires){
+			p.update(dt);
+		}
+		
+		for(Fire f : fires){
+			f.update(dt);
+		}
 	}
 
 	@Override
 	public void render() {
 
 		batch.setProjectionMatrix(cam.combined);
+		
+		
+		
+		
 		tmr.setView(cam);
 		batch.begin();
 		tmr.render();
@@ -95,11 +130,45 @@ public class Level4 extends LevelState {
 		cam.update();
 
 		player.render(batch);
-
+		
+		batch.begin();
+		for(ParticleEffect p : pFires){
+			p.draw(batch);
+		}
+		
+		for(Fire f : fires){
+			f.render(batch);
+		}		
+		batch.end();
+		
 		batch.begin();
 		font.draw(batch, "Level 4, time: " + timeElapsed, Gdx.graphics.getWidth() / 2,
 				Gdx.graphics.getHeight() / 2 + 50);
 		batch.end();
+	}
+
+	public void createFiresBox2D() {
+
+		MapLayer layer = tileMap.getLayers().get("fire");
+		if (layer == null)
+			return;
+
+		for (MapObject mo : layer.getObjects()) {
+
+			// get fire position from tile map object layer
+			float x = (float) mo.getProperties().get("x", Float.class);
+			float y = (float) mo.getProperties().get("y", Float.class);
+			
+			// create new fire and add to fires list
+			Fire f = new Fire(CreateBox2D.createCircle(game.getWorld(), x, y, 8, true, BodyType.StaticBody, "fire"));
+			fires.add(f);
+			
+			System.out.println("fireX: " + x + "fireY: " + y);
+			ParticleEffect temp = new ParticleEffect();
+			temp.load(Gdx.files.internal("Particles/RealFire.par"), Gdx.files.internal(""));
+			temp.setPosition(x, y);
+			pFires.add(temp);
+		}
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -75,28 +76,31 @@ public final class CreateBox2D {
 		return body;
 	}
 	
-	public static Body createCircle(World world, float x, float y, float radius){
+	public static Body createCircle(World world, float x, float y, float radius, boolean isSensor, BodyType bodyType  ,String userData){
 
 		// create body definition
 		BodyDef bdef = new BodyDef();
 		bdef.position.set(x / PPM, y / PPM);
-		bdef.type = BodyType.DynamicBody;
+		bdef.type = bodyType;
 
 		// create body from the body definition
 		Body body = world.createBody(bdef);
 
 		// create box shape for player collision
-		PolygonShape shape = new PolygonShape();
+		CircleShape shape = new CircleShape();
 		shape.setRadius(radius / PPM);
+		
+		
 		
 		// create fixture definition
 		FixtureDef fdef = new FixtureDef();
 		fdef.shape = shape;
-		fdef.filter.categoryBits = B2DVars.BIT_PLAYER;
-		fdef.filter.maskBits = B2DVars.BIT_GROUND;
+		fdef.isSensor = isSensor;
+		fdef.filter.categoryBits = B2DVars.BIT_GROUND;
+		fdef.filter.maskBits = B2DVars.BIT_PLAYER;
 
 		// create player collision box fixture
-		body.createFixture(fdef).setUserData("player");
+		body.createFixture(fdef).setUserData(userData);
 		shape.dispose();
 
 		// final tweaks, manually set the player body mass to 1 kg
@@ -107,7 +111,7 @@ public final class CreateBox2D {
 		return body;
 	}
 	
-	public static Body createPolygon(World world, float x, float y, float[] vertices){
+	public static Body createPolygon(World world, float x, float y, float[] vertices, String userData){
 
 		// create body definition
 		BodyDef bdef = new BodyDef();
@@ -128,7 +132,7 @@ public final class CreateBox2D {
 		fdef.filter.maskBits = B2DVars.BIT_GROUND;
 
 		// create player collision box fixture
-		body.createFixture(fdef).setUserData("player");
+		body.createFixture(fdef).setUserData(userData);
 		shape.dispose();
 
 		// final tweaks, manually set the player body mass to 1 kg

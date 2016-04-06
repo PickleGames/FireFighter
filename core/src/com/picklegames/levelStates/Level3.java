@@ -14,8 +14,8 @@ public class Level3 extends LevelState{
 		super(lsm);
 		// TODO Auto-generated constructor stub
 		init();
-		FireFighterGame.res.loadTexture("Character/momFace.png", "mommy");
-		FireFighterGame.res.loadTexture("Character/youFace.png", "you");
+		FireFighterGame.res.loadTexture("image/Character/momFace.png", "mommy");
+		FireFighterGame.res.loadTexture("image/Character/youFace.png", "you");
 	}
 
 	@Override

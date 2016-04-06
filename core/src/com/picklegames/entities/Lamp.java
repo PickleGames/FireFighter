@@ -27,8 +27,8 @@ public class Lamp extends Entity {
 
 
 	public void init() {
-		FireFighterGame.res.loadTexture("Character/WalkingSprites.png", "Lamp");
-		FireFighterGame.res.loadTexture("Character/Stand_1.png", "Lamp_Stand");
+		FireFighterGame.res.loadTexture("image/Character/WalkingSprites.png", "Lamp");
+		FireFighterGame.res.loadTexture("image/Character/Stand_1.png", "Lamp_Stand");
 		Texture texture = FireFighterGame.res.getTexture("Lamp");
 		textureR = TextureRegion.split(texture, 80, 150)[0]; // 80, 150
 		textureStand = FireFighterGame.res.getTexture("Lamp_Stand");
@@ -58,10 +58,10 @@ public class Lamp extends Entity {
 		} else {
 			if(velocity.x > 0)
 			spriteBatch.draw(animation.getFrame(), body.getPosition().x * PPM - width / 2,
-					body.getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, -1, 1, 0);
+					body.getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
 			else if(velocity.x < 0)
 				spriteBatch.draw(animation.getFrame(), body.getPosition().x * PPM - width / 2,
-						body.getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
+						body.getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, -1, 1, 0);
 			else {
 				spriteBatch.draw(animation.getFrame(), body.getPosition().x * PPM - width / 2,
 						body.getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
