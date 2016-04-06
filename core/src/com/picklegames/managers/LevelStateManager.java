@@ -3,17 +3,22 @@ package com.picklegames.managers;
 import java.util.Stack;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
+import com.picklegames.entities.Lamp;
 import com.picklegames.game.FireFighterGame;
+import com.picklegames.handlers.CreateBox2D;
 import com.picklegames.handlers.TransitionEffect;
+import com.picklegames.levelStates.Level0;
 import com.picklegames.levelStates.Level1;
 import com.picklegames.levelStates.Level2;
 import com.picklegames.levelStates.Level3;
 import com.picklegames.levelStates.Level4;
 import com.picklegames.levelStates.LevelState;
 
+//WE FUCKED
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
 public class LevelStateManager {
@@ -26,6 +31,13 @@ public class LevelStateManager {
 	private boolean isTeActivated = false;
 	private TweenManager tweenManager;
 
+	private Lamp player;
+
+	public Lamp getPlayer() {
+		return player;
+	}
+
+	public static final int Level_0 = 01;
 	public static final int Level_1 = 12;
 	public static final int Level_2 = 23;
 	public static final int Level_3 = 34;
@@ -40,7 +52,11 @@ public class LevelStateManager {
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
-		pushState(Level_4);
+		player = new Lamp();
+		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
+				new Vector2(0, -player.getHeight() / 3), "lamp"));
+
+		pushState(Level_1);
 
 	}
 
@@ -52,31 +68,42 @@ public class LevelStateManager {
 		levelStates.peek().update(dt);
 
 		tweenManager.update(dt);
+
 		if (isTeActivated) {
+
+			// Tween.to(te.getEffect(), ParticleEffectTweenAccessor.XY, 1f)
+			// .target(game.getCam().viewportWidth, -50)
+			// .ease(TweenEquations.easeInQuad)
+			// .repeatYoyo(5, .1f).start(tweenManager);
+			// System.out.println(te.getEffect().getEmitters().get(0).getX() + "
+			// " + te.getEffect().getEmitters().get(0).getY()) ;
+
 			te.update(dt);
+
+			System.out.println("is transition finished : " + te.isFinished());
 		}
 	}
 
-	public void render() {
+	public void render(SpriteBatch batch) {
 
 		levelStates.peek().render();
 
-		game.getBatch().begin();
-		if (isTeActivated) {
-			te.render(game.getBatch());
-		}
-		game.getBatch().end();
+		batch.begin();
+		te.render(batch);
+		batch.end();
 
 	}
 
 	private LevelState getState(int state) {
-		if (state == Level_1) {
+		if (state == Level_0) {
+			return new Level0(this);
+		} else if (state == Level_1) {
 			return new Level1(this);
 		} else if (state == Level_2) {
 			return new Level2(this);
 		} else if (state == Level_3) {
 			return new Level3(this);
-		}else if (state == Level_4){
+		} else if (state == Level_4) {
 			return new Level4(this);
 		}
 		return null;

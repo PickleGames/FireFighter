@@ -14,7 +14,13 @@ public class Lamp extends Entity {
 	private TextureRegion[] textureR;
 	private Texture textureStand;
 	private Vector2 velocity;
-
+	
+	private enum CharacterState{
+		YOUNG, EXTINGUISHER, AXE, BEAR
+	}
+	
+	public CharacterState characterState;
+	
 	public Lamp(){
 		super();
 		init();
@@ -27,6 +33,9 @@ public class Lamp extends Entity {
 
 
 	public void init() {
+
+		characterState = CharacterState.YOUNG;
+		
 		FireFighterGame.res.loadTexture("image/Character/WalkingSprites.png", "Lamp");
 		FireFighterGame.res.loadTexture("image/Character/Stand_1.png", "Lamp_Stand");
 		Texture texture = FireFighterGame.res.getTexture("Lamp");
@@ -43,32 +52,57 @@ public class Lamp extends Entity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		System.out.println("Body linear: "+ body.getLinearVelocity().toString());
-//		body.setLinearVelocity(velocity);
+		//System.out.println("Body linear: "+ body.getLinearVelocity().toString());
+		
+		if(characterState.equals(CharacterState.EXTINGUISHER)){
+			updateExtiguisher(dt);
+		}else if(characterState.equals(CharacterState.AXE)){
+			updateAxe(dt);
+		}else if(characterState.equals(CharacterState.YOUNG)){
+			
+		}
+		
 	}
 
+	private void updateExtiguisher(float dt){
+		
+	}
+	
+	private void updateAxe(float dt){
+		
+	}
+
+	
 	public void render(SpriteBatch spriteBatch) {
 		spriteBatch.begin();
-		if (velocity.x == 0 && velocity.y == 0) {
-			spriteBatch.draw(textureStand, body.getPosition().x * PPM - width / 2,
-					body.getPosition().y * PPM - height / 2, width, height);
-			// spriteBatch.draw(textureStand, body.getPosition().x * PPM - width
-			// / 2, body.getPosition().y * PPM - height / 2, width / 2, height /
-			// 2, 80, 150, 1, 1, 0);
-		} else {
-			if(velocity.x > 0)
-			spriteBatch.draw(animation.getFrame(), body.getPosition().x * PPM - width / 2,
-					body.getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
-			else if(velocity.x < 0)
+		
+		if(characterState.equals(CharacterState.EXTINGUISHER)){
+			
+		}else if(characterState.equals(CharacterState.AXE)){
+			
+		}else if(characterState.equals(CharacterState.YOUNG)){
+			if (velocity.x == 0 && velocity.y == 0) {
+				spriteBatch.draw(textureStand, body.getPosition().x * PPM - width / 2,
+						body.getPosition().y * PPM - height / 2, width, height);
+				// spriteBatch.draw(textureStand, body.getPosition().x * PPM - width
+				// / 2, body.getPosition().y * PPM - height / 2, width / 2, height /
+				// 2, 80, 150, 1, 1, 0);
+			} else {
+				if(velocity.x > 0)
 				spriteBatch.draw(animation.getFrame(), body.getPosition().x * PPM - width / 2,
 						body.getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, -1, 1, 0);
-			else {
-				spriteBatch.draw(animation.getFrame(), body.getPosition().x * PPM - width / 2,
-						body.getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
+				else if(velocity.x < 0)
+					spriteBatch.draw(animation.getFrame(), body.getPosition().x * PPM - width / 2,
+							body.getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
+				else {
+					spriteBatch.draw(animation.getFrame(), body.getPosition().x * PPM - width / 2,
+							body.getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
+				}
 			}
 		}
+	
 		spriteBatch.end();
-	}
+			}
 
 	public void dispose(){
 		body.getFixtureList().clear();

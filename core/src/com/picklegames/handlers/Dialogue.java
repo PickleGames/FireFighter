@@ -6,7 +6,6 @@ import java.util.Scanner;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Dialogue {
 
@@ -18,6 +17,8 @@ public class Dialogue {
 
 	private String top = "";
 	private String bottom = "";
+
+
 
 	private float timeElap = 0;
 
@@ -42,7 +43,7 @@ public class Dialogue {
 	}
 
 	int pointer = 0;
-	int ho = 0;
+	int dialogueIndex = 0;
 	float delayBetween;
 	float timeElapsed2;
 
@@ -50,10 +51,10 @@ public class Dialogue {
 		// TODO Auto-generated method stub
 		// timeElap += dt;
 
-		if(ho < dialogue.size()){
-			currentLine = dialogue.get(ho);
+		if(dialogueIndex < dialogue.size()){
+			currentLine = dialogue.get(dialogueIndex);
 			delayBetween = currentLine.getWait();
-			if (ho < dialogue.size()) {
+			if (dialogueIndex < dialogue.size()) {
 				if (letterIndex >= currentLine.getLetter().length) {
 					timeElapsed2 += dt;
 					System.out.println(timeElapsed2);
@@ -76,7 +77,7 @@ public class Dialogue {
 		timeElap += dt;
 		
 		if(letterIndex == line.getLetter().length){
-			if (ho < dialogue.size())ho++;
+			if (dialogueIndex < dialogue.size())dialogueIndex++;
 			letterIndex = 0;
 			if (line.getName().equals("MOM")) {
 				bottom = "";
@@ -113,13 +114,20 @@ public class Dialogue {
 		}return false;
 	}
 	
-	public void render(SpriteBatch batch) {
-		// TODO Auto-generated method stub
-		System.out.println("top: " + top);
-		System.out.println("bototm : " + bottom);
-		font.draw(batch, "MOM: " + top, 120, 425);
-		font.draw(batch,  "YOU: " + bottom, 120, 100);
+	public String getTop() {
+		return top;
 	}
+
+	public String getBottom() {
+		return bottom;
+	}
+	
+//	public void render(SpriteBatch batch) {
+//		// TODO Auto-generated method stub
+//		System.out.println("top: " + top);
+//		System.out.println("bototm : " + bottom);
+//
+//	}
 
 	public void dispose() {
 		font.dispose();

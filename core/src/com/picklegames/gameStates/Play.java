@@ -26,7 +26,7 @@ public class Play extends GameState{
 
 	@Override
 	public void render() {
-		lsm.render();
+		lsm.render(batch);
 		
 	}
 

@@ -1,14 +1,15 @@
 package com.picklegames.levelStates;
 
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.picklegames.game.FireFighterGame;
-
 import com.picklegames.handlers.Dialogue;
 import com.picklegames.managers.LevelStateManager;
 
 public class Level3 extends LevelState{
 	
 	private Dialogue d;
+	private BitmapFont font;
 	
 	public Level3(LevelStateManager lsm) {
 		super(lsm);
@@ -22,6 +23,9 @@ public class Level3 extends LevelState{
 	public void init() {
 		// TODO Auto-generated method stub
 		d = new Dialogue("dialogue/dialogue.txt");
+		font = new BitmapFont();
+
+	
 	}
 
 	@Override
@@ -32,7 +36,6 @@ public class Level3 extends LevelState{
 
 	@Override
 	public void update(float dt) {
-		// TODO Auto-generated method stub
 		
 		d.update(dt);
 	}
@@ -43,10 +46,13 @@ public class Level3 extends LevelState{
 		batch.begin();
 			batch.draw(FireFighterGame.res.getTexture("mommy"), 55, 385);
 			batch.draw(FireFighterGame.res.getTexture("you"), 55, 75);
-			d.render(batch);
+			font.draw(batch, "MOM: " + d.getTop(), 120, 425);
+			font.draw(batch,  "YOU: " + d.getBottom(), 120, 100);
+
 		batch.end();
 	}
 
+	
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub

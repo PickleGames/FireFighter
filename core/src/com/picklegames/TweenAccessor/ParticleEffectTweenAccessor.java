@@ -8,7 +8,7 @@ public class ParticleEffectTweenAccessor implements TweenAccessor<ParticleEffect
 	public static final int XY = 1;
 	public static final int GRAVITY = 2;
 	public static final int LIFE = 3;
-	
+	public static final int DURATION = 4;
 	@Override
 	public int getValues(ParticleEffect target, int tweenType, float[] returnValues) {
 		switch(tweenType){
@@ -24,6 +24,9 @@ public class ParticleEffectTweenAccessor implements TweenAccessor<ParticleEffect
 			returnValues[0] = target.getEmitters().get(0).getLife().getHighMin();
 			returnValues[1] = target.getEmitters().get(0).getLife().getHighMax();
 			return 2;
+		case DURATION:
+			returnValues[0] = target.getEmitters().get(0).duration;
+			return 1;
 		default:
 			assert false; return -1;
 		}
@@ -42,6 +45,9 @@ public class ParticleEffectTweenAccessor implements TweenAccessor<ParticleEffect
 		case LIFE:
 			target.getEmitters().get(0).getLife().setHighMin(newValues[0]);
 			target.getEmitters().get(0).getLife().setHighMax(newValues[1]);
+			break;
+		case DURATION:
+			target.getEmitters().get(0).duration = newValues[0];
 			break;
 		}
 	}
