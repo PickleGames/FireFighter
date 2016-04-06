@@ -1,4 +1,4 @@
-package com.picklegames.handlers;
+package com.picklegames.handlers.dialogue;
 
 public class Line {
 	
@@ -15,7 +15,7 @@ public class Line {
 		name = wholeLine[0];
 		wait = Integer.parseInt(wholeLine[1]);
 		text = wholeLine[2];
-		letter = text.split(" ");
+		letter = text.split("");
 	
 	}
 

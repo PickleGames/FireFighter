@@ -3,7 +3,6 @@ package com.picklegames.levelStates;
 import static com.picklegames.handlers.B2DVars.PPM;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;

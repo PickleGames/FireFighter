@@ -28,7 +28,6 @@ public class LevelStateManager {
 	private Stack<LevelState> levelStates;
 
 	private TransitionEffect te;
-	private boolean isTeActivated = false;
 	private TweenManager tweenManager;
 
 	private Lamp player;
@@ -56,7 +55,7 @@ public class LevelStateManager {
 		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
 				new Vector2(0, -player.getHeight() / 3), "lamp"));
 
-		pushState(Level_1);
+		pushState(Level_4);
 
 	}
 
@@ -69,7 +68,6 @@ public class LevelStateManager {
 
 		tweenManager.update(dt);
 
-		if (isTeActivated) {
 
 			// Tween.to(te.getEffect(), ParticleEffectTweenAccessor.XY, 1f)
 			// .target(game.getCam().viewportWidth, -50)
@@ -78,10 +76,8 @@ public class LevelStateManager {
 			// System.out.println(te.getEffect().getEmitters().get(0).getX() + "
 			// " + te.getEffect().getEmitters().get(0).getY()) ;
 
-			te.update(dt);
-
-			System.out.println("is transition finished : " + te.isFinished());
-		}
+		te.update(dt);
+		//System.out.println("is transition finished : " + te.isFinished());
 	}
 
 	public void render(SpriteBatch batch) {
@@ -128,13 +124,6 @@ public class LevelStateManager {
 		return levelStates;
 	}
 
-	public boolean isTeActivated() {
-		return isTeActivated;
-	}
-
-	public void setTeActivated(boolean isTeActivated) {
-		this.isTeActivated = isTeActivated;
-	}
 
 	public TransitionEffect getTe() {
 		return te;

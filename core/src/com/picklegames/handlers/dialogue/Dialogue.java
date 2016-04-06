@@ -1,4 +1,4 @@
-package com.picklegames.handlers;
+package com.picklegames.handlers.dialogue;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -47,17 +47,25 @@ public class Dialogue {
 	float delayBetween;
 	float timeElapsed2;
 
+	
+	public boolean isFinished(){
+		if(dialogueIndex == dialogue.size() - 1 && letterIndex == currentLine.getLetter().length)
+			return true;
+		return false;
+	}
+	
 	public void update(float dt) {
 		// TODO Auto-generated method stub
 		// timeElap += dt;
 
+		
 		if(dialogueIndex < dialogue.size()){
 			currentLine = dialogue.get(dialogueIndex);
 			delayBetween = currentLine.getWait();
 			if (dialogueIndex < dialogue.size()) {
 				if (letterIndex >= currentLine.getLetter().length) {
 					timeElapsed2 += dt;
-					System.out.println(timeElapsed2);
+					//System.out.println(timeElapsed2);
 					if (timeElapsed2 >= delayBetween) {
 						printLine(dt, currentLine);
 						timeElapsed2 = 0;
@@ -68,17 +76,23 @@ public class Dialogue {
 			}
 		}
 		
+		System.out.println("dialogue Index: "+ dialogueIndex);
+		System.out.println("letter Index: "+ letterIndex);
+		System.out.println("dialogue size "+ dialogue.size());
+		System.out.println("letter size "+ currentLine.getLetter().length);
 	}
 
 	int letterIndex = 0;
-	float letterDelay = .2f;
+	float letterDelay = .03f;
 
 	private void printLine(float dt, Line line) {
 		timeElap += dt;
 		
 		if(letterIndex == line.getLetter().length){
-			if (dialogueIndex < dialogue.size())dialogueIndex++;
-			letterIndex = 0;
+			if (dialogueIndex < dialogue.size() - 1){
+				dialogueIndex++;
+				letterIndex = 0;
+			}
 			if (line.getName().equals("MOM")) {
 				bottom = "";
 			} else if (line.getName().equals("YOU")) {
@@ -92,11 +106,11 @@ public class Dialogue {
 				String current = line.getLetter()[letterIndex++];
 				if (line.getName().equals("MOM")) {
 					if(!isToken(current))
-						top += current + " ";
+						top += current;
 					timeElap = 0;
 				} else if (line.getName().equals("YOU")) {
 					if(!isToken(current))
-						bottom += current + " ";
+						bottom += current;
 					timeElap = 0;
 				}
 			} else {
@@ -109,7 +123,7 @@ public class Dialogue {
 	}
 
 	private boolean isToken(String line){
-		if(line.equals("<>")){
+		if(line.equals("|")){
 			return true;
 		}return false;
 	}
@@ -121,13 +135,6 @@ public class Dialogue {
 	public String getBottom() {
 		return bottom;
 	}
-	
-//	public void render(SpriteBatch batch) {
-//		// TODO Auto-generated method stub
-//		System.out.println("top: " + top);
-//		System.out.println("bototm : " + bottom);
-//
-//	}
 
 	public void dispose() {
 		font.dispose();

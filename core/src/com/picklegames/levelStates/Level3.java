@@ -3,7 +3,7 @@ package com.picklegames.levelStates;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.picklegames.game.FireFighterGame;
-import com.picklegames.handlers.Dialogue;
+import com.picklegames.handlers.dialogue.Dialogue;
 import com.picklegames.managers.LevelStateManager;
 
 public class Level3 extends LevelState{
@@ -36,8 +36,8 @@ public class Level3 extends LevelState{
 
 	@Override
 	public void update(float dt) {
-		
 		d.update(dt);
+		if(d.isFinished()) System.out.println("done");
 	}
 
 	@Override
