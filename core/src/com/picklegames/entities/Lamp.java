@@ -1,6 +1,5 @@
 package com.picklegames.entities;
 
-import static com.picklegames.handlers.B2DVars.PPM;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.picklegames.game.FireFighterGame;
+import com.picklegames.handlers.Box2D.B2DVars;
 
 public class Lamp extends Entity {
 
@@ -82,21 +82,21 @@ public class Lamp extends Entity {
 			
 		}else if(characterState.equals(CharacterState.YOUNG)){
 			if (velocity.x == 0 && velocity.y == 0) {
-				spriteBatch.draw(textureStand, body.getPosition().x * PPM - width / 2,
-						body.getPosition().y * PPM - height / 2, width, height);
+				spriteBatch.draw(textureStand, body.getPosition().x * B2DVars.PPM - width / 2,
+						body.getPosition().y * B2DVars.PPM - height / 2, width, height);
 				// spriteBatch.draw(textureStand, body.getPosition().x * PPM - width
 				// / 2, body.getPosition().y * PPM - height / 2, width / 2, height /
 				// 2, 80, 150, 1, 1, 0);
 			} else {
 				if(velocity.x > 0)
-				spriteBatch.draw(animation.getFrame(), body.getPosition().x * PPM - width / 2,
-						body.getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, -1, 1, 0);
+				spriteBatch.draw(animation.getFrame(), body.getPosition().x * B2DVars.PPM - width / 2,
+						body.getPosition().y * B2DVars.PPM - height / 2, width / 2, height / 2, width, height, -1, 1, 0);
 				else if(velocity.x < 0)
-					spriteBatch.draw(animation.getFrame(), body.getPosition().x * PPM - width / 2,
-							body.getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
+					spriteBatch.draw(animation.getFrame(), body.getPosition().x * B2DVars.PPM - width / 2,
+							body.getPosition().y * B2DVars.PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
 				else {
-					spriteBatch.draw(animation.getFrame(), body.getPosition().x * PPM - width / 2,
-							body.getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
+					spriteBatch.draw(animation.getFrame(), body.getPosition().x * B2DVars.PPM - width / 2,
+							body.getPosition().y * B2DVars.PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
 				}
 			}
 		}

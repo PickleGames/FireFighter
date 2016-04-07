@@ -1,8 +1,9 @@
 package com.picklegames.TweenAccessor;
 
+import static com.picklegames.handlers.Box2D.B2DVars.PPM;
+
 import com.picklegames.entities.Entity;
 import aurelienribon.tweenengine.TweenAccessor;
-import static  com.picklegames.handlers.B2DVars.PPM;
 
 public class EntityTweenAccessor implements TweenAccessor<Entity>{
 	public static final int XY = 1;

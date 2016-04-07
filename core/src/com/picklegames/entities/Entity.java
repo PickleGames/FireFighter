@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.picklegames.handlers.Animation;
-import com.picklegames.handlers.B2DVars;
+import com.picklegames.handlers.Box2D.B2DVars;
 
 public class Entity {
 	protected Body body;

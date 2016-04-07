@@ -1,6 +1,6 @@
 package com.picklegames.levelStates;
 
-import static com.picklegames.handlers.B2DVars.PPM;
+import static com.picklegames.handlers.Box2D.B2DVars.PPM;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;

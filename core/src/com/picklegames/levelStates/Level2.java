@@ -1,6 +1,6 @@
 package com.picklegames.levelStates;
 
-import static com.picklegames.handlers.B2DVars.PPM;
+import static com.picklegames.handlers.Box2D.B2DVars.PPM;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,7 +16,8 @@ import com.picklegames.TweenAccessor.EntityTweenAccessor;
 import com.picklegames.TweenAccessor.FontTweenAccessor;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.entities.Entity;
-import com.picklegames.handlers.CreateBox2D;
+import com.picklegames.handlers.Box2D.B2DVars;
+import com.picklegames.handlers.Box2D.CreateBox2D;
 import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
@@ -47,7 +48,7 @@ public class Level2 extends LevelState {
 		Tween.registerAccessor(BitmapFont.class, new FontTweenAccessor());
 		
 		box = new Entity();
-		box.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, 20, 20, new Vector2(0, 0), "box"));
+		box.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, 20, 20, new Vector2(0, 0), "box", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
 		box.setAnimation(new TextureRegion(new Texture("fire.png")), .5f);
 		
 		b2dr = new Box2DDebugRenderer();
