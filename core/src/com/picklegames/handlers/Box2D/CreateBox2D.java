@@ -76,7 +76,8 @@ public final class CreateBox2D {
 		return body;
 	}
 
-	public static Body createCircle(World world, float x, float y, float radius, boolean isSensor, BodyType bodyType,
+
+	public static Body createCircle(World world, float x, float y, float radius, boolean isSensor, float bounce, BodyType bodyType,
 									String userData, short categoryBits, short maskBits) {
 
 		// create body definition
@@ -95,6 +96,7 @@ public final class CreateBox2D {
 		FixtureDef fdef = new FixtureDef();
 		fdef.shape = shape;
 		fdef.isSensor = isSensor;
+		fdef.restitution = bounce;
 		fdef.filter.categoryBits = categoryBits;
 		fdef.filter.maskBits = maskBits;
 

@@ -159,7 +159,9 @@ public class Level4 extends LevelState {
 			float y = (float) mo.getProperties().get("y", Float.class);
 			
 			// create new fire and add to fires list
-			Fire f = new Fire(CreateBox2D.createCircle(game.getWorld(), x, y, 8, true, BodyType.StaticBody, "fire", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
+
+			Fire f = new Fire(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody, "fire", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+
 			fires.add(f);
 			
 			System.out.println("fireX: " + x + "fireY: " + y);

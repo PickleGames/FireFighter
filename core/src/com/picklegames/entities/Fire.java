@@ -16,6 +16,7 @@ public class Fire extends Entity {
 	public float findDistance(float x2, float y2) {
 		return (float) Math.sqrt(Math.abs(Math.pow(
 				(x2 - body.getPosition().x), 2) + Math.pow((y2 - body.getPosition().y), 2)));
+
 	}
 
 }

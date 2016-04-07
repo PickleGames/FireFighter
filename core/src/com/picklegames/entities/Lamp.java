@@ -12,6 +12,7 @@ import com.picklegames.entities.weapons.Extinguisher;
 import com.picklegames.entities.weapons.Weapon;
 import com.picklegames.game.FireFighterGame;
 import com.picklegames.handlers.Box2D.B2DVars;
+
 import com.picklegames.handlers.Box2D.CreateBox2D;
 
 public class Lamp extends Entity {
@@ -56,7 +57,7 @@ public class Lamp extends Entity {
 		textureR = TextureRegion.split(texture, 80, 150)[0]; // 80, 150
 		textureYoungStand = FireFighterGame.res.getTexture("Lamp_Stand_Young");
 		textureAdultStand = FireFighterGame.res.getTexture("Lamp_Stand_Adult");
-		
+
 		animation.setFrames(textureR, 1 / 8f);
 
 		width = textureR[0].getRegionWidth() * 1.5f;
@@ -65,10 +66,9 @@ public class Lamp extends Entity {
 		velocity = new Vector2(0, 0);
 		weapons = new Weapon[2];
 
-		
 	}
-	
-	public void createWeapon(){
+
+	public void createWeapon() {
 		Extinguisher ex = new Extinguisher(CreateBox2D.createBox(FireFighterGame.world, getPosition().x,
 				getPosition().y, 1, 1, new Vector2(0, 0), "extinguisher", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
 
@@ -77,9 +77,9 @@ public class Lamp extends Entity {
 
 		weapons[0] = ex;
 		weapons[1] = axe;
-		
+
 	}
-	
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
@@ -90,17 +90,17 @@ public class Lamp extends Entity {
 		else if (weaponState.equals(WeaponState.AXE))
 			currentWeapon = weapons[1];
 
-		if(characterState.equals(CharacterState.ADULT)){
+		if (characterState.equals(CharacterState.ADULT)) {
 			currentWeapon.update(dt);
 			currentWeapon.setPosition(this.getPosition().x, this.getPosition().y);
 		}
-		
+
 	}
 
-	public void use(){
+	public void use() {
 		currentWeapon.use();
 	}
-	
+
 	public void render(SpriteBatch spriteBatch) {
 		spriteBatch.begin();
 

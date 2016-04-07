@@ -58,6 +58,7 @@ public class LevelStateManager {
 		player.createWeapon();
 		pushState(Level_1);
 
+
 	}
 
 	public FireFighterGame game() {
