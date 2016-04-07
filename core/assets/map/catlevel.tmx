@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="20" tilewidth="32" tileheight="32" nextobjectid="6">
- <tileset firstgid="1" name="sidewalk" tilewidth="32" tileheight="32" tilecount="16" columns="4">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="20" tilewidth="32" tileheight="32" nextobjectid="8">
+ <tileset firstgid="1" name="sidewalk" tilewidth="32" tileheight="32">
   <image source="sidewalk.png" width="133" height="132"/>
  </tileset>
- <tileset firstgid="17" name="Gray stackables" tilewidth="32" tileheight="32" tilecount="8" columns="4">
+ <tileset firstgid="17" name="Gray stackables" tilewidth="32" tileheight="32">
   <image source="Gray stackables.png" width="131" height="65"/>
  </tileset>
- <tileset firstgid="25" name="Black thing tile" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+ <tileset firstgid="25" name="Black thing tile" tilewidth="32" tileheight="32">
   <image source="Black thing tile.png" width="32" height="32"/>
  </tileset>
- <tileset firstgid="26" name="Gray stackables" tilewidth="32" tileheight="32" tilecount="8" columns="4">
+ <tileset firstgid="26" name="Gray stackables" tilewidth="32" tileheight="32">
   <image source="Gray stackables.png" width="131" height="65"/>
  </tileset>
  <layer name="Tile Layer 1" width="50" height="20">
@@ -41,7 +41,7 @@
    <polyline points="0,0 1596.97,3.0303 1593.94,190.909 0,196.97 0,9.09091"/>
   </object>
  </objectgroup>
- <objectgroup name="fire">
+ <objectgroup name="fire" visible="0">
   <object id="8" x="681.333" y="486.667">
    <ellipse/>
   </object>
@@ -70,6 +70,14 @@
    <ellipse/>
   </object>
   <object id="17" x="376" y="553.333">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="people">
+  <object id="6" x="520" y="486">
+   <ellipse/>
+  </object>
+  <object id="7" x="624" y="590">
    <ellipse/>
   </object>
  </objectgroup>

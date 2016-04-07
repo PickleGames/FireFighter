@@ -16,6 +16,7 @@ import com.picklegames.levelStates.Level1;
 import com.picklegames.levelStates.Level2;
 import com.picklegames.levelStates.Level3;
 import com.picklegames.levelStates.Level4;
+import com.picklegames.levelStates.Level5;
 import com.picklegames.levelStates.LevelState;
 
 //WE FUCKED
@@ -42,6 +43,7 @@ public class LevelStateManager {
 	public static final int Level_2 = 23;
 	public static final int Level_3 = 34;
 	public static final int Level_4 = 45;
+	public static final int Level_5 = 54;
 
 	public LevelStateManager(FireFighterGame game, GameStateManager gsm) {
 		this.game = game;
@@ -56,7 +58,7 @@ public class LevelStateManager {
 		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
 				new Vector2(0, -player.getHeight() / 3), "lamp", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
 		player.createWeapon();
-		pushState(Level_1);
+		pushState(Level_5);
 
 
 	}
@@ -94,6 +96,8 @@ public class LevelStateManager {
 			return new Level3(this);
 		} else if (state == Level_4) {
 			return new Level4(this);
+		} else if (state == Level_5) {
+			return new Level5(this);
 		}
 		return null;
 
