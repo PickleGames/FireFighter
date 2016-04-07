@@ -79,5 +79,10 @@ public class Animation {
 	public boolean hasPlayedOnce() {
 		return timesPlayed > 0;
 	}
-
+	
+	public void dispose(){
+		for(TextureRegion t : frames){
+			t.getTexture().dispose();
+		}
+	}
 }

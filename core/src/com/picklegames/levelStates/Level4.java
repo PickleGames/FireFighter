@@ -1,6 +1,6 @@
 package com.picklegames.levelStates;
 
-import static com.picklegames.handlers.B2DVars.PPM;
+import static com.picklegames.handlers.Box2D.B2DVars.PPM;
 
 import java.util.ArrayList;
 
@@ -19,8 +19,9 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.entities.Fire;
 import com.picklegames.entities.Lamp;
-import com.picklegames.handlers.CreateBox2D;
 import com.picklegames.handlers.TileObject;
+import com.picklegames.handlers.Box2D.B2DVars;
+import com.picklegames.handlers.Box2D.CreateBox2D;
 import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
@@ -158,7 +159,7 @@ public class Level4 extends LevelState {
 			float y = (float) mo.getProperties().get("y", Float.class);
 			
 			// create new fire and add to fires list
-			Fire f = new Fire(CreateBox2D.createCircle(game.getWorld(), x, y, 8, true, BodyType.StaticBody, "fire"));
+			Fire f = new Fire(CreateBox2D.createCircle(game.getWorld(), x, y, 8, true, BodyType.StaticBody, "fire", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
 			fires.add(f);
 			
 			System.out.println("fireX: " + x + "fireY: " + y);

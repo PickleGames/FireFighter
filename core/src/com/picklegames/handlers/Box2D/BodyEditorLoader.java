@@ -1,4 +1,4 @@
-package com.picklegames.handlers;
+package com.picklegames.handlers.Box2D;
 
 import java.util.ArrayList;
 import java.util.HashMap;

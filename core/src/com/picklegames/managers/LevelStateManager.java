@@ -8,8 +8,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.entities.Lamp;
 import com.picklegames.game.FireFighterGame;
-import com.picklegames.handlers.CreateBox2D;
 import com.picklegames.handlers.TransitionEffect;
+import com.picklegames.handlers.Box2D.B2DVars;
+import com.picklegames.handlers.Box2D.CreateBox2D;
 import com.picklegames.levelStates.Level0;
 import com.picklegames.levelStates.Level1;
 import com.picklegames.levelStates.Level2;
@@ -53,9 +54,9 @@ public class LevelStateManager {
 
 		player = new Lamp();
 		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
-				new Vector2(0, -player.getHeight() / 3), "lamp"));
-
-		pushState(Level_4);
+				new Vector2(0, -player.getHeight() / 3), "lamp", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
+		player.createWeapon();
+		pushState(Level_1);
 
 	}
 

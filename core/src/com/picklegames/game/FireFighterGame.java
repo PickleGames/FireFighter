@@ -15,14 +15,15 @@ public class FireFighterGame extends ApplicationAdapter {
 	public static final int V_HEIGHT = 720;
 	public static final float SCALE = 1f;
 	public static Content res;
-
+	public static World world;
+	
 	private SpriteBatch batch;
 	private OrthographicCamera cam;
 	private OrthographicCamera hudCam;
 	private GameStateManager gsm;
 
 	
-	private World world;
+	
 
 
 	@Override
