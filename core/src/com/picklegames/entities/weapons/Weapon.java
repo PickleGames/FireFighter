@@ -8,13 +8,13 @@ public abstract class Weapon extends Entity{
 	private boolean isUsable;
 	private float timeElapsed;
 	private float timeCoolDown;
-	
+	private float radius;
 	
 	public Weapon(Body body){
 		super(body);
 		timeCoolDown = 0f;
 		isUsable = true;
-
+		radius = 10f;
 	}
 	
 	public abstract void use();
@@ -24,10 +24,13 @@ public abstract class Weapon extends Entity{
 	public void update(float dt) {
 		if(isUse()){
 			timeElapsed += dt;
-			if(timeElapsed >= timeCoolDown){
-				isUsable = true;
-			}else isUsable = false;
 		}
+		
+		if(timeElapsed >= timeCoolDown){
+			isUsable = true;
+		}else isUsable = false;
+		
+		System.out.println(isUsable);
 		
 		if(timeElapsed >= 1f){
 			setIsUse(false);
@@ -44,5 +47,9 @@ public abstract class Weapon extends Entity{
 	public float getTimeCoolDown() {return timeCoolDown;}
 
 	public void setTimeCoolDown(float timeCoolDown) {this.timeCoolDown = timeCoolDown;}
+	
+	public float getRadius() {	return radius;	}
+	
+	public void setRadius(float radius) {	this.radius = radius;	}
 
 }

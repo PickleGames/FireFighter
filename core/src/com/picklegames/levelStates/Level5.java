@@ -13,12 +13,10 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
-import com.picklegames.entities.Fire;
 import com.picklegames.entities.Lamp;
 import com.picklegames.entities.Person;
 import com.picklegames.entities.Person.PersonState;
@@ -43,7 +41,6 @@ public class Level5 extends LevelState {
 	public Level5(LevelStateManager lsm) {
 		super(lsm);
 
-		init();
 	}
 
 	@Override
@@ -63,7 +60,7 @@ public class Level5 extends LevelState {
 		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects());
 
 		people = new ArrayList<Person>();
-		
+
 		createPeopleBox2D();
 
 	}
@@ -107,8 +104,8 @@ public class Level5 extends LevelState {
 
 		for (Person p : people) {
 			p.update(dt);
-			
-			if(p.isInRadius(player.getPosition().x, player.getPosition().y, 2)){
+
+			if (p.isInRadius(player.getPosition().x, player.getPosition().y, 2)) {
 				p.personState = PersonState.RUN;
 			}
 		}
@@ -150,21 +147,26 @@ public class Level5 extends LevelState {
 			return;
 
 		for (MapObject mo : layer.getObjects()) {
-
+			System.out.println("lol");
 			// get fire position from tile map object layer
 			float x = (float) mo.getProperties().get("x", Float.class);
 			float y = (float) mo.getProperties().get("y", Float.class);
 
 			// create new fire and add to fires list
-			Person f = new Person(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody,
-					"fire", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+			Person f = new Person(CreateBox2D.createBox(game.getWorld(), x, y, 15, 15, new Vector2(0, 0), "person",
+								   B2DVars.BIT_PLAYER, B2DVars.BIT_PLAYER));
+			// Person f = new Person(CreateBox2D.createCircle(game.getWorld(),
+			// x, y, 15, false, 1, BodyType.KinematicBody,
+			// "fire", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
 			people.add(f);
 		}
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		for (Person p : people) {
+			p.dispose();
+		}
 
 	}
 

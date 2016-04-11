@@ -17,6 +17,7 @@ public class Axe extends Weapon{
 	public void use() {
 		if(isUsable()){
 			setIsUse(true);
+			System.out.println("use");
 		}
 		
 	}

@@ -99,6 +99,7 @@ public final class CreateBox2D {
 		fdef.restitution = bounce;
 		fdef.filter.categoryBits = categoryBits;
 		fdef.filter.maskBits = maskBits;
+		
 
 		// create player collision box fixture
 		body.createFixture(fdef).setUserData(userData);

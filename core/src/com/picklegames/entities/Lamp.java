@@ -48,7 +48,7 @@ public class Lamp extends Entity {
 	public void init() {
 
 		characterState = CharacterState.ADULT;
-		weaponState = WeaponState.AXE;
+		weaponState = WeaponState.EXTINGUISHER;
 
 		FireFighterGame.res.loadTexture("image/Character/WalkingSprites.png", "YoungWalkLamp");
 		FireFighterGame.res.loadTexture("image/Character/Stand_1.png", "Lamp_Stand_Young");
@@ -103,7 +103,7 @@ public class Lamp extends Entity {
 
 	public void render(SpriteBatch spriteBatch) {
 		spriteBatch.begin();
-
+		
 		if (characterState.equals(CharacterState.YOUNG)) {
 			if (velocity.x == 0 && velocity.y == 0) {
 				spriteBatch.draw(textureYoungStand, getPosition().x * PPM - width / 2,

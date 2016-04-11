@@ -40,7 +40,6 @@ public class Level4 extends LevelState {
 
 	public Level4(LevelStateManager lsm) {
 		super(lsm);
-		init();
 
 	}
 

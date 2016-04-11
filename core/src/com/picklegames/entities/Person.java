@@ -5,6 +5,7 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.picklegames.game.FireFighterGame;
 import com.picklegames.handlers.Box2D.B2DVars;
@@ -17,7 +18,13 @@ public class Person extends Entity {
 	private Random r;
 	
 	private Texture tex;
+	
+	public enum PersonState {
+		HELP, RUN
+	}
 
+	public PersonState personState;
+	
 	public Person(Body body) {
 		super(body);
 
@@ -45,7 +52,7 @@ public class Person extends Entity {
 			updateHelp(dt);
 		} else if(personState.equals(PersonState.RUN)){
 			runAway();
-			System.out.println("person velocity " + body.getLinearVelocity().toString());
+			//System.out.println("person velocity " + body.getLinearVelocity().toString());
 		}
 
 	}
@@ -79,15 +86,9 @@ public class Person extends Entity {
 	}
 
 	private void runAway() {
-		body.setLinearVelocity(-2, 0);
+		body.setLinearVelocity(new Vector2(-2,0));
 	}
 
-	public enum PersonState {
-		HELP, RUN
-	}
-
-	public PersonState personState;
-	
 
 	public boolean isInRadius(float x2, float y2, float radius) {
 		return (findDistance(x2, y2) < radius);

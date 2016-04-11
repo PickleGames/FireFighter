@@ -90,8 +90,8 @@ public class Level1 extends LevelState {
 //		if (timeElapsed >= 6) {
 //			lsm.setState(LevelStateManager.Level_2);
 //
-//		}
-
+//		}	
+		
 		player.update(dt);
 		player.getBody().setLinearVelocity(player.getVelocity());
 	}

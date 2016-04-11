@@ -58,7 +58,7 @@ public class LevelStateManager {
 		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
 				new Vector2(0, -player.getHeight() / 3), "lamp", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
 		player.createWeapon();
-		pushState(Level_5);
+		pushState(Level_1);
 
 
 	}
