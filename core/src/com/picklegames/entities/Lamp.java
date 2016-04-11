@@ -24,6 +24,7 @@ public class Lamp extends Entity {
 	private Weapon[] weapons;
 	private Weapon currentWeapon;
 
+
 	private enum CharacterState {
 		YOUNG, ADULT
 	}
@@ -101,6 +102,14 @@ public class Lamp extends Entity {
 		currentWeapon.use();
 	}
 
+	public Weapon getCurrentWeapon() {
+		return currentWeapon;
+	}
+
+	public void setCurrentWeapon(Weapon currentWeapon) {
+		this.currentWeapon = currentWeapon;
+	}
+	
 	public void render(SpriteBatch spriteBatch) {
 		spriteBatch.begin();
 		

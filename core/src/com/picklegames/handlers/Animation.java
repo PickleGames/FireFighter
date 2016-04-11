@@ -7,12 +7,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 
 public class Animation {
-
+	public final static int INFINITE = -1;
+	
 	private TextureRegion[] frames;
 	private float time;
 	private float delay;
 	private int currentFrame;
 	private int timesPlayed;
+	private boolean isCompleted; 
 
 	public Animation() {
 	}
@@ -50,6 +52,25 @@ public class Animation {
 
 	}
 
+	public void play(float dt, int times){
+		if(times == INFINITE){
+			update(dt);
+		}else{
+			if (delay <= 0)
+				return;
+			time += dt;
+			if(timesPlayed < times){
+				while (time >= delay) {
+					next();
+				}
+			}else if(timesPlayed >= times) {
+				timesPlayed = 0;
+				isCompleted = true;
+			}
+		}
+		System.out.println(timesPlayed);
+	}
+	
 	public void update(float dt) {
 		if (delay <= 0)
 			return;
@@ -67,7 +88,14 @@ public class Animation {
 			timesPlayed++;
 		}
 	}
-
+	
+	public void reset(){
+		isCompleted = false;
+		timesPlayed = 0;
+		currentFrame = 0;
+		
+	}
+	
 	public TextureRegion getFrame() {
 		return (frames[currentFrame]);
 	}
@@ -79,6 +107,11 @@ public class Animation {
 	public boolean hasPlayedOnce() {
 		return timesPlayed > 0;
 	}
+	
+	public boolean isCompleted() {
+		return isCompleted;
+	}
+
 	
 	public void dispose(){
 		for(TextureRegion t : frames){

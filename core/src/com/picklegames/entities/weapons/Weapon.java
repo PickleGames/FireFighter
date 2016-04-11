@@ -5,6 +5,7 @@ import com.picklegames.entities.Entity;
 
 public abstract class Weapon extends Entity{
 	private boolean isUse;
+	private boolean previousUse;
 	private boolean isUsable;
 	private float timeElapsed;
 	private float timeCoolDown;
@@ -14,28 +15,41 @@ public abstract class Weapon extends Entity{
 		super(body);
 		timeCoolDown = 0f;
 		isUsable = true;
+		isUse = false;
+		previousUse = false;
 		radius = 10f;
 	}
 	
 	public abstract void use();
 	public abstract boolean isInRange(float x2, float y2);
 
-	
+	//ignore pls
 	public void update(float dt) {
-		if(isUse()){
+		if(isUse && !previousUse){
+			isUsable = false;
+		}
+		
+		if(!isUsable){
 			timeElapsed += dt;
 		}
 		
 		if(timeElapsed >= timeCoolDown){
 			isUsable = true;
-		}else isUsable = false;
-		
-		System.out.println(isUsable);
-		
-		if(timeElapsed >= 1f){
-			setIsUse(false);
 			timeElapsed = 0;
+		}else{}
+		
+		System.out.println("is usable " + isUsable);
+		System.out.println("timeElapsed "+ timeElapsed);
+		
+		if(timeElapsed >= .5f){
+			isUse = false;
 		}
+		
+		previousUse = isUse;
+	}
+
+	public void setUsable(boolean isUsable) {
+		this.isUsable = isUsable;
 	}
 
 	public boolean isUsable() {	return isUsable;}

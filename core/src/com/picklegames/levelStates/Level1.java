@@ -4,14 +4,20 @@ import static com.picklegames.handlers.Box2D.B2DVars.PPM;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
+import com.picklegames.entities.Entity;
 import com.picklegames.entities.Lamp;
+import com.picklegames.handlers.Box2D.B2DVars;
+import com.picklegames.handlers.Box2D.CreateBox2D;
 import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
@@ -24,6 +30,7 @@ public class Level1 extends LevelState {
 
 	private Box2DDebugRenderer b2dr;
 	private Lamp player;
+	private Entity box;
 
 	public Level1(LevelStateManager lsm) {
 		super(lsm);
@@ -44,6 +51,10 @@ public class Level1 extends LevelState {
 
 		font = new BitmapFont();
 		font.getData().setScale(2);
+		box = new Entity();
+		box.setBody(CreateBox2D.createBox(game.getWorld(), 500, 100, 20, 20, new Vector2(0, 0), "box", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
+		box.setAnimation(new TextureRegion(new Texture("fire.png")), .5f);
+
 	}
 
 	@Override
@@ -92,8 +103,11 @@ public class Level1 extends LevelState {
 //
 //		}	
 		
+		
 		player.update(dt);
 		player.getBody().setLinearVelocity(player.getVelocity());
+		
+		System.out.println(player.getCurrentWeapon().isInRange(box.getPosition().x * B2DVars.PPM, box.getPosition().y * B2DVars.PPM));
 	}
 
 	@Override

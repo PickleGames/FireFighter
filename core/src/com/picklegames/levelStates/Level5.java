@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.entities.Lamp;
@@ -153,11 +154,10 @@ public class Level5 extends LevelState {
 			float y = (float) mo.getProperties().get("y", Float.class);
 
 			// create new fire and add to fires list
-			Person f = new Person(CreateBox2D.createBox(game.getWorld(), x, y, 15, 15, new Vector2(0, 0), "person",
-								   B2DVars.BIT_PLAYER, B2DVars.BIT_PLAYER));
-			// Person f = new Person(CreateBox2D.createCircle(game.getWorld(),
-			// x, y, 15, false, 1, BodyType.KinematicBody,
-			// "fire", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+
+			Person f = new Person(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.DynamicBody,
+					"people", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+
 			people.add(f);
 		}
 	}
