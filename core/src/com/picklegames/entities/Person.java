@@ -33,6 +33,8 @@ public class Person extends Entity {
 		FireFighterGame.res.loadTexture("image/Character/person.png", "person");
 		
 		tex = FireFighterGame.res.getTexture("person");
+		width = tex.getWidth();
+		height = tex.getHeight();
 
 		font = new BitmapFont();
 		personState = PersonState.HELP;
@@ -51,8 +53,6 @@ public class Person extends Entity {
 	}
 
 	public void render(SpriteBatch batch) {
-
-		batch.begin();
 		
 		batch.draw(tex, body.getPosition().x * B2DVars.PPM - width / 2, body.getPosition().y * B2DVars.PPM - height / 2);
 		if (personState.equals(PersonState.HELP)) {
@@ -62,7 +62,6 @@ public class Person extends Entity {
 
 		}
 
-		batch.end();
 	}
 
 	float timeElap = 0;
@@ -98,6 +97,11 @@ public class Person extends Entity {
 
 		return (float) Math
 				.sqrt(Math.abs(Math.pow((x2 - body.getPosition().x), 2) + Math.pow((y2 - body.getPosition().y), 2)));
+	}
+	
+	public void dispose(){
+		super.dispose();
+		
 	}
 
 }

@@ -47,7 +47,7 @@ public class Lamp extends Entity {
 
 	public void init() {
 
-		characterState = CharacterState.ADULT;
+		characterState = CharacterState.YOUNG;
 		weaponState = WeaponState.AXE;
 
 		FireFighterGame.res.loadTexture("image/Character/WalkingSprites.png", "YoungWalkLamp");

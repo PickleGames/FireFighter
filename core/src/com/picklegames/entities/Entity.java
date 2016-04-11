@@ -52,6 +52,7 @@ public class Entity {
 			System.out.println(e.getMessage());
 		}
 	}
+	
 
 	public void dispose(){
 		body.getFixtureList().clear();
