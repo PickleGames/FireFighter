@@ -12,9 +12,11 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.entities.Entity;
+import com.picklegames.entities.Fire;
 import com.picklegames.entities.Lamp;
 import com.picklegames.handlers.Box2D.B2DVars;
 import com.picklegames.handlers.Box2D.CreateBox2D;
@@ -51,9 +53,11 @@ public class Level1 extends LevelState {
 
 		font = new BitmapFont();
 		font.getData().setScale(2);
-		box = new Entity();
-		box.setBody(CreateBox2D.createBox(game.getWorld(), 500, 100, 20, 20, new Vector2(0, 0), "box", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
-		box.setAnimation(new TextureRegion(new Texture("fire.png")), .5f);
+		
+		
+		box = new Fire(CreateBox2D.createCircle(game.getWorld(), 500, 100, 50, false, 1, BodyType.StaticBody, "box", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+//		box.setBody();
+//		box.setAnimation(new TextureRegion(new Texture("fire.png")), .5f);
 
 	}
 
@@ -106,7 +110,7 @@ public class Level1 extends LevelState {
 		
 		player.update(dt);
 		player.getBody().setLinearVelocity(player.getVelocity());
-		
+		box.update(dt);
 		System.out.println(player.getCurrentWeapon().isInRange(box.getPosition().x * B2DVars.PPM, box.getPosition().y * B2DVars.PPM));
 	}
 
@@ -124,10 +128,11 @@ public class Level1 extends LevelState {
 		cam.update();
 
 		player.render(batch);
-
+		
 		batch.begin();
 		font.draw(batch, "Level 1, time: " + timeElapsed, Gdx.graphics.getWidth() / 2,
 				Gdx.graphics.getHeight() / 2 + 50);
+		box.render(batch);
 		batch.end();
 	}
 

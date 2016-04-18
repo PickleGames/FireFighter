@@ -14,7 +14,7 @@ public class Fire extends Entity {
 		super(body);
 		
 		particleE = new ParticleEffect();
-		particleE.load(Gdx.files.internal("Particles/RealFire.par"), Gdx.files.internal(""));
+		particleE.load(Gdx.files.internal("Particles/Fire.par"), Gdx.files.internal(""));
 		particleE.setPosition(body.getPosition().x * B2DVars.PPM, body.getPosition().y * B2DVars.PPM);
 		particleE.start();
 

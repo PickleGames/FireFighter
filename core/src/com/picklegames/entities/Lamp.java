@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.picklegames.entities.weapons.Axe;
 import com.picklegames.entities.weapons.Extinguisher;
 import com.picklegames.entities.weapons.Weapon;
@@ -71,10 +72,10 @@ public class Lamp extends Entity {
 
 	public void createWeapon() {
 		Extinguisher ex = new Extinguisher(CreateBox2D.createBox(FireFighterGame.world, getPosition().x,
-				getPosition().y, 1, 1, new Vector2(0, 0), "extinguisher", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
+				getPosition().y, 1, 1, new Vector2(0, 0),BodyType.DynamicBody, "extinguisher", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
 
 		Axe axe = new Axe(CreateBox2D.createBox(FireFighterGame.world, getPosition().x, getPosition().y, 1, 1,
-				new Vector2(0, 0), "extinguisher", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
+				new Vector2(0, 0), BodyType.DynamicBody ,"extinguisher", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
 
 		weapons[0] = ex;
 		weapons[1] = axe;

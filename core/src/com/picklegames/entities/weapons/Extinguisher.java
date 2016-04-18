@@ -15,7 +15,7 @@ public class Extinguisher extends Weapon{
 		thingy = new ParticleEffect();
 		thingy.load(Gdx.files.internal("Particles/Extinguisher.par"), Gdx.files.internal(""));
 		thingy.getEmitters().first().setPosition(getPosition().x, getPosition().y);
-		setRadius(1000f);
+		setRadius(200f);
 		setTimeCoolDown(1);
 	}
 	
@@ -57,12 +57,14 @@ public class Extinguisher extends Weapon{
 		float angleLow = thingy.getEmitters().first().getAngle().getHighMin();
 		float angleHigh = thingy.getEmitters().first().getAngle().getHighMax();
 		
-		float angleCenter = angleHigh - angleLow;
+		float angleCenter = 0; //angleHigh + angleLow;
 		float height = y2 - getPosition().y * B2DVars.PPM;
 		float angle = (float) Math.toDegrees(Math.asin(height / distance));
 		System.out.println("angle "+ angle);
-		
-		return (angle <= angleHigh - angleCenter || angle <= angleLow - angleCenter);
+		System.out.println("angle low " + (angleHigh - angleCenter));
+		System.out.println("angle high " + (angleLow - angleCenter));
+		if(angle >= 0) return angle <= angleLow - angleCenter;
+		else return (angle >= angleHigh - angleCenter);
 	}
 	
 	

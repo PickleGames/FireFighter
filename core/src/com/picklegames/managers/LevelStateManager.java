@@ -5,6 +5,7 @@ import java.util.Stack;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.entities.Lamp;
 import com.picklegames.game.FireFighterGame;
@@ -46,7 +47,6 @@ public class LevelStateManager {
 	public static final int Level_4 = 45;
 	public static final int Level_5 = 56;
 	public static final int Level_6 = 67;
-	
 
 	public LevelStateManager(FireFighterGame game, GameStateManager gsm) {
 		this.game = game;
@@ -59,11 +59,11 @@ public class LevelStateManager {
 
 		player = new Lamp();
 		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
-				new Vector2(0, -player.getHeight() / 3), "lamp", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
+				new Vector2(0, -player.getHeight() / 3), BodyType.DynamicBody, "lamp", B2DVars.BIT_PLAYER,
+				B2DVars.BIT_GROUND));
 		player.createWeapon();
 
 		pushState(Level_1);
-
 
 	}
 
