@@ -43,12 +43,12 @@ public final class CreateBox2D {
 	}
 
 	public static Body createBox(World world, float x, float y, float width, float height, Vector2 center,
-								 String userData, short categoryBits, short maskBits) {
+			BodyType bodyType,String userData, short categoryBits, short maskBits) {
 
 		// create body definition
 		BodyDef bdef = new BodyDef();
 		bdef.position.set(x / PPM, y / PPM);
-		bdef.type = BodyType.DynamicBody;
+		bdef.type = bodyType;
 
 		// create body from the body definition
 		Body body = world.createBody(bdef);

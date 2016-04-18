@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.picklegames.TweenAccessor.EntityTweenAccessor;
 import com.picklegames.TweenAccessor.FontTweenAccessor;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
@@ -48,7 +49,7 @@ public class Level2 extends LevelState {
 		Tween.registerAccessor(BitmapFont.class, new FontTweenAccessor());
 		
 		box = new Entity();
-		box.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, 20, 20, new Vector2(0, 0), "box", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
+		box.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, 20, 20, new Vector2(0, 0),BodyType.StaticBody, "box", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
 		box.setAnimation(new TextureRegion(new Texture("fire.png")), .5f);
 		
 		b2dr = new Box2DDebugRenderer();
