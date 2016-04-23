@@ -126,26 +126,33 @@ public class Level6 extends LevelState {
 			if (!lsm.getTe().isStart()) {
 				lsm.getTe().start();
 			}
-
-			lsm.setState(lsm.Level_3);
+			if(lsm.getTe().isFinished()){
+				lsm.setState(lsm.Level_3);	
+			}
+			
 		}
 
 		for (int i = 0; i < fires.size(); i++) {
 			Fire f = fires.get(i);
 			f.update(dt);
-
-			if (player.getCurrentWeapon().isInRange(f.getPosition().x, f.getPosition().y)) {
+			
+			if (player.getCurrentWeapon().isInRange(f.getPosition().x * PPM, f.getPosition().y * PPM)) {
 				if (player.getCurrentWeapon().isUse()) {
-					Tween.to(f.getParticleEffect(), ParticleEffectTweenAccessor.LIFE, 5).target(0, 0)
-							.ease(TweenEquations.easeNone).start();
+//					Tween.to(f.getParticleEffect(), ParticleEffectTweenAccessor.LIFE, 1).target(0, 0)
+//							.ease(TweenEquations.easeNone).start(lsm.getTweenManager());
+					float life = f.getParticleEffect().getEmitters().first().getLife().getHighMax();
+				     f.getParticleEffect().getEmitters().first().getLife().setHighMax(life -= 5f);
+				}
+				
+				if(f.getParticleEffect().getEmitters().get(0).getLife().getHighMax() < .2f){
+					game.getWorld().destroyBody(f.getBody());
+					fires.remove(f);
+					i--;
 				}
 
 			}
 		}
-		for (Fire f : fires) {
-			f.update(dt);
-		}
-
+		
 		for (Person p : people) {
 			p.update(dt);
 

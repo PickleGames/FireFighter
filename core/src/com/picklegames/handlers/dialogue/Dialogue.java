@@ -15,9 +15,7 @@ public class Dialogue {
 
 	private Line currentLine;
 	
-	private String top = "";
-	private String bottom = "";
-	private String mid = "";
+	private String characterLine = "";
 	private String name = "";
 
 
@@ -96,13 +94,7 @@ public class Dialogue {
 				dialogueIndex++;
 				letterIndex = 0;
 			}
-			
-			mid = "";
-			if (line.getName().equals("MOM")) {
-				bottom = "";
-			} else if (line.getName().equals("YOU")) {
-				top = "";
-			}
+			characterLine = "";
 			return;
 		}
 		
@@ -110,22 +102,9 @@ public class Dialogue {
 			if (letterIndex < line.getLetter().length) {
 				String currentLetter = line.getLetter()[letterIndex++];
 				if(!isToken(currentLetter))
-					mid += currentLetter;
-				
-//				if (line.getName().equals("MOM")) {
-//					if(!isToken(current))
-//						top += current;
-//					timeElap = 0;
-//				} else if (line.getName().equals("YOU")) {
-//					if(!isToken(current))
-//						bottom += current;
+					characterLine += currentLetter;
 					timeElap = 0;
-				//}
-			} else {
-//				ho++;
-//				letterIndex = 0;
-
-			}
+			} 
 		}
 
 	}
@@ -136,16 +115,8 @@ public class Dialogue {
 		}return false;
 	}
 	
-	public String getTop() {
-		return top;
-	}
-
-	public String getBottom() {
-		return bottom;
-	}
-	
-	public String getMid(){
-		return mid;
+	public String getCharacterLine(){
+		return characterLine;
 	}
 	
 	public String getName(){
