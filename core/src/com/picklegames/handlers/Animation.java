@@ -68,7 +68,7 @@ public class Animation {
 				isCompleted = true;
 			}
 		}
-		System.out.println(timesPlayed);
+		//System.out.println(timesPlayed);
 	}
 	
 	public void update(float dt) {
@@ -114,6 +114,7 @@ public class Animation {
 
 	
 	public void dispose(){
+		if(frames == null) return;
 		for(TextureRegion t : frames){
 			t.getTexture().dispose();
 		}

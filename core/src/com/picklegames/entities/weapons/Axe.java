@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.picklegames.game.FireFighterGame;
+import com.picklegames.handlers.MathHelper;
 import com.picklegames.handlers.Box2D.B2DVars;
 
 public class Axe extends Weapon{
@@ -22,6 +23,7 @@ public class Axe extends Weapon{
 
 		setTimeCoolDown(1);
 		animation.setFrames(texR, 15/60f);
+		setRadius(200f);
 	}
 
 	@Override
@@ -33,8 +35,9 @@ public class Axe extends Weapon{
 
 	@Override
 	public boolean isInRange(float x2, float y2) {
-		
-		return false;
+		boolean distance = MathHelper.distanceEquation(getPosition().x * B2DVars.PPM, getPosition().y * B2DVars.PPM, x2, y2) < getRadius();
+		//System.out.println(distance);
+		return distance;
 	}
 	
 	public void update(float dt){
@@ -42,7 +45,7 @@ public class Axe extends Weapon{
 		if(isUse()){
 			animation.play(dt, 1);
 		}
-		System.out.println("is use " + isUse());
+		//System.out.println("is use " + isUse());
 		if(animation.isCompleted()) {
 			setIsUse(false);
 			animation.reset();
