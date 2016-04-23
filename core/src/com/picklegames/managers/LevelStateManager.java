@@ -63,7 +63,7 @@ public class LevelStateManager {
 				B2DVars.BIT_GROUND));
 		player.createWeapon();
 
-		pushState(Level_1);
+		pushState(Level_3);
 
 	}
 

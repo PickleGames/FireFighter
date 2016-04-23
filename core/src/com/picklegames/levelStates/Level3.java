@@ -44,11 +44,14 @@ public class Level3 extends LevelState{
 	public void render() {
 		// TODO Auto-generated method stub
 		batch.begin();
-			batch.draw(FireFighterGame.res.getTexture("mommy"), 55, 385);
-			batch.draw(FireFighterGame.res.getTexture("you"), 55, 75);
-			font.draw(batch, "MOM: " + d.getTop(), 120, 425);
-			font.draw(batch,  "YOU: " + d.getBottom(), 120, 100);
 
+			batch.draw(FireFighterGame.res.getTexture("mommy"), 750, 350);
+			batch.draw(FireFighterGame.res.getTexture("you"), 55, 350);
+//			font.draw(batch, "MOM: " + d.getTop(), 120, 425);
+//			font.draw(batch,  "YOU: " + d.getBottom(), 120, 100);
+			
+			font.draw(batch, d.getName(), 450, 425);
+			font.draw(batch, d.getMid(), 400 - d.getMid().length()*1.5f, 400);
 		batch.end();
 	}
 

@@ -28,6 +28,10 @@ public class Fire extends Entity {
 		particleE.draw(batch);
 		
 	}
+	
+	public ParticleEffect getParticleEffect(){
+		return particleE;
+	}
 
 	public boolean isInRadius(float x2, float y2, float radius) {
 		return findDistance(x2, y2) < radius;

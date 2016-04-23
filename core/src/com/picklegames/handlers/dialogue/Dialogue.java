@@ -14,9 +14,11 @@ public class Dialogue {
 	private Scanner diaScanner;
 
 	private Line currentLine;
-
+	
 	private String top = "";
 	private String bottom = "";
+	private String mid = "";
+	private String name = "";
 
 
 
@@ -61,6 +63,7 @@ public class Dialogue {
 		
 		if(dialogueIndex < dialogue.size()){
 			currentLine = dialogue.get(dialogueIndex);
+			name = currentLine.getName();
 			delayBetween = currentLine.getWait();
 			if (dialogueIndex < dialogue.size()) {
 				if (letterIndex >= currentLine.getLetter().length) {
@@ -93,6 +96,8 @@ public class Dialogue {
 				dialogueIndex++;
 				letterIndex = 0;
 			}
+			
+			mid = "";
 			if (line.getName().equals("MOM")) {
 				bottom = "";
 			} else if (line.getName().equals("YOU")) {
@@ -103,16 +108,19 @@ public class Dialogue {
 		
 		if (timeElap > letterDelay) {
 			if (letterIndex < line.getLetter().length) {
-				String current = line.getLetter()[letterIndex++];
-				if (line.getName().equals("MOM")) {
-					if(!isToken(current))
-						top += current;
+				String currentLetter = line.getLetter()[letterIndex++];
+				if(!isToken(currentLetter))
+					mid += currentLetter;
+				
+//				if (line.getName().equals("MOM")) {
+//					if(!isToken(current))
+//						top += current;
+//					timeElap = 0;
+//				} else if (line.getName().equals("YOU")) {
+//					if(!isToken(current))
+//						bottom += current;
 					timeElap = 0;
-				} else if (line.getName().equals("YOU")) {
-					if(!isToken(current))
-						bottom += current;
-					timeElap = 0;
-				}
+				//}
 			} else {
 //				ho++;
 //				letterIndex = 0;
@@ -134,6 +142,14 @@ public class Dialogue {
 
 	public String getBottom() {
 		return bottom;
+	}
+	
+	public String getMid(){
+		return mid;
+	}
+	
+	public String getName(){
+		return name;
 	}
 
 	public void dispose() {

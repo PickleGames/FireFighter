@@ -14,21 +14,28 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.entities.Debris;
-import com.picklegames.entities.Fire;
 import com.picklegames.entities.Debris.DebrisState;
-import com.picklegames.entities.Person.PersonState;
+import com.picklegames.entities.Entity;
+import com.picklegames.entities.Fire;
 import com.picklegames.entities.Lamp;
 import com.picklegames.entities.Person;
+import com.picklegames.entities.Person.PersonState;
+import com.picklegames.entities.Transport;
 import com.picklegames.handlers.TileObject;
 import com.picklegames.handlers.Box2D.B2DVars;
 import com.picklegames.handlers.Box2D.CreateBox2D;
 import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenAccessor;
+import aurelienribon.tweenengine.TweenEquation;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
+import aurelienribon.tweenengine.TweenUtils;
 
 public class Level6 extends LevelState {
 
@@ -38,11 +45,12 @@ public class Level6 extends LevelState {
 
 	private Box2DDebugRenderer b2dr;
 	private Lamp player;
+	private Transport transport;
 
 	private ArrayList<Debris> crap;
 	private ArrayList<Person> people;
 	private ArrayList<Fire> fires;
-	
+
 	public Level6(LevelStateManager lsm) {
 		super(lsm);
 
@@ -89,8 +97,8 @@ public class Level6 extends LevelState {
 		} else {
 			player.setVelocityY(0);
 		}
-		
-		if(Gdx.input.isKeyJustPressed(Keys.J)){
+
+		if (Gdx.input.isKeyJustPressed(Keys.J)) {
 			player.use();
 		}
 
@@ -112,24 +120,44 @@ public class Level6 extends LevelState {
 		timeElapsed += dt;
 		player.update(dt);
 		player.getBody().setLinearVelocity(player.getVelocity());
-		
-		for(Fire f : fires){
+		transport.update(dt);
+
+		if (transport.isInRange(player.getPosition().x, player.getPosition().y, 3)) {
+			if (!lsm.getTe().isStart()) {
+				lsm.getTe().start();
+			}
+
+			lsm.setState(lsm.Level_3);
+		}
+
+		for (int i = 0; i < fires.size(); i++) {
+			Fire f = fires.get(i);
+			f.update(dt);
+
+			if (player.getCurrentWeapon().isInRange(f.getPosition().x, f.getPosition().y)) {
+				if (player.getCurrentWeapon().isUse()) {
+					Tween.to(f.getParticleEffect(), ParticleEffectTweenAccessor.LIFE, 5).target(0, 0)
+							.ease(TweenEquations.easeNone).start();
+				}
+
+			}
+		}
+		for (Fire f : fires) {
 			f.update(dt);
 		}
-		
+
 		for (Person p : people) {
 			p.update(dt);
-			
-			if(p.isInRadius(player.getPosition().x, player.getPosition().y, 2)){
+
+			if (p.isInRadius(player.getPosition().x, player.getPosition().y, 2)) {
 				p.personState = PersonState.RUN;
 			}
 		}
 
-
-		for(int i = 0; i< crap.size(); i++){
+		for (int i = 0; i < crap.size(); i++) {
 			Debris d = crap.get(i);
 			d.update(dt);
-			
+
 			if (d.isInRadius(player.getPosition().x, player.getPosition().y, 2)) {
 				if (Gdx.input.isKeyJustPressed(Keys.SPACE) && !(d.debrisState.equals(DebrisState.BREAK))) {
 					if (d.getHealth() > 0) {
@@ -141,15 +169,15 @@ public class Level6 extends LevelState {
 					d.doHit();
 				}
 			}
-			
-			if(d.isBreakAnimationDone()){
+
+			if (d.isBreakAnimationDone()) {
 				d.dipose();
 				game.getWorld().destroyBody(d.getBody());
 				crap.remove(i);
 				i--;
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -167,20 +195,24 @@ public class Level6 extends LevelState {
 		cam.update();
 
 		player.render(batch);
+
 		batch.begin();
+		transport.render(batch);
+
 		for (Debris d : crap) {
 			d.render(batch);
 		}
-		
+
 		for (Person p : people) {
 			p.render(batch);
 		}
-		
-		for(Fire f : fires){
+
+		for (Fire f : fires) {
 			f.render(batch);
 		}
+
 		batch.end();
-		
+
 		batch.begin();
 		font.draw(batch, "Level 6, time: " + timeElapsed, Gdx.graphics.getWidth() / 2,
 				Gdx.graphics.getHeight() / 2 + 50);
@@ -195,32 +227,32 @@ public class Level6 extends LevelState {
 
 		for (MapObject mo : layer.getObjects()) {
 
-			// get fire position from tile map object layer
+			// get debris position from tile map object layer
 			float x = (float) mo.getProperties().get("x", Float.class);
 			float y = (float) mo.getProperties().get("y", Float.class);
 
-			// create new fire and add to fires list
+			// create new debris and add to crap list
 			Debris f = new Debris(CreateBox2D.createCircle(game.getWorld(), x, y, 100, false, 1, BodyType.StaticBody,
-					"people", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+					"debris", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
 			crap.add(f);
 		}
-		
+
 		layer = tileMap.getLayers().get("people");
 		if (layer == null)
 			return;
 
 		for (MapObject mo : layer.getObjects()) {
 
-			// get fire position from tile map object layer
+			// get people position from tile map object layer
 			float x = (float) mo.getProperties().get("x", Float.class);
 			float y = (float) mo.getProperties().get("y", Float.class);
 
-			// create new fire and add to fires list
+			// create new person and add to people list
 			Person f = new Person(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.DynamicBody,
 					"people", B2DVars.BIT_GROUND, B2DVars.BIT_GROUND));
 			people.add(f);
 		}
-		
+
 		layer = tileMap.getLayers().get("fire");
 		if (layer == null)
 			return;
@@ -230,19 +262,37 @@ public class Level6 extends LevelState {
 			// get fire position from tile map object layer
 			float x = (float) mo.getProperties().get("x", Float.class);
 			float y = (float) mo.getProperties().get("y", Float.class);
-			
+
 			// create new fire and add to fires list
 
-			Fire f = new Fire(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody, "fire", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+			Fire f = new Fire(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody, "fire",
+					B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
 			fires.add(f);
-			
+
+		}
+
+		layer = tileMap.getLayers().get("end");
+		if (layer == null)
+			return;
+
+		for (MapObject mo : layer.getObjects()) {
+
+			// get transport position from tile map object layer
+			float x = (float) mo.getProperties().get("x", Float.class);
+			float y = (float) mo.getProperties().get("y", Float.class);
+
+			// create new transport
+
+			transport = new Transport(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody,
+					"transport", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+
 		}
 	}
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-	
+
 	}
 
 }
