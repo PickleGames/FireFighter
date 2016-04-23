@@ -51,7 +51,7 @@ public class Extinguisher extends Weapon{
 		System.out.println("y2 " + y2);*/
 		
 		float distance = MathHelper.distanceEquation(getPosition().x * B2DVars.PPM, getPosition().y * B2DVars.PPM, x2, y2);
-		System.out.println("distance "+ distance);
+		//System.out.println("distance "+ distance);
 		if(distance > getRadius()) return false;
 		
 		float angleLow = thingy.getEmitters().first().getAngle().getHighMin();
@@ -60,9 +60,9 @@ public class Extinguisher extends Weapon{
 		float angleCenter = 0; //angleHigh + angleLow;
 		float height = y2 - getPosition().y * B2DVars.PPM;
 		float angle = (float) Math.toDegrees(Math.asin(height / distance));
-		System.out.println("angle "+ angle);
-		System.out.println("angle low " + (angleHigh - angleCenter));
-		System.out.println("angle high " + (angleLow - angleCenter));
+//		System.out.println("angle "+ angle);
+//		System.out.println("angle low " + (angleHigh - angleCenter));
+//		System.out.println("angle high " + (angleLow - angleCenter));
 		if(angle >= 0) return angle <= angleLow - angleCenter;
 		else return (angle >= angleHigh - angleCenter);
 	}

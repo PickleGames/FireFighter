@@ -38,8 +38,8 @@ public abstract class Weapon extends Entity{
 			timeElapsed = 0;
 		}else{}
 		
-		System.out.println("is usable " + isUsable);
-		System.out.println("timeElapsed "+ timeElapsed);
+//		System.out.println("is usable " + isUsable);
+//		System.out.println("timeElapsed "+ timeElapsed);
 		
 		if(timeElapsed >= .5f){
 			isUse = false;

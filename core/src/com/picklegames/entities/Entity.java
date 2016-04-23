@@ -49,7 +49,7 @@ public class Entity {
 				batch.end();
 			}
 		} catch (NullPointerException e) {
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 		}
 	}
 	

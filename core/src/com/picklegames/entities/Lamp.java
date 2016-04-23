@@ -26,11 +26,11 @@ public class Lamp extends Entity {
 	private Weapon currentWeapon;
 
 
-	private enum CharacterState {
+	public enum CharacterState {
 		YOUNG, ADULT
 	}
 
-	private enum WeaponState {
+	public enum WeaponState {
 		EXTINGUISHER, AXE, BEAR
 	}
 
@@ -95,6 +95,7 @@ public class Lamp extends Entity {
 		if (characterState.equals(CharacterState.ADULT)) {
 			currentWeapon.update(dt);
 			currentWeapon.setPosition(this.getPosition().x, this.getPosition().y);
+			if(currentWeapon.isUse())setVelocity(0, 0);
 		}
 
 	}

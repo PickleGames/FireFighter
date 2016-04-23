@@ -56,15 +56,30 @@ public class Debris extends Entity {
 			if(animation.hasPlayedOnce()){
 				breakAnimationDone = true;
 			}
-			
 		}
-		if (getHealth() < 0) {
+		//System.out.println(getHealth());
+		
+		if(getHealth() > 0 && !debrisState.equals(DebrisState.FRESH)){
+			debrisState = DebrisState.CRACK;
+			resetAnimation();
+		}else if (getHealth() <= 0 && !debrisState.equals(DebrisState.BREAK)) {
 			debrisState = DebrisState.BREAK;
+			resetAnimation();
 		}
 		
 
 	}
 
+	public void doHit() {
+		if(debrisState.equals(DebrisState.FRESH)) debrisState = DebrisState.CRACK;
+		if (debrisState.equals(DebrisState.CRACK)) {
+			if (currentFrame < texR.length - 1) {
+				health--;
+				currentFrame++;
+			}
+		}
+	}
+	
 	public void render(SpriteBatch batch) {
 		batch.draw(animation.getFrame(), body.getPosition().x * B2DVars.PPM - width / 2,
 				body.getPosition().y * B2DVars.PPM - height / 2, width, height);
@@ -102,17 +117,6 @@ public class Debris extends Entity {
 		this.health = health;
 	}
 
-	public void doHit() {
-		if (debrisState.equals(DebrisState.CRACK)) {
-			if (currentFrame < texR.length - 1) {
-				health--;
-				currentFrame++;
-			}
-		}
-
-	}
-	
-	
 	
 	public boolean isBreakAnimationDone() {
 		return breakAnimationDone;
