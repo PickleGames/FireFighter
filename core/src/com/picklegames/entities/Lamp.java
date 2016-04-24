@@ -105,7 +105,7 @@ public class Lamp extends Entity {
 
 	public void createWeapon() {
 		
-
+		
 	}
 
 	boolean isSetAxeWalk = false;

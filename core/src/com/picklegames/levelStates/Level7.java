@@ -1,6 +1,5 @@
 package com.picklegames.levelStates;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,7 +11,7 @@ import com.picklegames.handlers.Animation;
 import com.picklegames.handlers.dialogue.Dialogue;
 import com.picklegames.managers.LevelStateManager;
 
-public class Level3 extends LevelState{
+public class Level7 extends LevelState{
 	
 	private Dialogue d;
 	private BitmapFont font;
@@ -21,43 +20,38 @@ public class Level3 extends LevelState{
 	private Texture bg;
 	private Texture bgBar;
 	
-	private Animation teenGirl;
-	private TextureRegion[] girlReg;
+	private Animation mom;
+	private TextureRegion[] momReg;
 	
-	private Animation teenAni;
-	private TextureRegion[] teenReg;
+	private Texture you;
 	
-	
-	public Level3(LevelStateManager lsm) {
+	public Level7(LevelStateManager lsm) {
 		super(lsm);
 		// TODO Auto-generated constructor stub
 		init();
-		
 	}
 
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		d = new Dialogue("dialogue/dialogue1.txt", "Summer, 1985");
+		d = new Dialogue("dialogue/dialogue2.txt", "Spring, 1995");
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 		font.setColor(Color.WHITE);
 		font.getData().scaleX = .4f;
 		layout = new GlyphLayout(); //dont do this every frame! Store it as member
 
-		FireFighterGame.res.loadTexture("image/Character/teenGirl.png", "girl");
-		FireFighterGame.res.loadTexture("image/Character/teenFace.png", "teen");
-		FireFighterGame.res.loadTexture("image/Backgrounds/bg1.png", "bg");
+		FireFighterGame.res.loadTexture("image/Character/momFace.png", "mom");
+		FireFighterGame.res.loadTexture("image/Character/youFace.png", "you");
+		FireFighterGame.res.loadTexture("image/Backgrounds/dorm.png", "dorm_bg");
 		FireFighterGame.res.loadTexture("image/Backgrounds/diaBar.png", "diaBox");
 		
-		girlReg = TextureRegion.split(FireFighterGame.res.getTexture("girl"), 300, 300)[0];
-		teenGirl = new Animation();
-		teenGirl.setFrames(girlReg, 8f);
+		momReg = TextureRegion.split(FireFighterGame.res.getTexture("mom"), 300, 300)[0];
+		mom = new Animation();
+		mom.setFrames(momReg, 8f);
 		
-		teenReg = TextureRegion.split(FireFighterGame.res.getTexture("teen"), 300, 300)[0];
-		teenAni = new Animation();
-		teenAni.setFrames(teenReg, 16f);
+		you = FireFighterGame.res.getTexture("you");
 		
-		bg = FireFighterGame.res.getTexture("bg");
+		bg = FireFighterGame.res.getTexture("dorm_bg");
 		bgBar = FireFighterGame.res.getTexture("diaBox");
 		
 	}
@@ -67,26 +61,24 @@ public class Level3 extends LevelState{
 		// TODO Auto-generated method stub
 		
 	}
+
 	@Override
 	public void update(float dt) {
+		// TODO Auto-generated method stub
 		d.update(dt);
 		if(d.isFinished()){
-			lsm.setState(lsm.Level_7);
+			lsm.setState(lsm.Level_4);
 		}
 		
 		
-		if(d.isIntroDone()){
-			teenGirl.update(dt);
-			teenAni.update(dt);
-		}
+		
+		mom.update(dt);
 		
 		if(d.getName().equals("YOU")){
 			font.setColor(Color.BLUE);
 		}else{
 			font.setColor(Color.PURPLE);
 		}
-		
-		
 		
 	}
 
@@ -101,8 +93,8 @@ public class Level3 extends LevelState{
 		
 			batch.draw(bg, 0, 0, FireFighterGame.V_WIDTH, FireFighterGame.V_HEIGHT);
 			batch.draw(bgBar, 0, FireFighterGame.V_HEIGHT -  FireFighterGame.V_HEIGHT / 4, FireFighterGame.V_WIDTH - 50, FireFighterGame.V_HEIGHT / 6);
-			batch.draw(teenGirl.getFrame(), FireFighterGame.V_WIDTH - 505, 5 , 500, 500);
-			batch.draw(teenAni.getFrame(), 5, 5 ,500, 500);
+			batch.draw(mom.getFrame(), FireFighterGame.V_WIDTH - 505, 5 , 500, 500);
+			batch.draw(you, 5, 5 ,500, 500);
 			
 			font.draw(batch, d.getName(), FireFighterGame.V_WIDTH/2  - 15, 625);
 			font.draw(batch, d.getCharacterLine(),  FireFighterGame.V_WIDTH/2 - width/2, 600);
@@ -110,11 +102,11 @@ public class Level3 extends LevelState{
 		
 		d.render(batch);
 	}
-	
+
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		d.dispose();
+		
 	}
 
 }

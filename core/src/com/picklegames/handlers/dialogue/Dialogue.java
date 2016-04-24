@@ -14,27 +14,31 @@ public class Dialogue {
 
 	private BitmapFont font;
 	private GlyphLayout layout;
-	
+	private float fontScaleDecrease = -.05f;
+
 	private ArrayList<Line> dialogue;
 	private Scanner diaScanner;
 
 	private Line currentLine;
-	
-	private String date;
+
+	private String date = "";
 	private String characterLine = "";
 	private String name = "";
 
 	private float timeElap = 0;
 
-	public Dialogue(String filePath) {
+	public Dialogue(String filePath, String date) {
 
 		FileHandle file = Gdx.files.internal(filePath);
 		diaScanner = new Scanner(file.readString());
 		dialogue = new ArrayList<Line>();
-
-		font = new BitmapFont();
-		font.getData().scaleX = 10;
-		font.getData().scaleY = 10;
+		
+		setDate(date);
+		
+		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
+		font.getData().scaleX = 15;
+		font.getData().scaleY = 15;
+		layout = new GlyphLayout();
 		
 		while (diaScanner.hasNextLine()) {
 			String s = diaScanner.nextLine();
@@ -53,40 +57,43 @@ public class Dialogue {
 	float delayBetween;
 	float timeElapsed2;
 
-	
-	public boolean isFinished(){
-		if(dialogueIndex == dialogue.size() - 1 && letterIndex == currentLine.getLetter().length)
+	public boolean isFinished() {
+		if (dialogueIndex == dialogue.size() - 1 && letterIndex == currentLine.getLetter().length)
 			return true;
 		return false;
 	}
-	
+
 	public void update(float dt) {
 		// TODO Auto-generated method stub
 		// timeElap += dt;
-
 		
-		if(dialogueIndex < dialogue.size()){
-			currentLine = dialogue.get(dialogueIndex);
-			name = currentLine.getName();
-			delayBetween = currentLine.getWait();
+		font.getData().scaleX +=fontScaleDecrease;
+		font.getData().scaleY +=fontScaleDecrease;
+		
+		if (isIntroDone()) {
 			if (dialogueIndex < dialogue.size()) {
-				if (letterIndex >= currentLine.getLetter().length) {
-					timeElapsed2 += dt;
-					//System.out.println(timeElapsed2);
-					if (timeElapsed2 >= delayBetween) {
+				currentLine = dialogue.get(dialogueIndex);
+				name = currentLine.getName();
+				delayBetween = currentLine.getWait();
+				if (dialogueIndex < dialogue.size()) {
+					if (letterIndex >= currentLine.getLetter().length) {
+						timeElapsed2 += dt;
+						// System.out.println(timeElapsed2);
+						if (timeElapsed2 >= delayBetween) {
+							printLine(dt, currentLine);
+							timeElapsed2 = 0;
+						}
+					} else {
 						printLine(dt, currentLine);
-						timeElapsed2 = 0;
 					}
-				} else {
-					printLine(dt, currentLine);
 				}
 			}
 		}
-		
-		System.out.println("dialogue Index: "+ dialogueIndex);
-		System.out.println("letter Index: "+ letterIndex);
-		System.out.println("dialogue size "+ dialogue.size());
-		System.out.println("letter size "+ currentLine.getLetter().length);
+
+//		System.out.println("dialogue Index: " + dialogueIndex);
+//		System.out.println("letter Index: " + letterIndex);
+//		System.out.println("dialogue size " + dialogue.size());
+//		System.out.println("letter size " + currentLine.getLetter().length);
 	}
 
 	int letterIndex = 0;
@@ -94,68 +101,67 @@ public class Dialogue {
 
 	private void printLine(float dt, Line line) {
 		timeElap += dt;
-		
-		if(letterIndex == line.getLetter().length){
-			if (dialogueIndex < dialogue.size() - 1){
+
+		if (letterIndex == line.getLetter().length) {
+			if (dialogueIndex < dialogue.size() - 1) {
 				dialogueIndex++;
 				letterIndex = 0;
 			}
 			characterLine = "";
 			return;
 		}
-		
+
 		if (timeElap > letterDelay) {
 			if (letterIndex < line.getLetter().length) {
 				String currentLetter = line.getLetter()[letterIndex++];
-				if(!isToken(currentLetter))
+				if (!isToken(currentLetter))
 					characterLine += currentLetter;
-					timeElap = 0;
-			} 
+				timeElap = 0;
+			}
 		}
 
 	}
-	
 
-	public void render(SpriteBatch batch){
+	public void render(SpriteBatch batch) {
 		layout.setText(font, date);
 		float width = layout.width;// contains the width of the current set text
 		float height = layout.height;
-		
+
 		batch.begin();
-		font.draw(batch, date, FireFighterGame.V_WIDTH/2 - width/2, FireFighterGame.V_HEIGHT/2 - height/2);
-		
+		if(!isIntroDone())
+		 font.draw(batch, getDate(), FireFighterGame.V_WIDTH / 2 - width / 2, FireFighterGame.V_HEIGHT / 2 - height / 2);
+
 		batch.end();
 	}
 
-	private boolean isToken(String line){
-		if(line.equals("|")){
+	private boolean isToken(String line) {
+		if (line.equals("|")) {
 			return true;
-		}return false;
-	}
-	
-	public void intro(){
-		
-	}
-	
-	public boolean isIntroDone(){
-	
-		
+		}
 		return false;
 	}
-	
-	public String getCharacterLine(){
+
+	public void intro() {
+
+	}
+
+	public boolean isIntroDone() {
+		return (font.getScaleX() < .2f);
+	}
+
+	public String getCharacterLine() {
 		return characterLine;
 	}
-	
-	public String getName(){
+
+	public String getName() {
 		return name;
 	}
-	
-	public void setDate(String date){
+
+	public void setDate(String date) {
 		this.date = date;
 	}
-	
-	public String getDate(){
+
+	public String getDate() {
 		return date;
 	}
 
