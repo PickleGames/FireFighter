@@ -1,6 +1,7 @@
 package com.picklegames.levelStates;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -24,6 +25,7 @@ public class Level7 extends LevelState{
 	private TextureRegion[] momReg;
 	
 	private Texture you;
+	private Sound playerS, currentSound;
 	
 	public Level7(LevelStateManager lsm) {
 		super(lsm);
@@ -54,6 +56,9 @@ public class Level7 extends LevelState{
 		bg = FireFighterGame.res.getTexture("dorm_bg");
 		bgBar = FireFighterGame.res.getTexture("diaBox");
 		
+		FireFighterGame.res.loadSound("sound/wac.mp3", "playerS");
+		playerS = FireFighterGame.res.getSound("playerS");
+		currentSound = playerS;
 	}
 
 	@Override
@@ -65,9 +70,9 @@ public class Level7 extends LevelState{
 	@Override
 	public void update(float dt) {
 		// TODO Auto-generated method stub
-		d.update(dt);
+		d.update(dt,currentSound);
 		if(d.isFinished()){
-			lsm.setState(lsm.Level_4);
+			lsm.setState(LevelStateManager.Level_6);
 		}
 		
 		
@@ -87,7 +92,7 @@ public class Level7 extends LevelState{
 		// TODO Auto-generated method stub
 		layout.setText(font, d.getCharacterLine());
 		float width = layout.width;// contains the width of the current set text
-		float height = layout.height; // contains the height of the current set text
+		//float height = layout.height; // contains the height of the current set text
 		
 		batch.begin();
 		
@@ -105,7 +110,7 @@ public class Level7 extends LevelState{
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		font.dispose();
 		
 	}
 

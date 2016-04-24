@@ -79,4 +79,7 @@ public class Entity {
 	public float getHeight() {
 		return height;
 	}
+	public Animation getAnimation() {
+		return animation;
+	}
 }

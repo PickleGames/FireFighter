@@ -2,6 +2,7 @@ package com.picklegames.levelStates;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -27,6 +28,7 @@ public class Level3 extends LevelState{
 	private Animation teenAni;
 	private TextureRegion[] teenReg;
 	
+	private Sound playerS, girlS, catS, currentSound;
 	
 	public Level3(LevelStateManager lsm) {
 		super(lsm);
@@ -60,6 +62,17 @@ public class Level3 extends LevelState{
 		bg = FireFighterGame.res.getTexture("bg");
 		bgBar = FireFighterGame.res.getTexture("diaBox");
 		
+		FireFighterGame.res.loadSound("sound/wac.mp3", "playerS");
+		FireFighterGame.res.loadSound("sound/wac.mp3", "girlS");
+		FireFighterGame.res.loadSound("sound/wac.mp3", "catS");
+		playerS = FireFighterGame.res.getSound("playerS");
+		girlS = FireFighterGame.res.getSound("girlS");
+		catS = FireFighterGame.res.getSound("catS");
+		currentSound = playerS;
+		
+		cam.position.set(FireFighterGame.V_WIDTH / 2 , FireFighterGame.V_HEIGHT/ 2 , 0);
+		cam.update();
+		System.out.println(cam.position.toString());
 	}
 
 	@Override
@@ -69,21 +82,40 @@ public class Level3 extends LevelState{
 	}
 	@Override
 	public void update(float dt) {
-		d.update(dt);
+		
 		if(d.isFinished()){
-			lsm.setState(lsm.Level_7);
+			lsm.setState(LevelStateManager.Level_7);
 		}
 		
+		if(d.getName().equals("YOU")){
+			currentSound = playerS;
+		}else if(d.getName().equals("GIRL")){
+			currentSound = girlS;
+		}else if(d.getName().equals("CAT")){
+			currentSound = catS;
+
+
+		}
+		
+		d.update(dt, currentSound);
 		
 		if(d.isIntroDone()){
-			teenGirl.update(dt);
-			teenAni.update(dt);
+			//teenGirl.update(dt);
+			//teenAni.update(dt);
+			
+			if(d.getName().equals("YOU")){
+				teenAni.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
+			}else if(d.getName().equals("GIRL")){
+				teenGirl.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
+			}
 		}
 		
 		if(d.getName().equals("YOU")){
 			font.setColor(Color.BLUE);
-		}else{
+		}else if(d.getName().equals("GIRL")){
 			font.setColor(Color.PURPLE);
+		}else{
+			font.setColor(Color.GREEN);
 		}
 		
 		
@@ -95,13 +127,14 @@ public class Level3 extends LevelState{
 		// TODO Auto-generated method stub
 		layout.setText(font, d.getCharacterLine());
 		float width = layout.width;// contains the width of the current set text
-		float height = layout.height; // contains the height of the current set text
+		//float height = layout.height; // contains the height of the current set text
+		batch.setProjectionMatrix(cam.combined);
 		
 		batch.begin();
 		
 			batch.draw(bg, 0, 0, FireFighterGame.V_WIDTH, FireFighterGame.V_HEIGHT);
 			batch.draw(bgBar, 0, FireFighterGame.V_HEIGHT -  FireFighterGame.V_HEIGHT / 4, FireFighterGame.V_WIDTH - 50, FireFighterGame.V_HEIGHT / 6);
-			batch.draw(teenGirl.getFrame(), FireFighterGame.V_WIDTH - 505, 5 , 500, 500);
+			batch.draw(teenGirl.getFrame(), cam.viewportWidth - 505, 5 , 500, 500);
 			batch.draw(teenAni.getFrame(), 5, 5 ,500, 500);
 			
 			font.draw(batch, d.getName(), FireFighterGame.V_WIDTH/2  - 15, 625);
@@ -115,6 +148,9 @@ public class Level3 extends LevelState{
 	public void dispose() {
 		// TODO Auto-generated method stub
 		d.dispose();
+		FireFighterGame.res.removeSound("playerS");
+		FireFighterGame.res.removeSound("girldS");
+		FireFighterGame.res.removeSound("catS");
 	}
 
 }

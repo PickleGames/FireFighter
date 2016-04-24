@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -14,19 +15,21 @@ public class Dialogue {
 
 	private BitmapFont font;
 	private GlyphLayout layout;
-	private float fontScaleDecrease = -.05f;
+	private float fontScaleDecrease = -.10f;
 
 	private ArrayList<Line> dialogue;
 	private Scanner diaScanner;
 
 	private Line currentLine;
 
+
+	private int animationIndex;
 	private String date = "";
 	private String characterLine = "";
 	private String name = "";
 
 	private float timeElap = 0;
-
+	
 	public Dialogue(String filePath, String date) {
 
 		FileHandle file = Gdx.files.internal(filePath);
@@ -56,14 +59,14 @@ public class Dialogue {
 	int dialogueIndex = 0;
 	float delayBetween;
 	float timeElapsed2;
-
+	
 	public boolean isFinished() {
 		if (dialogueIndex == dialogue.size() - 1 && letterIndex == currentLine.getLetter().length)
 			return true;
 		return false;
 	}
 
-	public void update(float dt) {
+	public void update(float dt, Sound s) {
 		// TODO Auto-generated method stub
 		// timeElap += dt;
 		
@@ -71,23 +74,20 @@ public class Dialogue {
 		font.getData().scaleY +=fontScaleDecrease;
 		
 		if (isIntroDone()) {
+			currentLine = dialogue.get(dialogueIndex);
+			name = currentLine.getName();
+			animationIndex = currentLine.getAnimationIndex();
+			delayBetween = currentLine.getWait();
 			if (dialogueIndex < dialogue.size()) {
-				currentLine = dialogue.get(dialogueIndex);
-				name = currentLine.getName();
-				delayBetween = currentLine.getWait();
-				if (dialogueIndex < dialogue.size()) {
-					if (letterIndex >= currentLine.getLetter().length) {
-						timeElapsed2 += dt;
-						// System.out.println(timeElapsed2);
-						if (timeElapsed2 >= delayBetween) {
-							printLine(dt, currentLine);
-							timeElapsed2 = 0;
-						}
-					} else {
-						printLine(dt, currentLine);
+				if (letterIndex >= currentLine.getLetter().length) {
+					timeElapsed2 += dt;
+					if (timeElapsed2 >= delayBetween) {
+						printLine(dt, currentLine, s);
+						timeElapsed2 = 0;
 					}
+				} else {
+					printLine(dt, currentLine, s);
 				}
-			}
 		}
 
 //		System.out.println("dialogue Index: " + dialogueIndex);
@@ -95,11 +95,11 @@ public class Dialogue {
 //		System.out.println("dialogue size " + dialogue.size());
 //		System.out.println("letter size " + currentLine.getLetter().length);
 	}
-
+}
 	int letterIndex = 0;
 	float letterDelay = .03f;
 
-	private void printLine(float dt, Line line) {
+	private void printLine(float dt, Line line, Sound s) {
 		timeElap += dt;
 
 		if (letterIndex == line.getLetter().length) {
@@ -116,12 +116,13 @@ public class Dialogue {
 				String currentLetter = line.getLetter()[letterIndex++];
 				if (!isToken(currentLetter))
 					characterLine += currentLetter;
-				timeElap = 0;
-			}
+					if(currentLetter.equals(" "))
+						s.play();
+					timeElap = 0;
+			} 
 		}
 
 	}
-
 	public void render(SpriteBatch batch) {
 		layout.setText(font, date);
 		float width = layout.width;// contains the width of the current set text
@@ -149,6 +150,10 @@ public class Dialogue {
 		return (font.getScaleX() < .2f);
 	}
 
+	public Line getCurrentLine() {
+		return currentLine;
+	}
+	
 	public String getCharacterLine() {
 		return characterLine;
 	}

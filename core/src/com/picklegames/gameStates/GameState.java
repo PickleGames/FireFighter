@@ -20,9 +20,11 @@ public abstract class GameState {
 		batch = game.getBatch();
 		cam = game.getCam();
 		hudCam = game.getHudCam();
-
+		init();
 	}
-
+	
+	public abstract void init();
+	
 	public abstract void handleInput();
 
 	public abstract void update(float dt);

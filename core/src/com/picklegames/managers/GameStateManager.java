@@ -6,12 +6,17 @@ import com.picklegames.game.FireFighterGame;
 import com.picklegames.gameStates.GameState;
 import com.picklegames.gameStates.Menu;
 import com.picklegames.gameStates.Play;
+import com.picklegames.gameStates.SplashScreen;
+
+import aurelienribon.tweenengine.TweenManager;
 
 public class GameStateManager {
 
 	private FireFighterGame game;
 	private Stack<GameState> gameStates;
 
+	private TweenManager tweenManager;
+	
 	public static final int MENU = 123;
 	public static final int PLAY = 007;
 	public static final int DIALOGUE = 420;
@@ -20,13 +25,17 @@ public class GameStateManager {
 	public GameStateManager(FireFighterGame game) {
 		this.game = game;
 		gameStates = new Stack<GameState>();
+		tweenManager = new TweenManager();
 		pushState(PLAY);
 	}
+	
+	
 	public FireFighterGame game() {
 		return game;
 	}
 
 	public void update(float dt) {
+		tweenManager.update(dt);
 		gameStates.peek().update(dt);
 	}
 
@@ -35,10 +44,13 @@ public class GameStateManager {
 	}
 
 	private GameState getState(int state) {
+		if (state == SPLASH)
+			return new SplashScreen(this);
 		if (state == MENU)
 			return new Menu(this);
 		if (state == PLAY)
 			return new Play(this);
+		
 		return null;
 
 	}
@@ -57,4 +69,7 @@ public class GameStateManager {
 		g.dispose();
 	}
 
+	public TweenManager getTweenManager() {
+		return tweenManager;
+	}
 }
