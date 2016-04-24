@@ -20,7 +20,7 @@ public class Lamp extends Entity {
 
 	private TextureRegion[] textureR, textureAdult_ext, textureAdult_axe, textureAdult_ext_use, textureAdult_axe_use;
 	private Texture textureYoungStand;
-	private Texture textureAdultStand;
+
 
 	private Vector2 velocity;
 	private Weapon[] weapons;
@@ -77,7 +77,6 @@ public class Lamp extends Entity {
 
 		// textureYoungStand =
 		// FireFighterGame.res.getTexture("Lamp_Stand_Young");
-		textureAdultStand = FireFighterGame.res.getTexture("Lamp_Stand_Adult");
 
 		animation.setFrames(textureR, 1 / 8f);
 
@@ -86,25 +85,23 @@ public class Lamp extends Entity {
 
 		velocity = new Vector2(0, 0);
 		weapons = new Weapon[3];
-		Extinguisher ex = new Extinguisher(
-				CreateBox2D.createBox(FireFighterGame.world, 0, 0, 1, 1, new Vector2(0, 0),
-						BodyType.DynamicBody, "extinguisher", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
+		Extinguisher ex = new Extinguisher(CreateBox2D.createBox(FireFighterGame.world, 0, 0, 1, 1, new Vector2(0, 0),
+				BodyType.DynamicBody, "extinguisher", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
 
-		Axe axe = new Axe(CreateBox2D.createBox(FireFighterGame.world, 0, 0, 1, 1,
-				new Vector2(0, 0), BodyType.DynamicBody, "extinguisher", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
-		
-		NoWep nowep = new NoWep(CreateBox2D.createBox(FireFighterGame.world, 0, 0, 1, 1,
-				new Vector2(0, 0), BodyType.DynamicBody, "noWep", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
+		Axe axe = new Axe(CreateBox2D.createBox(FireFighterGame.world, 0, 0, 1, 1, new Vector2(0, 0),
+				BodyType.DynamicBody, "extinguisher", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
+
+		NoWep nowep = new NoWep(CreateBox2D.createBox(FireFighterGame.world, 0, 0, 1, 1, new Vector2(0, 0),
+				BodyType.DynamicBody, "noWep", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
 
 		weapons[0] = ex;
 		weapons[1] = axe;
 		weapons[2] = nowep;
-		
+
 		currentWeapon = weapons[2];
 	}
 
 	public void createWeapon() {
-		
 
 	}
 
@@ -122,7 +119,7 @@ public class Lamp extends Entity {
 
 		if (characterState.equals(CharacterState.ADULT)) {
 			if (weaponState.equals(WeaponState.EXTINGUISHER)) {
-				if(currentWeapon.isUse() && !isSetExtUse){
+				if (currentWeapon.isUse() && !isSetExtUse) {
 					animation.setFrames(textureAdult_ext_use, 1 / 8f);
 					isSetExtUse = true;
 					isSetExtWalk = false;
@@ -137,8 +134,8 @@ public class Lamp extends Entity {
 					isSetExtUse = false;
 				}
 			} else if (weaponState.equals(WeaponState.AXE)) {
-				if(currentWeapon.isUse() && !isSetAxeUse){
-					animation.setFrames(textureAdult_axe_use, 1 / 8f);
+				if (currentWeapon.isUse() && !isSetAxeUse) {
+					animation.setFrames(textureAdult_axe_use, 1 / 7f);
 					isSetAxeUse = true;
 					isSetAxeWalk = false;
 					isSetExtUse = false;
@@ -153,7 +150,11 @@ public class Lamp extends Entity {
 				}
 			}
 			currentWeapon.update(dt);
-			currentWeapon.setPosition(this.getPosition().x, this.getPosition().y);
+			if(currentWeapon instanceof Extinguisher){
+				currentWeapon.setPosition(this.getPosition().x + 30 / PPM, this.getPosition().y + 60 / PPM);
+			}else if(currentWeapon instanceof Axe){
+				currentWeapon.setPosition(this.getPosition().x + 30 / PPM, this.getPosition().y - 60 / PPM);
+			}
 			if (currentWeapon.isUse()) {
 				setVelocity(0, 0);
 			}
@@ -184,36 +185,29 @@ public class Lamp extends Entity {
 			if (velocity.x == 0 && velocity.y == 0) {
 				spriteBatch.draw(textureYoungStand, getPosition().x * PPM - width / 2,
 						getPosition().y * PPM - height / 2, width, height);
-				// spriteBatch.draw(textureStand, body.getPosition().x * PPM -
-				// width
-				// / 2, body.getPosition().y * PPM - height / 2, width / 2,
-				// height /
-				// 2, 80, 150, 1, 1, 0);
-			} else {
-				if (velocity.x > 0)
-					spriteBatch.draw(animation.getFrame(), getPosition().x * PPM - width / 2,
-							getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, -1, 1, 0);
-				else if (velocity.x < 0)
-					spriteBatch.draw(animation.getFrame(), getPosition().x * PPM - width / 2,
-							getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
-				else {
-					spriteBatch.draw(animation.getFrame(), getPosition().x * PPM - width / 2,
-							getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
-				}
 			}
 		} else if (characterState.equals(CharacterState.ADULT)) {
-			// if(weaponState.equals(WeaponState.EXTINGUISHER)){
-			spriteBatch.draw(animation.getFrame(), getPosition().x * PPM - width / 2,
-					getPosition().y * PPM - height / 2, width, height);
-			// }
-			// spriteBatch.draw(textureAdultStand, getPosition().x * PPM - width
-			// / 2, getPosition().y * PPM - height / 2,
-			// width, height);
-
 			currentWeapon.render(spriteBatch);
+			if (velocity.x == 0 && velocity.y == 0 && !currentWeapon.isUse()) {
+				animation.setCurrentFrame(0);
+				spriteBatch.draw(animation.getFrame(), getPosition().x * PPM - width / 2,
+						getPosition().y * PPM - height / 2, width, height);
+			}
+		}
+		
+		if (velocity.x > 0)
+			spriteBatch.draw(animation.getFrame(), getPosition().x * PPM - width / 2,
+					getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
+		else if (velocity.x < 0)
+			spriteBatch.draw(animation.getFrame(), getPosition().x * PPM - width / 2,
+					getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, -1, 1, 0);
+		else {
+			spriteBatch.draw(animation.getFrame(), getPosition().x * PPM - width / 2,
+					getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
 		}
 
 		spriteBatch.end();
+
 	}
 
 	public void dispose() {

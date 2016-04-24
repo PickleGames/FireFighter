@@ -54,8 +54,8 @@ public class Axe extends Weapon{
 			animation.play(dt, 1);
 		}
 		
-		System.out.println("isUse " + isUse());
-		System.out.println("isUsable " + isUsable());
+//		System.out.println("isUse " + isUse());
+//		System.out.println("isUsable " + isUsable());
 		
 		
 		if(animation.isCompleted()) {

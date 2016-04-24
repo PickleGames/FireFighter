@@ -2,6 +2,7 @@ package com.picklegames.levelStates;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -27,6 +28,7 @@ public class Level3 extends LevelState{
 	private Animation teenAni;
 	private TextureRegion[] teenReg;
 	
+	private Sound playerS, girlS, catS, currentSound;
 	
 	public Level3(LevelStateManager lsm) {
 		super(lsm);
@@ -60,6 +62,13 @@ public class Level3 extends LevelState{
 		bg = FireFighterGame.res.getTexture("bg");
 		bgBar = FireFighterGame.res.getTexture("diaBox");
 		
+		FireFighterGame.res.loadSound("sound/wac.mp3", "playerS");
+		FireFighterGame.res.loadSound("sound/wac.mp3", "girlS");
+		FireFighterGame.res.loadSound("sound/wac.mp3", "catS");
+		playerS = FireFighterGame.res.getSound("playerS");
+		girlS = FireFighterGame.res.getSound("girlS");
+		catS = FireFighterGame.res.getSound("catS");
+		currentSound = playerS;
 	}
 
 	@Override
@@ -69,19 +78,30 @@ public class Level3 extends LevelState{
 	}
 	@Override
 	public void update(float dt) {
-		d.update(dt);
+		
 		if(d.isFinished()){
-			lsm.setState(lsm.Level_4);
+			lsm.setState(LevelStateManager.Level_6);
 		}
 		
+		if(d.getName().equals("YOU")){
+			currentSound = playerS;
+		}else if(d.getName().equals("GIRL")){
+			currentSound = girlS;
+		}else if(d.getName().equals("CAT")){
+			currentSound = catS;
+		}
+		
+		d.update(dt, currentSound);
 		
 		teenGirl.update(dt);
 		teenAni.update(dt);
 		
 		if(d.getName().equals("YOU")){
 			font.setColor(Color.BLUE);
-		}else{
+		}else if(d.getName().equals("GIRL")){
 			font.setColor(Color.PURPLE);
+		}else{
+			font.setColor(Color.GREEN);
 		}
 		
 		
@@ -93,7 +113,7 @@ public class Level3 extends LevelState{
 		// TODO Auto-generated method stub
 		layout.setText(font, d.getCharacterLine());
 		float width = layout.width;// contains the width of the current set text
-		float height = layout.height; // contains the height of the current set text
+		//float height = layout.height; // contains the height of the current set text
 		batch.begin();
 		
 			batch.draw(bg, 0, 0, FireFighterGame.V_WIDTH, FireFighterGame.V_HEIGHT);
@@ -110,6 +130,9 @@ public class Level3 extends LevelState{
 	public void dispose() {
 		// TODO Auto-generated method stub
 		d.dispose();
+		FireFighterGame.res.removeSound("playerS");
+		FireFighterGame.res.removeSound("girldS");
+		FireFighterGame.res.removeSound("catS");
 	}
 
 }

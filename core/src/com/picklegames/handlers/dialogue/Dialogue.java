@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -60,7 +61,7 @@ public class Dialogue {
 		return false;
 	}
 	
-	public void update(float dt) {
+	public void update(float dt, Sound s) {
 		// TODO Auto-generated method stub
 		// timeElap += dt;
 
@@ -74,11 +75,11 @@ public class Dialogue {
 					timeElapsed2 += dt;
 					//System.out.println(timeElapsed2);
 					if (timeElapsed2 >= delayBetween) {
-						printLine(dt, currentLine);
+						printLine(dt, currentLine, s);
 						timeElapsed2 = 0;
 					}
 				} else {
-					printLine(dt, currentLine);
+					printLine(dt, currentLine, s);
 				}
 			}
 		}
@@ -92,7 +93,7 @@ public class Dialogue {
 	int letterIndex = 0;
 	float letterDelay = .03f;
 
-	private void printLine(float dt, Line line) {
+	private void printLine(float dt, Line line, Sound s) {
 		timeElap += dt;
 		
 		if(letterIndex == line.getLetter().length){
@@ -109,6 +110,8 @@ public class Dialogue {
 				String currentLetter = line.getLetter()[letterIndex++];
 				if(!isToken(currentLetter))
 					characterLine += currentLetter;
+					if(currentLetter.equals(" "))
+						s.play();
 					timeElap = 0;
 			} 
 		}
