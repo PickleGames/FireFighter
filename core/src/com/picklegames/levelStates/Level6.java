@@ -129,35 +129,19 @@ public class Level6 extends LevelState {
 			if (!lsm.getTe().isStart()) {
 				lsm.getTe().start();
 			}
-<<<<<<< HEAD
+
 			if(lsm.getTe().isFinished()){
 				lsm.setState(lsm.Level_3);	
 			}
 			
-=======
 
-			lsm.setState(LevelStateManager.Level_3);
->>>>>>> b98b1401382735b8e7296ae61df4236eb7ae0a25
+
 		}
 
 		for (int i = 0; i < fires.size(); i++) {
 			Fire f = fires.get(i);
 			f.update(dt);
-<<<<<<< HEAD
-			
-			if (player.getCurrentWeapon().isInRange(f.getPosition().x * PPM, f.getPosition().y * PPM)) {
-				if (player.getCurrentWeapon().isUse()) {
-//					Tween.to(f.getParticleEffect(), ParticleEffectTweenAccessor.LIFE, 1).target(0, 0)
-//							.ease(TweenEquations.easeNone).start(lsm.getTweenManager());
-					float life = f.getParticleEffect().getEmitters().first().getLife().getHighMax();
-				     f.getParticleEffect().getEmitters().first().getLife().setHighMax(life -= 5f);
-				}
-				
-				if(f.getParticleEffect().getEmitters().get(0).getLife().getHighMax() < .2f){
-					game.getWorld().destroyBody(f.getBody());
-					fires.remove(f);
-					i--;
-=======
+
 			if(!(player.getCurrentWeapon() instanceof Extinguisher)) continue;
 			if (player.getCurrentWeapon().isInRange(f.getPosition().x * PPM, f.getPosition().y * PPM)) {
 				if (player.getCurrentWeapon().isUse()) {
@@ -168,7 +152,6 @@ public class Level6 extends LevelState {
 //							.ease(TweenEquations.easeNone).start(lsm.getTweenManager());
 				}else{
 					
->>>>>>> b98b1401382735b8e7296ae61df4236eb7ae0a25
 				}
 
 			}

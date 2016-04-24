@@ -6,19 +6,23 @@ import java.util.Scanner;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.picklegames.game.FireFighterGame;
 
 public class Dialogue {
 
 	private BitmapFont font;
+	private GlyphLayout layout;
+	
 	private ArrayList<Line> dialogue;
 	private Scanner diaScanner;
 
 	private Line currentLine;
 	
+	private String date;
 	private String characterLine = "";
 	private String name = "";
-
-
 
 	private float timeElap = 0;
 
@@ -29,7 +33,9 @@ public class Dialogue {
 		dialogue = new ArrayList<Line>();
 
 		font = new BitmapFont();
-
+		font.getData().scaleX = 10;
+		font.getData().scaleY = 10;
+		
 		while (diaScanner.hasNextLine()) {
 			String s = diaScanner.nextLine();
 			dialogue.add(new Line(s));
@@ -108,11 +114,33 @@ public class Dialogue {
 		}
 
 	}
+	
+
+	public void render(SpriteBatch batch){
+		layout.setText(font, date);
+		float width = layout.width;// contains the width of the current set text
+		float height = layout.height;
+		
+		batch.begin();
+		font.draw(batch, date, FireFighterGame.V_WIDTH/2 - width/2, FireFighterGame.V_HEIGHT/2 - height/2);
+		
+		batch.end();
+	}
 
 	private boolean isToken(String line){
 		if(line.equals("|")){
 			return true;
 		}return false;
+	}
+	
+	public void intro(){
+		
+	}
+	
+	public boolean isIntroDone(){
+	
+		
+		return false;
 	}
 	
 	public String getCharacterLine(){
@@ -121,6 +149,14 @@ public class Dialogue {
 	
 	public String getName(){
 		return name;
+	}
+	
+	public void setDate(String date){
+		this.date = date;
+	}
+	
+	public String getDate(){
+		return date;
 	}
 
 	public void dispose() {
