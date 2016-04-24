@@ -20,6 +20,7 @@ import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.entities.Debris;
 import com.picklegames.entities.Fire;
 import com.picklegames.entities.Lamp;
+import com.picklegames.entities.Lamp.CharacterState;
 import com.picklegames.entities.Lamp.WeaponState;
 import com.picklegames.entities.Person;
 import com.picklegames.entities.Person.PersonState;
@@ -95,14 +96,19 @@ public class Level6 extends LevelState {
 		}
 
 		if (Gdx.input.isKeyJustPressed(Keys.J)) {
+			System.out.println("use");
 			player.use();
 		}
 
-		if(Gdx.input.isKeyJustPressed(Keys.NUM_1)){
-			player.weaponState = WeaponState.AXE;
-		}
-		if(Gdx.input.isKeyJustPressed(Keys.NUM_2)){
-			player.weaponState = WeaponState.EXTINGUISHER;
+		if (player.characterState.equals(CharacterState.ADULT)) {
+			if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
+				player.getCurrentWeapon().reset();
+				player.weaponState = WeaponState.AXE;
+			}
+			if (Gdx.input.isKeyJustPressed(Keys.NUM_2)) {
+				player.getCurrentWeapon().reset();
+				player.weaponState = WeaponState.EXTINGUISHER;
+			}
 		}
 		
 		if (Gdx.input.isKeyPressed(Keys.Q)) {
@@ -118,8 +124,8 @@ public class Level6 extends LevelState {
 
 	@Override
 	public void update(float dt) {
-
 		handleInput();
+		
 		timeElapsed += dt;
 		player.update(dt);
 		player.getBody().setLinearVelocity(player.getVelocity());
@@ -129,58 +135,39 @@ public class Level6 extends LevelState {
 			if (!lsm.getTe().isStart()) {
 				lsm.getTe().start();
 			}
-<<<<<<< HEAD
-			if(lsm.getTe().isFinished()){
-				lsm.setState(lsm.Level_3);	
-			}
-			
-=======
 
 			lsm.setState(LevelStateManager.Level_3);
->>>>>>> b98b1401382735b8e7296ae61df4236eb7ae0a25
+
 		}
 
 		for (int i = 0; i < fires.size(); i++) {
 			Fire f = fires.get(i);
 			f.update(dt);
-<<<<<<< HEAD
-			
-			if (player.getCurrentWeapon().isInRange(f.getPosition().x * PPM, f.getPosition().y * PPM)) {
-				if (player.getCurrentWeapon().isUse()) {
-//					Tween.to(f.getParticleEffect(), ParticleEffectTweenAccessor.LIFE, 1).target(0, 0)
-//							.ease(TweenEquations.easeNone).start(lsm.getTweenManager());
-					float life = f.getParticleEffect().getEmitters().first().getLife().getHighMax();
-				     f.getParticleEffect().getEmitters().first().getLife().setHighMax(life -= 5f);
-				}
-				
-				if(f.getParticleEffect().getEmitters().get(0).getLife().getHighMax() < .2f){
-					game.getWorld().destroyBody(f.getBody());
-					fires.remove(f);
-					i--;
-=======
-			if(!(player.getCurrentWeapon() instanceof Extinguisher)) continue;
+
+			if (!(player.getCurrentWeapon() instanceof Extinguisher))
+				continue;
 			if (player.getCurrentWeapon().isInRange(f.getPosition().x * PPM, f.getPosition().y * PPM)) {
 				if (player.getCurrentWeapon().isUse()) {
 					float life = f.getParticleEffect().getEmitters().first().getLife().getHighMax();
 					f.getParticleEffect().getEmitters().first().getLife().setHighMax(life -= 10f);
-					
-//					Tween.to(f.getParticleEffect(), ParticleEffectTweenAccessor.LIFE, 2).target(0, 0)
-//							.ease(TweenEquations.easeNone).start(lsm.getTweenManager());
-				}else{
-					
->>>>>>> b98b1401382735b8e7296ae61df4236eb7ae0a25
+
+					// Tween.to(f.getParticleEffect(),
+					// ParticleEffectTweenAccessor.LIFE, 2).target(0, 0)
+					// .ease(TweenEquations.easeNone).start(lsm.getTweenManager());
+				} else {
 				}
 
 			}
-			//System.out.println(f.getParticleEffect().getEmitters().first().getLife().getHighMax() );
-			if(f.getParticleEffect().getEmitters().first().getLife().getHighMax() <= 0f){
+			// System.out.println(f.getParticleEffect().getEmitters().first().getLife().getHighMax()
+			// );
+			if (f.getParticleEffect().getEmitters().first().getLife().getHighMax() <= 0f) {
 				f.dispose();
 				game.getWorld().destroyBody(f.getBody());
 				fires.remove(f);
 				i--;
 			}
 		}
-		
+
 		for (Person p : people) {
 			p.update(dt);
 
@@ -192,25 +179,31 @@ public class Level6 extends LevelState {
 		for (int i = 0; i < crap.size(); i++) {
 			Debris d = crap.get(i);
 			d.update(dt);
-			if(!(player.getCurrentWeapon() instanceof Axe)) continue;
-			if(player.getCurrentWeapon().isInRange(d.getPosition().x * PPM, d.getPosition().y * PPM)){
-				if(player.getCurrentWeapon().isUse() && Gdx.input.isKeyJustPressed(Keys.J)){
-					d.doHit();
-					System.out.println("use");
+			if (!(player.getCurrentWeapon() instanceof Axe))
+				continue;
+
+			if (player.getCurrentWeapon().isInRange(d.getPosition().x * PPM, d.getPosition().y * PPM)) {
+				if (player.getCurrentWeapon().isUse()) {
+					if (!player.getCurrentWeapon().isUsable()) {
+						d.doHit();
+					}
+					System.out.println("attack");
 				}
 			}
-			
-//			if (d.isInRadius(player.getPosition().x, player.getPosition().y, 2)) {
-//				if (Gdx.input.isKeyJustPressed(Keys.SPACE) && !(d.debrisState.equals(DebrisState.BREAK))) {
-//					if (d.getHealth() > 0) {
-//						d.debrisState = DebrisState.CRACK;
-//					} else {
-//						d.debrisState = DebrisState.BREAK;
-//					}
-//					d.resetAnimation();
-//					d.doHit();
-//				}
-//			}
+
+			// if (d.isInRadius(player.getPosition().x, player.getPosition().y,
+			// 2)) {
+			// if (Gdx.input.isKeyJustPressed(Keys.SPACE) &&
+			// !(d.debrisState.equals(DebrisState.BREAK))) {
+			// if (d.getHealth() > 0) {
+			// d.debrisState = DebrisState.CRACK;
+			// } else {
+			// d.debrisState = DebrisState.BREAK;
+			// }
+			// d.resetAnimation();
+			// d.doHit();
+			// }
+			// }
 
 			if (d.isBreakAnimationDone()) {
 				d.dipose();

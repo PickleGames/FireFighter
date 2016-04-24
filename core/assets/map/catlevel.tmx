@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="20" tilewidth="32" tileheight="32" nextobjectid="25">
- <tileset firstgid="1" name="sidewalk" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="sidewalk" tilewidth="32" tileheight="32" tilecount="16" columns="4">
   <image source="sidewalk.png" width="133" height="132"/>
  </tileset>
- <tileset firstgid="17" name="Gray stackables" tilewidth="32" tileheight="32">
+ <tileset firstgid="17" name="Gray stackables" tilewidth="32" tileheight="32" tilecount="8" columns="4">
   <image source="Gray stackables.png" width="131" height="65"/>
  </tileset>
- <tileset firstgid="25" name="Black thing tile" tilewidth="32" tileheight="32">
+ <tileset firstgid="25" name="Black thing tile" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="Black thing tile.png" width="32" height="32"/>
  </tileset>
- <tileset firstgid="26" name="Gray stackables" tilewidth="32" tileheight="32">
+ <tileset firstgid="26" name="Gray stackables" tilewidth="32" tileheight="32" tilecount="8" columns="4">
   <image source="Gray stackables.png" width="131" height="65"/>
  </tileset>
  <layer name="Tile Layer 1" width="50" height="20">

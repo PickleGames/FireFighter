@@ -32,6 +32,13 @@ public class Extinguisher extends Weapon{
 		
 		
 	}
+
+	@Override
+	public void reset() {
+		thingy.reset();
+		setIsUse(false);
+		setUsable(true);
+	}
 	
 	@Override
 	public void use() {
@@ -81,6 +88,7 @@ public class Extinguisher extends Weapon{
 		thingy.dispose();
 		
 	}
+
 
 	
 

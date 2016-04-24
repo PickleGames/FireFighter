@@ -57,12 +57,13 @@ public class Debris extends Entity {
 				breakAnimationDone = true;
 			}
 		}
-		//System.out.println(getHealth());
+		System.out.println(debrisState);
 		
-		if(getHealth() > 0 && !debrisState.equals(DebrisState.FRESH)){
-			debrisState = DebrisState.CRACK;
-			resetAnimation();
-		}else if (getHealth() <= 0 && !debrisState.equals(DebrisState.BREAK)) {
+//		if(getHealth() > 0 && !debrisState.equals(DebrisState.FRESH)){
+//			debrisState = DebrisState.CRACK;
+//			resetAnimation();
+//		}else
+		if (getHealth() <= 0 && !debrisState.equals(DebrisState.BREAK)) {
 			debrisState = DebrisState.BREAK;
 			resetAnimation();
 		}
@@ -71,7 +72,10 @@ public class Debris extends Entity {
 	}
 
 	public void doHit() {
-		if(debrisState.equals(DebrisState.FRESH)) debrisState = DebrisState.CRACK;
+		if(getHealth() > 0 && debrisState.equals(DebrisState.FRESH)) {
+			debrisState = DebrisState.CRACK;
+			resetAnimation();
+		}
 		if (debrisState.equals(DebrisState.CRACK)) {
 			if (currentFrame < texR.length - 1) {
 				health--;

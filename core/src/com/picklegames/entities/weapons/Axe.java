@@ -22,15 +22,17 @@ public class Axe extends Weapon{
 		height = texR[0].getRegionHeight();
 
 		setTimeCoolDown(1);
-		animation.setFrames(texR, 15/60f);
+		animation.setFrames(texR, 1/8f);
 		setRadius(200f);
 	}
 
 	@Override
 	public void use() {
-		setIsUse(true);
-		System.out.println("use");
-		
+		if(isUsable()){		
+			setIsUse(true);
+			setUsable(false);
+			System.out.println("use");	
+		}
 	}
 
 	@Override
@@ -39,15 +41,26 @@ public class Axe extends Weapon{
 		//System.out.println(distance);
 		return distance;
 	}
+	@Override
+	public void reset() {
+		animation.reset();
+		setIsUse(false);
+		setUsable(true);
+	}
 	
 	public void update(float dt){
 		//super.update(dt);
 		if(isUse()){
 			animation.play(dt, 1);
 		}
-		//System.out.println("is use " + isUse());
+		
+		System.out.println("isUse " + isUse());
+		System.out.println("isUsable " + isUsable());
+		
+		
 		if(animation.isCompleted()) {
 			setIsUse(false);
+			setUsable(true);
 			animation.reset();
 		}
 	}
