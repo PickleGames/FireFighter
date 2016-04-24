@@ -5,6 +5,7 @@ public class Line {
 	private String[] wholeLine;
 	private String[] letter;
 	private String name;
+	private int animationIndex;
 	private int wait;
 	private String text;
 	
@@ -14,7 +15,8 @@ public class Line {
 		
 		name = wholeLine[0];
 		wait = Integer.parseInt(wholeLine[1]);
-		text = wholeLine[2];
+		animationIndex = Integer.parseInt(wholeLine[2]);
+		text = wholeLine[3];
 		letter = text.split("");
 	
 	}
@@ -33,6 +35,10 @@ public class Line {
 
 	public String[] getLine() {
 		return wholeLine;
+	}
+	
+	public int getAnimationIndex() {
+		return animationIndex;
 	}
 
 }

@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.picklegames.TweenAccessor.SpriteTweenAccessor;
 import com.picklegames.game.FireFighterGame;
@@ -36,9 +35,9 @@ public class Menu extends GameState{
 		background.setSize(cam.viewportWidth, cam.viewportHeight);
 		
 		textBoxes = new TextBox[3];
-		textBoxes[0] = new TextBox("Play", cam.viewportWidth - 150, 500);
-		textBoxes[1] = new TextBox("Help", cam.viewportWidth - 150, 440);
-		textBoxes[2] = new TextBox("Exit", cam.viewportWidth - 150, 380);
+		textBoxes[0] = new TextBox("Play", cam.viewportWidth - 250, 500);
+		textBoxes[1] = new TextBox("Help", cam.viewportWidth - 250, 440);
+		textBoxes[2] = new TextBox("Exit", cam.viewportWidth - 250, 380);
 		
 		
 	}
@@ -118,7 +117,6 @@ public class Menu extends GameState{
 
 	public class TextBox{
 		private String text;
-		private Rectangle rec;
 		private Vector2 pos;
 		private BitmapFont font;
 		private boolean isHighLight;
@@ -127,7 +125,6 @@ public class Menu extends GameState{
 		public TextBox(String text,float x, float y){
 			this.text = text;
 			pos = new Vector2(x, y);
-			rec = new Rectangle(x, y, 50, 20);
 			font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 			font.getData().setScale(1.5f);
 		}

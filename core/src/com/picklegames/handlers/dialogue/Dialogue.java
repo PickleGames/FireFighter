@@ -22,12 +22,14 @@ public class Dialogue {
 
 	private Line currentLine;
 
+
+	private int animationIndex;
 	private String date = "";
 	private String characterLine = "";
 	private String name = "";
 
 	private float timeElap = 0;
-
+	
 	public Dialogue(String filePath, String date) {
 
 		FileHandle file = Gdx.files.internal(filePath);
@@ -74,6 +76,7 @@ public class Dialogue {
 		if (isIntroDone()) {
 			currentLine = dialogue.get(dialogueIndex);
 			name = currentLine.getName();
+			animationIndex = currentLine.getAnimationIndex();
 			delayBetween = currentLine.getWait();
 			if (dialogueIndex < dialogue.size()) {
 				if (letterIndex >= currentLine.getLetter().length) {
@@ -147,6 +150,10 @@ public class Dialogue {
 		return (font.getScaleX() < .2f);
 	}
 
+	public Line getCurrentLine() {
+		return currentLine;
+	}
+	
 	public String getCharacterLine() {
 		return characterLine;
 	}

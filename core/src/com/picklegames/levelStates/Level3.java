@@ -69,6 +69,10 @@ public class Level3 extends LevelState{
 		girlS = FireFighterGame.res.getSound("girlS");
 		catS = FireFighterGame.res.getSound("catS");
 		currentSound = playerS;
+		
+		cam.position.set(FireFighterGame.V_WIDTH / 2 , FireFighterGame.V_HEIGHT/ 2 , 0);
+		cam.update();
+		System.out.println(cam.position.toString());
 	}
 
 	@Override
@@ -96,8 +100,14 @@ public class Level3 extends LevelState{
 		d.update(dt, currentSound);
 		
 		if(d.isIntroDone()){
-			teenGirl.update(dt);
-			teenAni.update(dt);
+			//teenGirl.update(dt);
+			//teenAni.update(dt);
+			
+			if(d.getName().equals("YOU")){
+				teenAni.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
+			}else if(d.getName().equals("GIRL")){
+				teenGirl.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
+			}
 		}
 		
 		if(d.getName().equals("YOU")){
@@ -118,12 +128,13 @@ public class Level3 extends LevelState{
 		layout.setText(font, d.getCharacterLine());
 		float width = layout.width;// contains the width of the current set text
 		//float height = layout.height; // contains the height of the current set text
-
+		batch.setProjectionMatrix(cam.combined);
+		
 		batch.begin();
 		
 			batch.draw(bg, 0, 0, FireFighterGame.V_WIDTH, FireFighterGame.V_HEIGHT);
 			batch.draw(bgBar, 0, FireFighterGame.V_HEIGHT -  FireFighterGame.V_HEIGHT / 4, FireFighterGame.V_WIDTH - 50, FireFighterGame.V_HEIGHT / 6);
-			batch.draw(teenGirl.getFrame(), FireFighterGame.V_WIDTH - 505, 5 , 500, 500);
+			batch.draw(teenGirl.getFrame(), cam.viewportWidth - 505, 5 , 500, 500);
 			batch.draw(teenAni.getFrame(), 5, 5 ,500, 500);
 			
 			font.draw(batch, d.getName(), FireFighterGame.V_WIDTH/2  - 15, 625);

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.maps.MapLayer;
@@ -74,7 +75,8 @@ public class Level6 extends LevelState {
 		fires = new ArrayList<Fire>();
 
 		createDebrisBox2D();
-
+		
+		
 	}
 
 	@Override
@@ -153,7 +155,7 @@ public class Level6 extends LevelState {
 				if (player.getCurrentWeapon().isInRange(f.getPosition().x * PPM, f.getPosition().y * PPM)) {
 					if (player.getCurrentWeapon().isUse()) {
 						float life = f.getParticleEffect().getEmitters().first().getLife().getHighMax();
-						f.getParticleEffect().getEmitters().first().getLife().setHighMax(life -= 10f);
+						f.getParticleEffect().getEmitters().first().getLife().setHighMax(life -= 3f);
 
 						// Tween.to(f.getParticleEffect(),
 						// ParticleEffectTweenAccessor.LIFE, 2).target(0, 0)
@@ -207,18 +209,30 @@ public class Level6 extends LevelState {
 		}
 	}
 
+	Vector3 initializeCamPos = new Vector3(cam.position);
+	
+	public void shakeCam(Camera cam, float amplitude, float duration){
+		cam.position.x = (float) (initializeCamPos.x + Math.random() * amplitude);
+		cam.position.y = (float) (initializeCamPos.y + Math.random() * amplitude);
+	}
+	
 	@Override
 	public void render() {
 		// TODO Auto-generated method stub
 		batch.setProjectionMatrix(cam.combined);
-
+		shakeCam(cam, 2f, 1);
+		
+		System.out.println(cam.position.toString());
+		//cam.position.set(player.getPosition().x * PPM, player.getPosition().y * PPM, 0);
+		
+		
 		tmr.setView(cam);
 		batch.begin();
 		tmr.render();
 		b2dr.render(game.getWorld(), cam.combined.scl(PPM));
 		batch.end();
 
-		cam.unproject(new Vector3(player.getPosition(), 0));
+
 		cam.update();
 
 		player.render(batch);
