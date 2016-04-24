@@ -136,7 +136,10 @@ public class Level6 extends LevelState {
 				lsm.getTe().start();
 			}
 
-			lsm.setState(LevelStateManager.Level_3);
+			if(lsm.getTe().isFinished()){
+				lsm.setState(LevelStateManager.Level_3);	
+			}
+			
 
 		}
 
@@ -144,18 +147,22 @@ public class Level6 extends LevelState {
 			Fire f = fires.get(i);
 			f.update(dt);
 
+
 			if (!(player.getCurrentWeapon() instanceof Extinguisher))
 				continue;
+
 			if (player.getCurrentWeapon().isInRange(f.getPosition().x * PPM, f.getPosition().y * PPM)) {
 				if (player.getCurrentWeapon().isUse()) {
 					float life = f.getParticleEffect().getEmitters().first().getLife().getHighMax();
 					f.getParticleEffect().getEmitters().first().getLife().setHighMax(life -= 10f);
 
-					// Tween.to(f.getParticleEffect(),
-					// ParticleEffectTweenAccessor.LIFE, 2).target(0, 0)
-					// .ease(TweenEquations.easeNone).start(lsm.getTweenManager());
-				} else {
-				}
+					
+//					Tween.to(f.getParticleEffect(), ParticleEffectTweenAccessor.LIFE, 2).target(0, 0)
+//							.ease(TweenEquations.easeNone).start(lsm.getTweenManager());
+				}else{
+				
+				}	
+
 
 			}
 			// System.out.println(f.getParticleEffect().getEmitters().first().getLife().getHighMax()

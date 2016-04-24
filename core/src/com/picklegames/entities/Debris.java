@@ -31,7 +31,7 @@ public class Debris extends Entity {
 
 		texR = TextureRegion.split(dFresh, 64, 64)[0];
 		width = texR[0].getRegionWidth() * 3;
-		height = texR[0].getRegionHeight() *3;
+		height = texR[0].getRegionHeight() * 3;
 
 		animation.setFrames(texR);
 
@@ -51,23 +51,17 @@ public class Debris extends Entity {
 
 		if (debrisState.equals(DebrisState.CRACK)) {
 			animation.setCurrentFrame(currentFrame);
-			
-		}else if(debrisState.equals(DebrisState.BREAK)){
-			if(animation.hasPlayedOnce()){
+
+		} else if (debrisState.equals(DebrisState.BREAK)) {
+			if (animation.hasPlayedOnce()) {
 				breakAnimationDone = true;
 			}
 		}
 		System.out.println(debrisState);
-		
-//		if(getHealth() > 0 && !debrisState.equals(DebrisState.FRESH)){
-//			debrisState = DebrisState.CRACK;
-//			resetAnimation();
-//		}else
 		if (getHealth() <= 0 && !debrisState.equals(DebrisState.BREAK)) {
 			debrisState = DebrisState.BREAK;
 			resetAnimation();
 		}
-		
 
 	}
 
@@ -77,13 +71,13 @@ public class Debris extends Entity {
 			resetAnimation();
 		}
 		if (debrisState.equals(DebrisState.CRACK)) {
-			if (currentFrame < texR.length - 1) {
+			if (currentFrame < texR.length) {
 				health--;
 				currentFrame++;
 			}
 		}
 	}
-	
+
 	public void render(SpriteBatch batch) {
 		batch.draw(animation.getFrame(), body.getPosition().x * B2DVars.PPM - width / 2,
 				body.getPosition().y * B2DVars.PPM - height / 2, width, height);
@@ -99,7 +93,7 @@ public class Debris extends Entity {
 			animation.setFrames(texR);
 		} else {
 			texR = TextureRegion.split(dBreak, 64, 64)[0];
-			animation.setFrames(texR, 1/8f);
+			animation.setFrames(texR, 1 / 8f);
 		}
 	}
 
@@ -121,12 +115,11 @@ public class Debris extends Entity {
 		this.health = health;
 	}
 
-	
 	public boolean isBreakAnimationDone() {
 		return breakAnimationDone;
 	}
 
-	public void dipose(){
+	public void dipose() {
 		super.dispose();
 	}
 }
