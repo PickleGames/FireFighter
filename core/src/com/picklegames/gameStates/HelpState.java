@@ -1,15 +1,12 @@
 package com.picklegames.gameStates;
 
 import com.picklegames.managers.GameStateManager;
-import com.picklegames.managers.LevelStateManager;
 
-public class Play extends GameState{
+public class HelpState extends GameState{
 
-	private LevelStateManager lsm;
-	
-	public Play(GameStateManager gsm) {
+	public HelpState(GameStateManager gsm) {
 		super(gsm);
-		lsm = new LevelStateManager(game, gsm);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -17,30 +14,29 @@ public class Play extends GameState{
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 	@Override
 	public void handleInput() {
-
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void update(float dt) {
-
-		lsm.update(dt);
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void render() {
-		lsm.render(batch);
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void dispose() {
-
+		// TODO Auto-generated method stub
 		
 	}
-
 
 }

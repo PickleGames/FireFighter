@@ -15,7 +15,7 @@ public class Dialogue {
 
 	private BitmapFont font;
 	private GlyphLayout layout;
-	private float fontScaleDecrease = -.05f;
+	private float fontScaleDecrease = -.10f;
 
 	private ArrayList<Line> dialogue;
 	private Scanner diaScanner;

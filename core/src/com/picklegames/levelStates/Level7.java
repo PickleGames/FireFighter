@@ -92,7 +92,7 @@ public class Level7 extends LevelState{
 		// TODO Auto-generated method stub
 		layout.setText(font, d.getCharacterLine());
 		float width = layout.width;// contains the width of the current set text
-		float height = layout.height; // contains the height of the current set text
+		//float height = layout.height; // contains the height of the current set text
 		
 		batch.begin();
 		
@@ -110,7 +110,7 @@ public class Level7 extends LevelState{
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		font.dispose();
 		
 	}
 
