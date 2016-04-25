@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -39,9 +40,10 @@ import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
 
-public class Level6 extends LevelState {
+public class Tutorial extends LevelState {
 
 	private BitmapFont font;
+	private GlyphLayout layout;
 	private OrthogonalTiledMapRenderer tmr;
 	private TiledMap tileMap;
 
@@ -52,10 +54,12 @@ public class Level6 extends LevelState {
 	private ArrayList<Debris> crap;
 	private ArrayList<Person> people;
 	private ArrayList<Fire> fires;
-	
+
 	private HUD hud;
 
-	public Level6(LevelStateManager lsm) {
+	private String help = "Switch between your tools using [1] and [2]";
+
+	public Tutorial(LevelStateManager lsm) {
 		super(lsm);
 
 	}
@@ -65,32 +69,27 @@ public class Level6 extends LevelState {
 
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
-		tileMap = new TmxMapLoader().load("map/introlevel.tmx");
+		tileMap = new TmxMapLoader().load("map/catlevel.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
-		cam.viewportWidth = tmr.getMap().getProperties().get("width", Integer.class) * 32;
-		cam.viewportHeight = tmr.getMap().getProperties().get("height", Integer.class) * 32;
-		cam.position.x = cam.viewportWidth / 2;
-		cam.position.y = cam.viewportHeight / 2;
-		
-		//batch.setTransformMatrix(cam.combined.scl(PPM));
-		
 		player = lsm.getPlayer();
-		player.scl(5f);
-		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 750, 400, player.getWidth() / 3.5f, player.getHeight() / 9,
+		player.scl(3f);
+		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 100, 100, player.getWidth() / 3.5f, player.getHeight() / 9,
 				new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp", B2DVars.BIT_PLAYER,
 				B2DVars.BIT_GROUND));
 		
 		b2dr = new Box2DDebugRenderer();
 
-		font = new BitmapFont();
+		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
+		font.getData().setScale(.5f, .5f);
+		layout = new GlyphLayout();
 
 		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects());
 
 		crap = new ArrayList<Debris>();
 		people = new ArrayList<Person>();
 		fires = new ArrayList<Fire>();
-		
+
 		hud = new HUD();
 
 		createDebrisBox2D();
@@ -100,29 +99,25 @@ public class Level6 extends LevelState {
 	@Override
 	public void handleInput() {
 		// TODO Auto-generated method stub
-		if(!player.getCurrentWeapon().isUse()){
-			if (Gdx.input.isKeyPressed(Keys.D)) {
-				player.setVelocityX(2);
-			} else if (Gdx.input.isKeyPressed(Keys.A)) {
-				player.setVelocityX(-2);
-			} else {
-				player.setVelocityX(0);
-			}
-			if (Gdx.input.isKeyPressed(Keys.W)) {
-				player.setVelocityY(2);
-			} else if (Gdx.input.isKeyPressed(Keys.S)) {
-				player.setVelocityY(-2);
-			} else {
-				player.setVelocityY(0);
-			}
+		if (Gdx.input.isKeyPressed(Keys.D)) {
+			player.setVelocityX(2);
+		} else if (Gdx.input.isKeyPressed(Keys.A)) {
+			player.setVelocityX(-2);
+		} else {
+			player.setVelocityX(0);
+		}
+		if (Gdx.input.isKeyPressed(Keys.W)) {
+			player.setVelocityY(2);
+		} else if (Gdx.input.isKeyPressed(Keys.S)) {
+			player.setVelocityY(-2);
+		} else {
+			player.setVelocityY(0);
 		}
 
-		//if (player.getCurrentWeapon().isUsable()) {
-			if (Gdx.input.isKeyJustPressed(Keys.J)) {
-				player.use();
-			}
-		//}
-			
+		if (Gdx.input.isKeyJustPressed(Keys.J)) {
+			player.use();
+		}
+
 		if (player.characterState.equals(CharacterState.ADULT)) {
 			if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
 				player.getCurrentWeapon().reset();
@@ -151,15 +146,13 @@ public class Level6 extends LevelState {
 		handleInput();
 
 		player.update(dt);
-		//player.getBody().setLinearVelocity(player.getVelocity());
-		//player.setSize(player.getWidth() - 2, player.getHeight() - 2);
-		
+		player.getBody().setLinearVelocity(player.getVelocity());
 		transport.update(dt);
 		hud.update(dt);
-		
-		if(player.weaponState.equals(WeaponState.AXE)){
+
+		if (player.weaponState.equals(WeaponState.AXE)) {
 			hud.hudState = HudState.AXE;
-		}else if(player.weaponState.equals(WeaponState.EXTINGUISHER)){
+		} else if (player.weaponState.equals(WeaponState.EXTINGUISHER)) {
 			hud.hudState = HudState.EXTINGUISHER;
 		}
 
@@ -176,10 +169,15 @@ public class Level6 extends LevelState {
 				lsm.setState(LevelStateManager.Level_3);
 			}
 		} else {
+			
 			for (int i = 0; i < fires.size(); i++) {
 				Fire f = fires.get(i);
 				f.update(dt);
-
+				
+				if (player.getCurrentWeapon().isInRange(f.getPosition().x * PPM, f.getPosition().y * PPM)) {
+					help = "Use your EXTINGUISHER, and press [SPACE] to put out the fires";
+				}
+				
 				if (!(player.getCurrentWeapon() instanceof Extinguisher))
 					continue;
 
@@ -217,6 +215,11 @@ public class Level6 extends LevelState {
 			for (int i = 0; i < crap.size(); i++) {
 				Debris d = crap.get(i);
 				d.update(dt);
+				
+				if (player.getCurrentWeapon().isInRange(d.getPosition().x * PPM, d.getPosition().y * PPM)) {
+					help = "Switch to your AXE, and press [SPACE] to smash the debris";
+				}
+				
 				if (!(player.getCurrentWeapon() instanceof Axe))
 					continue;
 
@@ -258,16 +261,16 @@ public class Level6 extends LevelState {
 
 		tmr.setView(cam);
 		batch.begin();
-			tmr.render();
-			b2dr.render(game.getWorld(), cam.combined.scl(PPM));
+		tmr.render();
+		b2dr.render(game.getWorld(), cam.combined.scl(PPM));
 		batch.end();
 
 		cam.update();
 
 		player.render(batch);
-		
+
 		hud.render(batch);
-		
+
 		batch.begin();
 		transport.render(batch);
 
@@ -285,7 +288,11 @@ public class Level6 extends LevelState {
 
 		batch.end();
 
+		layout.setText(font, help);
+		float width = layout.width;
 		batch.begin();
+		font.draw(batch, help, Gdx.graphics.getWidth() / 2 - width / 2,
+				Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 6);
 		font.draw(batch, "Level 6, time: " + timeElapsed, Gdx.graphics.getWidth() / 2,
 				Gdx.graphics.getHeight() / 2 + 50);
 		batch.end();

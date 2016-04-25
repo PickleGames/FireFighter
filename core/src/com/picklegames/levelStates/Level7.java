@@ -24,7 +24,9 @@ public class Level7 extends LevelState{
 	private Animation mom;
 	private TextureRegion[] momReg;
 	
-	private Texture you;
+	private Animation collAni;
+	private TextureRegion[] collReg;
+	
 	private Sound playerS, currentSound;
 	
 	public Level7(LevelStateManager lsm) {
@@ -36,14 +38,14 @@ public class Level7 extends LevelState{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		d = new Dialogue("dialogue/dialogue2.txt", "Spring, 1995");
+		d = new Dialogue("dialogue/dialogue3.txt", "Spring, 1995");
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 		font.setColor(Color.WHITE);
 		font.getData().scaleX = .4f;
 		layout = new GlyphLayout(); //dont do this every frame! Store it as member
 
 		FireFighterGame.res.loadTexture("image/Character/momFace.png", "mom");
-		FireFighterGame.res.loadTexture("image/Character/youFace.png", "you");
+		FireFighterGame.res.loadTexture("image/Character/collegeFace.png", "college");
 		FireFighterGame.res.loadTexture("image/Backgrounds/dorm.png", "dorm_bg");
 		FireFighterGame.res.loadTexture("image/Backgrounds/diaBar.png", "diaBox");
 		
@@ -51,7 +53,9 @@ public class Level7 extends LevelState{
 		mom = new Animation();
 		mom.setFrames(momReg, 8f);
 		
-		you = FireFighterGame.res.getTexture("you");
+		collReg = TextureRegion.split(FireFighterGame.res.getTexture("college"), 300, 300)[0];
+		collAni = new Animation();
+		collAni.setFrames(collReg, 16f);
 		
 		bg = FireFighterGame.res.getTexture("dorm_bg");
 		bgBar = FireFighterGame.res.getTexture("diaBox");
@@ -75,10 +79,16 @@ public class Level7 extends LevelState{
 			lsm.setState(LevelStateManager.Level_6);
 		}
 		
-		
-		
-		mom.update(dt);
-		
+		if(d.isIntroDone()){
+			//teenGirl.update(dt);
+			//teenAni.update(dt);
+			
+			if(d.getName().equals("YOU")){
+				collAni.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
+			}else if(d.getName().equals("MOM")){
+				mom.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
+			}
+		}
 		if(d.getName().equals("YOU")){
 			font.setColor(Color.BLUE);
 		}else{
@@ -99,7 +109,7 @@ public class Level7 extends LevelState{
 			batch.draw(bg, 0, 0, FireFighterGame.V_WIDTH, FireFighterGame.V_HEIGHT);
 			batch.draw(bgBar, 0, FireFighterGame.V_HEIGHT -  FireFighterGame.V_HEIGHT / 4, FireFighterGame.V_WIDTH - 50, FireFighterGame.V_HEIGHT / 6);
 			batch.draw(mom.getFrame(), FireFighterGame.V_WIDTH - 505, 5 , 500, 500);
-			batch.draw(you, 5, 5 ,500, 500);
+			batch.draw(collAni.getFrame(), 5, 5 ,500, 500);
 			
 			font.draw(batch, d.getName(), FireFighterGame.V_WIDTH/2  - 15, 625);
 			font.draw(batch, d.getCharacterLine(),  FireFighterGame.V_WIDTH/2 - width/2, 600);

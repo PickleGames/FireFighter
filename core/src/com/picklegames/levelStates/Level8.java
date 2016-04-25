@@ -1,6 +1,5 @@
 package com.picklegames.levelStates;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -13,8 +12,7 @@ import com.picklegames.handlers.Animation;
 import com.picklegames.handlers.dialogue.Dialogue;
 import com.picklegames.managers.LevelStateManager;
 
-public class Level3 extends LevelState{
-	
+public class Level8 extends LevelState{
 	private Dialogue d;
 	private BitmapFont font;
 	private GlyphLayout layout;
@@ -30,7 +28,7 @@ public class Level3 extends LevelState{
 	
 	private Sound playerS, girlS, catS, currentSound;
 	
-	public Level3(LevelStateManager lsm) {
+	public Level8(LevelStateManager lsm) {
 		super(lsm);
 		// TODO Auto-generated constructor stub
 		init();
@@ -40,10 +38,10 @@ public class Level3 extends LevelState{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		d = new Dialogue("dialogue/dialogue1.txt", "Summer, 1985");
+		d = new Dialogue("dialogue/dialogue2.txt", "Summer, 1985");
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 		font.setColor(Color.WHITE);
-		font.getData().scaleX = .45f;
+		font.getData().scaleX = .4f;
 		layout = new GlyphLayout(); //dont do this every frame! Store it as member
 
 		FireFighterGame.res.loadTexture("image/Character/teenGirl.png", "girl");
