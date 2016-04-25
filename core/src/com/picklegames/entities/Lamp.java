@@ -21,8 +21,6 @@ public class Lamp extends Entity {
 	private TextureRegion[] textureR, textureAdult_ext, textureAdult_axe, textureAdult_ext_use, textureAdult_axe_use;
 	private Texture textureYoungStand;
 
-
-	private Vector2 velocity;
 	private Weapon[] weapons;
 	private Weapon currentWeapon;
 
@@ -70,10 +68,10 @@ public class Lamp extends Entity {
 		Texture texture4 = FireFighterGame.res.getTexture("FiremanAxe_use");
 
 		textureR = TextureRegion.split(texture, 80, 150)[0]; // 80, 150
-		textureAdult_ext = TextureRegion.split(texture1, 1600 / 5, 750)[0];
-		textureAdult_axe = TextureRegion.split(texture2, 1800 / 5, 750)[0];
-		textureAdult_ext_use = TextureRegion.split(texture3, 997 / 3, 605)[0];
-		textureAdult_axe_use = TextureRegion.split(texture4, 1231 / 3, 633)[0];
+		textureAdult_ext = TextureRegion.split(texture1, 1600 / 5, 600)[0];
+		textureAdult_axe = TextureRegion.split(texture2, 1600 / 5, 600)[0];
+		textureAdult_ext_use = TextureRegion.split(texture3, 997 / 3, 600)[0];
+		textureAdult_axe_use = TextureRegion.split(texture4, 1231 / 3, 600)[0];
 
 		// textureYoungStand =
 		// FireFighterGame.res.getTexture("Lamp_Stand_Young");
@@ -83,7 +81,6 @@ public class Lamp extends Entity {
 		width = textureR[0].getRegionWidth() * 1.5f;
 		height = textureR[0].getRegionHeight() * 1.5f;
 
-		velocity = new Vector2(0, 0);
 		weapons = new Weapon[3];
 		Extinguisher ex = new Extinguisher(CreateBox2D.createBox(FireFighterGame.world, 0, 0, 1, 1, new Vector2(0, 0),
 				BodyType.DynamicBody, "extinguisher", B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
@@ -99,6 +96,9 @@ public class Lamp extends Entity {
 		weapons[2] = nowep;
 
 		currentWeapon = weapons[2];
+		
+		
+		
 	}
 
 	public void createWeapon() {
@@ -113,11 +113,12 @@ public class Lamp extends Entity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		// animation.play(dt, Animation.INDEFINITE);
-		// System.out.println("Body linear: "+
-		// body.getLinearVelocity().toString());
 
 		if (characterState.equals(CharacterState.ADULT)) {
+			if (currentWeapon.isUse()) {
+				setVelocity(0, 0);
+			}
+			
 			if (weaponState.equals(WeaponState.EXTINGUISHER)) {
 				if (currentWeapon.isUse() && !isSetExtUse) {
 					animation.setFrames(textureAdult_ext_use, 1 / 8f);
@@ -149,15 +150,16 @@ public class Lamp extends Entity {
 					isSetAxeUse = false;
 				}
 			}
+			
+			
 			currentWeapon.update(dt);
 			if(currentWeapon instanceof Extinguisher){
 				currentWeapon.setPosition(this.getPosition().x + 30 / PPM, this.getPosition().y + 60 / PPM);
 			}else if(currentWeapon instanceof Axe){
 				currentWeapon.setPosition(this.getPosition().x + 30 / PPM, this.getPosition().y - 60 / PPM);
 			}
-			if (currentWeapon.isUse()) {
-				setVelocity(0, 0);
-			}
+			
+
 		} else if (characterState.equals(CharacterState.YOUNG)) {
 
 		}
@@ -216,24 +218,6 @@ public class Lamp extends Entity {
 			w.dispose();
 		}
 	}
-
-	public Vector2 getVelocity() {
-		return velocity;
-	}
-
-	public void setVelocity(Vector2 velocity) {
-		this.velocity = velocity;
-	}
-
-	public void setVelocity(float x, float y) {
-		this.velocity = new Vector2(x, y);
-	}
-
-	public void setVelocityX(float x) {
-		this.velocity.x = x;
-	}
-
-	public void setVelocityY(float y) {
-		this.velocity.y = y;
-	}
+	
+	
 }

@@ -18,6 +18,7 @@ public class Fire extends Entity {
 		particleE.setPosition(body.getPosition().x * B2DVars.PPM, body.getPosition().y * B2DVars.PPM);
 		particleE.start();
 
+		
 	}
 	
 	public void update(float dt){
@@ -42,5 +43,11 @@ public class Fire extends Entity {
 				(x2 - body.getPosition().x), 2) + Math.pow((y2 - body.getPosition().y), 2)));
 
 	}
+	
+	@Override
+	public void scl(float scl) {
+		particleE.getEmitters().first().getScale().setHighMax(scl);
+	}
+
 
 }

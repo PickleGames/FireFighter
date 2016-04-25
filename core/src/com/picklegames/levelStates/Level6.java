@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -28,6 +29,7 @@ import com.picklegames.entities.Person.PersonState;
 import com.picklegames.entities.Transport;
 import com.picklegames.entities.weapons.Axe;
 import com.picklegames.entities.weapons.Extinguisher;
+import com.picklegames.game.FireFighterGame;
 import com.picklegames.handlers.TileObject;
 import com.picklegames.handlers.Box2D.B2DVars;
 import com.picklegames.handlers.Box2D.CreateBox2D;
@@ -59,11 +61,22 @@ public class Level6 extends LevelState {
 
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
-		tileMap = new TmxMapLoader().load("map/catlevel.tmx");
+		tileMap = new TmxMapLoader().load("map/introlevel.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
+		cam.viewportWidth = tmr.getMap().getProperties().get("width", Integer.class) * 32;
+		cam.viewportHeight = tmr.getMap().getProperties().get("height", Integer.class) * 32;
+		cam.position.x = cam.viewportWidth / 2;
+		cam.position.y = cam.viewportHeight / 2;
+		
+		//batch.setTransformMatrix(cam.combined.scl(PPM));
+		
 		player = lsm.getPlayer();
-
+		player.scl(5f);
+		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 750, 400, player.getWidth() / 3.5f, player.getHeight() / 9,
+				new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp", B2DVars.BIT_PLAYER,
+				B2DVars.BIT_GROUND));
+		
 		b2dr = new Box2DDebugRenderer();
 
 		font = new BitmapFont();
@@ -75,32 +88,35 @@ public class Level6 extends LevelState {
 		fires = new ArrayList<Fire>();
 
 		createDebrisBox2D();
-		
-		
+
 	}
 
 	@Override
 	public void handleInput() {
 		// TODO Auto-generated method stub
-		if (Gdx.input.isKeyPressed(Keys.D)) {
-			player.setVelocityX(2);
-		} else if (Gdx.input.isKeyPressed(Keys.A)) {
-			player.setVelocityX(-2);
-		} else {
-			player.setVelocityX(0);
-		}
-		if (Gdx.input.isKeyPressed(Keys.W)) {
-			player.setVelocityY(2);
-		} else if (Gdx.input.isKeyPressed(Keys.S)) {
-			player.setVelocityY(-2);
-		} else {
-			player.setVelocityY(0);
-		}
-
-		if (Gdx.input.isKeyJustPressed(Keys.J)) {
-			player.use();
+		if(!player.getCurrentWeapon().isUse()){
+			if (Gdx.input.isKeyPressed(Keys.D)) {
+				player.setVelocityX(2);
+			} else if (Gdx.input.isKeyPressed(Keys.A)) {
+				player.setVelocityX(-2);
+			} else {
+				player.setVelocityX(0);
+			}
+			if (Gdx.input.isKeyPressed(Keys.W)) {
+				player.setVelocityY(2);
+			} else if (Gdx.input.isKeyPressed(Keys.S)) {
+				player.setVelocityY(-2);
+			} else {
+				player.setVelocityY(0);
+			}
 		}
 
+		//if (player.getCurrentWeapon().isUsable()) {
+			if (Gdx.input.isKeyJustPressed(Keys.J)) {
+				player.use();
+			}
+		//}
+			
 		if (player.characterState.equals(CharacterState.ADULT)) {
 			if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
 				player.getCurrentWeapon().reset();
@@ -129,7 +145,9 @@ public class Level6 extends LevelState {
 		handleInput();
 
 		player.update(dt);
-		player.getBody().setLinearVelocity(player.getVelocity());
+		//player.getBody().setLinearVelocity(player.getVelocity());
+		//player.setSize(player.getWidth() - 2, player.getHeight() - 2);
+		
 		transport.update(dt);
 
 		if (transport.isInRange(player.getPosition().x, player.getPosition().y, 3)) {
@@ -140,7 +158,7 @@ public class Level6 extends LevelState {
 			if (!lsm.getTe().isStart()) {
 				lsm.getTe().start();
 			}
-			
+
 			if (timeElapsed >= 2f) {
 				lsm.setState(LevelStateManager.Level_3);
 			}
@@ -191,13 +209,12 @@ public class Level6 extends LevelState {
 
 				if (player.getCurrentWeapon().isInRange(d.getPosition().x * PPM, d.getPosition().y * PPM)) {
 					if (player.getCurrentWeapon().isUse()) {
-						if(!player.getCurrentWeapon().isUsable() && Gdx.input.isKeyJustPressed(Keys.J)){
-							d.doHit();	
-						}	
+						if (!player.getCurrentWeapon().isUsable() && Gdx.input.isKeyJustPressed(Keys.J)) {
+							d.doHit();
+						}
 					}
 
 				}
-
 
 				if (d.isBreakAnimationDone()) {
 					d.dipose();
@@ -210,28 +227,27 @@ public class Level6 extends LevelState {
 	}
 
 	Vector3 initializeCamPos = new Vector3(cam.position);
-	
-	public void shakeCam(Camera cam, float amplitude, float duration){
+
+	public void shakeCam(Camera cam, float amplitude, float duration) {
 		cam.position.x = (float) (initializeCamPos.x + Math.random() * amplitude);
 		cam.position.y = (float) (initializeCamPos.y + Math.random() * amplitude);
 	}
-	
+
 	@Override
 	public void render() {
 		// TODO Auto-generated method stub
 		batch.setProjectionMatrix(cam.combined);
 		shakeCam(cam, 2f, 1);
-		
+
 		System.out.println(cam.position.toString());
-		//cam.position.set(player.getPosition().x * PPM, player.getPosition().y * PPM, 0);
-		
-		
+		// cam.position.set(player.getPosition().x * PPM, player.getPosition().y
+		// * PPM, 0);
+
 		tmr.setView(cam);
 		batch.begin();
-		tmr.render();
-		b2dr.render(game.getWorld(), cam.combined.scl(PPM));
+			tmr.render();
+			b2dr.render(game.getWorld(), cam.combined.scl(PPM));
 		batch.end();
-
 
 		cam.update();
 
