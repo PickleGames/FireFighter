@@ -20,7 +20,9 @@ import com.picklegames.levelStates.Level4;
 import com.picklegames.levelStates.Level5;
 import com.picklegames.levelStates.Level6;
 import com.picklegames.levelStates.Level7;
+import com.picklegames.levelStates.Level8;
 import com.picklegames.levelStates.LevelState;
+import com.picklegames.levelStates.Tutorial;
 
 //WE FUCKED
 import aurelienribon.tweenengine.Tween;
@@ -40,7 +42,8 @@ public class LevelStateManager {
 	public Lamp getPlayer() {
 		return player;
 	}
-
+	
+	public static final int Tutorial = 00;
 	public static final int Level_0 = 01;
 	public static final int Level_1 = 12;
 	public static final int Level_2 = 23;
@@ -49,6 +52,7 @@ public class LevelStateManager {
 	public static final int Level_5 = 56;
 	public static final int Level_6 = 67;
 	public static final int Level_7 = 78;
+	public static final int Level_8 = 89;
 
 	public LevelStateManager(FireFighterGame game, GameStateManager gsm) {
 		this.game = game;
@@ -65,7 +69,7 @@ public class LevelStateManager {
 				B2DVars.BIT_GROUND));
 		player.createWeapon();
 
-		pushState(Level_6);
+		pushState(Level_7);
 
 	}
 
@@ -92,7 +96,9 @@ public class LevelStateManager {
 
 	private LevelState getState(int state) {
 		
-		if (state == Level_0) {
+		if (state == Tutorial){
+			return new Tutorial(this);
+		}else if (state == Level_0) {
 			return new Level0(this);
 		} else if (state == Level_1) {
 			return new Level1(this);
@@ -108,6 +114,8 @@ public class LevelStateManager {
 			return new Level6(this);
 		} else if (state == Level_7){
 			return new Level7(this);
+		} else if (state == Level_8){
+			return new Level8(this);
 		}
 		return null;
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -28,6 +29,7 @@ import com.picklegames.entities.Person.PersonState;
 import com.picklegames.entities.Transport;
 import com.picklegames.entities.weapons.Axe;
 import com.picklegames.entities.weapons.Extinguisher;
+import com.picklegames.game.FireFighterGame;
 import com.picklegames.handlers.HUD;
 import com.picklegames.handlers.HUD.HudState;
 import com.picklegames.handlers.TileObject;
@@ -37,9 +39,10 @@ import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
 
-public class Level6 extends LevelState {
+public class Tutorial extends LevelState {
 
 	private BitmapFont font;
+	private GlyphLayout layout;
 	private OrthogonalTiledMapRenderer tmr;
 	private TiledMap tileMap;
 
@@ -50,10 +53,12 @@ public class Level6 extends LevelState {
 	private ArrayList<Debris> crap;
 	private ArrayList<Person> people;
 	private ArrayList<Fire> fires;
-	
+
 	private HUD hud;
 
-	public Level6(LevelStateManager lsm) {
+	private String help = "Switch between your tools using [1] and [2]";
+
+	public Tutorial(LevelStateManager lsm) {
 		super(lsm);
 
 	}
@@ -70,19 +75,20 @@ public class Level6 extends LevelState {
 
 		b2dr = new Box2DDebugRenderer();
 
-		font = new BitmapFont();
+		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
+		font.getData().setScale(.5f, .5f);
+		layout = new GlyphLayout();
 
 		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects());
 
 		crap = new ArrayList<Debris>();
 		people = new ArrayList<Person>();
 		fires = new ArrayList<Fire>();
-		
+
 		hud = new HUD();
 
 		createDebrisBox2D();
-		
-		
+
 	}
 
 	@Override
@@ -138,10 +144,10 @@ public class Level6 extends LevelState {
 		player.getBody().setLinearVelocity(player.getVelocity());
 		transport.update(dt);
 		hud.update(dt);
-		
-		if(player.weaponState.equals(WeaponState.AXE)){
+
+		if (player.weaponState.equals(WeaponState.AXE)) {
 			hud.hudState = HudState.AXE;
-		}else if(player.weaponState.equals(WeaponState.EXTINGUISHER)){
+		} else if (player.weaponState.equals(WeaponState.EXTINGUISHER)) {
 			hud.hudState = HudState.EXTINGUISHER;
 		}
 
@@ -153,15 +159,20 @@ public class Level6 extends LevelState {
 			if (!lsm.getTe().isStart()) {
 				lsm.getTe().start();
 			}
-			
+
 			if (timeElapsed >= 2f) {
 				lsm.setState(LevelStateManager.Level_3);
 			}
 		} else {
+			
 			for (int i = 0; i < fires.size(); i++) {
 				Fire f = fires.get(i);
 				f.update(dt);
-
+				
+				if (player.getCurrentWeapon().isInRange(f.getPosition().x * PPM, f.getPosition().y * PPM)) {
+					help = "Use your EXTINGUISHER, and press [SPACE] to put out the fires";
+				}
+				
 				if (!(player.getCurrentWeapon() instanceof Extinguisher))
 					continue;
 
@@ -199,18 +210,22 @@ public class Level6 extends LevelState {
 			for (int i = 0; i < crap.size(); i++) {
 				Debris d = crap.get(i);
 				d.update(dt);
+				
+				if (player.getCurrentWeapon().isInRange(d.getPosition().x * PPM, d.getPosition().y * PPM)) {
+					help = "Switch to your AXE, and press [SPACE] to smash the debris";
+				}
+				
 				if (!(player.getCurrentWeapon() instanceof Axe))
 					continue;
 
 				if (player.getCurrentWeapon().isInRange(d.getPosition().x * PPM, d.getPosition().y * PPM)) {
 					if (player.getCurrentWeapon().isUse()) {
-						if(!player.getCurrentWeapon().isUsable() && Gdx.input.isKeyJustPressed(Keys.J)){
-							d.doHit();	
-						}	
+						if (!player.getCurrentWeapon().isUsable() && Gdx.input.isKeyJustPressed(Keys.J)) {
+							d.doHit();
+						}
 					}
 
 				}
-
 
 				if (d.isBreakAnimationDone()) {
 					d.dipose();
@@ -223,22 +238,22 @@ public class Level6 extends LevelState {
 	}
 
 	Vector3 initializeCamPos = new Vector3(cam.position);
-	
-	public void shakeCam(Camera cam, float amplitude, float duration){
+
+	public void shakeCam(Camera cam, float amplitude, float duration) {
 		cam.position.x = (float) (initializeCamPos.x + Math.random() * amplitude);
 		cam.position.y = (float) (initializeCamPos.y + Math.random() * amplitude);
 	}
-	
+
 	@Override
 	public void render() {
 		// TODO Auto-generated method stub
 		batch.setProjectionMatrix(cam.combined);
 		shakeCam(cam, 2f, 1);
-		
+
 		System.out.println(cam.position.toString());
-		//cam.position.set(player.getPosition().x * PPM, player.getPosition().y * PPM, 0);
-		
-		
+		// cam.position.set(player.getPosition().x * PPM, player.getPosition().y
+		// * PPM, 0);
+
 		tmr.setView(cam);
 		batch.begin();
 		tmr.render();
@@ -248,9 +263,9 @@ public class Level6 extends LevelState {
 		cam.update();
 
 		player.render(batch);
-		
+
 		hud.render(batch);
-		
+
 		batch.begin();
 		transport.render(batch);
 
@@ -268,7 +283,11 @@ public class Level6 extends LevelState {
 
 		batch.end();
 
+		layout.setText(font, help);
+		float width = layout.width;
 		batch.begin();
+		font.draw(batch, help, Gdx.graphics.getWidth() / 2 - width / 2,
+				Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 6);
 		font.draw(batch, "Level 6, time: " + timeElapsed, Gdx.graphics.getWidth() / 2,
 				Gdx.graphics.getHeight() / 2 + 50);
 		batch.end();
