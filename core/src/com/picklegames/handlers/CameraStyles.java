@@ -30,5 +30,16 @@ public final class CameraStyles {
 		position.x += (targetPos.x - position.x) * speed;
 		position.y += (targetPos.y - position.y) * speed;
 	}
+	
+	public static void Shake(Camera cam, Vector3 initPos, float amplitude) {
+		cam.position.x = (float) (initPos.x + opposite() * Math.random() * amplitude);
+		cam.position.y = (float) (initPos.y + opposite() * Math.random() * amplitude);
+	}
+	
+	private static int opposite(){
+		double i = Math.random();
+		if(i > .5) return 1;
+		else return -1;
+	}
 }
 

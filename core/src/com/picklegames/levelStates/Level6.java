@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.maps.MapLayer;
@@ -20,6 +19,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.entities.Debris;
+import com.picklegames.entities.Explosion;
 import com.picklegames.entities.Fire;
 import com.picklegames.entities.Lamp;
 import com.picklegames.entities.Lamp.CharacterState;
@@ -30,6 +30,7 @@ import com.picklegames.entities.Transport;
 import com.picklegames.entities.weapons.Axe;
 import com.picklegames.entities.weapons.Extinguisher;
 import com.picklegames.game.FireFighterGame;
+import com.picklegames.handlers.CameraStyles;
 import com.picklegames.handlers.HUD;
 import com.picklegames.handlers.HUD.HudState;
 import com.picklegames.handlers.TileObject;
@@ -52,6 +53,8 @@ public class Level6 extends LevelState {
 	private ArrayList<Debris> crap;
 	private ArrayList<Person> people;
 	private ArrayList<Fire> fires;
+	private ArrayList<Explosion> explosions;
+
 	
 	private HUD hud;
 
@@ -65,19 +68,21 @@ public class Level6 extends LevelState {
 
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
-		tileMap = new TmxMapLoader().load("map/introlevel.tmx");
+		tileMap = new TmxMapLoader().load("map/catlevel.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
-		cam.viewportWidth = tmr.getMap().getProperties().get("width", Integer.class) * 32;
+//		cam.viewportWidth = tmr.getMap().getProperties().get("width", Integer.class) * 32;
+//		cam.viewportHeight = tmr.getMap().getProperties().get("height", Integer.class) * 32;
+//		cam.viewportWidth = tmr.getMap().getProperties().get("width", Integer.class) * 32;
 		cam.viewportHeight = tmr.getMap().getProperties().get("height", Integer.class) * 32;
-		cam.position.x = cam.viewportWidth / 2;
+//		cam.position.x = cam.viewportWidth / 2;
 		cam.position.y = cam.viewportHeight / 2;
 		
 		//batch.setTransformMatrix(cam.combined.scl(PPM));
 		
 		player = lsm.getPlayer();
-		player.scl(5f);
-		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 750, 400, player.getWidth() / 3.5f, player.getHeight() / 9,
+		player.scl(2f);
+		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 100, 100, player.getWidth() / 3.5f, player.getHeight() / 9,
 				new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp", B2DVars.BIT_PLAYER,
 				B2DVars.BIT_GROUND));
 		
@@ -90,9 +95,10 @@ public class Level6 extends LevelState {
 		crap = new ArrayList<Debris>();
 		people = new ArrayList<Person>();
 		fires = new ArrayList<Fire>();
+		explosions = new ArrayList<Explosion>();
 		
 		hud = new HUD();
-
+		
 		createDebrisBox2D();
 
 	}
@@ -163,7 +169,7 @@ public class Level6 extends LevelState {
 			hud.hudState = HudState.EXTINGUISHER;
 		}
 
-		if (transport.isInRange(player.getPosition().x, player.getPosition().y, 3)) {
+		if (transport.isInRange(player.getPosition().x, player.getPosition().y, 1)) {
 			isTransport = true;
 		}
 		if (isTransport) {
@@ -186,7 +192,7 @@ public class Level6 extends LevelState {
 				if (player.getCurrentWeapon().isInRange(f.getPosition().x * PPM, f.getPosition().y * PPM)) {
 					if (player.getCurrentWeapon().isUse()) {
 						float life = f.getParticleEffect().getEmitters().first().getLife().getHighMax();
-						f.getParticleEffect().getEmitters().first().getLife().setHighMax(life -= 3f);
+						f.getParticleEffect().getEmitters().first().getLife().setHighMax(life -= 5f);
 
 						// Tween.to(f.getParticleEffect(),
 						// ParticleEffectTweenAccessor.LIFE, 2).target(0, 0)
@@ -236,26 +242,43 @@ public class Level6 extends LevelState {
 					i--;
 				}
 			}
+			
+			for (int i = 0; i < explosions.size(); i++) {
+				Explosion e = explosions.get(i);
+				e.update(dt);
+				if(e.isInRadius(player.getPosition().x * PPM, player.getPosition().y * PPM, 300)){
+					e.push(player.getBody());
+					e.start();
+				}
+				
+				if(e.isComplete()){
+					e.dispose();
+					game.getWorld().destroyBody(e.getBody());
+					explosions.remove(e);
+					i--;
+				}
+			}
 		}
 	}
 
-	Vector3 initializeCamPos = new Vector3(cam.position);
-
-	public void shakeCam(Camera cam, float amplitude, float duration) {
-		cam.position.x = (float) (initializeCamPos.x + Math.random() * amplitude);
-		cam.position.y = (float) (initializeCamPos.y + Math.random() * amplitude);
-	}
+	Vector3 initialCamPos = new Vector3(cam.position);
 
 	@Override
 	public void render() {
 		// TODO Auto-generated method stub
 		batch.setProjectionMatrix(cam.combined);
-		shakeCam(cam, 2f, 1);
-
-		System.out.println(cam.position.toString());
-		// cam.position.set(player.getPosition().x * PPM, player.getPosition().y
-		// * PPM, 0);
-
+		
+		float startx = cam.viewportWidth / 2;
+		float starty = cam.viewportHeight / 2;
+		float endWidth = tileMap.getProperties().get("width", Integer.class) * 32 - startx * 2;
+		float endHeight = tileMap.getProperties().get("height", Integer.class) * 32 - starty * 2;
+		System.out.println("endx: " + endWidth + " endy: " + endHeight);
+		System.out.println(cam.position);
+		CameraStyles.Lerp(cam, .5f, player.getWorldPosition());
+		CameraStyles.Boundary(cam, startx, starty, endWidth, endHeight);
+		initialCamPos = new Vector3(cam.position);
+		CameraStyles.Shake(cam, initialCamPos, 4f);
+		
 		tmr.setView(cam);
 		batch.begin();
 			tmr.render();
@@ -263,7 +286,8 @@ public class Level6 extends LevelState {
 		batch.end();
 
 		cam.update();
-
+		
+		
 		player.render(batch);
 		
 		hud.render(batch);
@@ -281,6 +305,10 @@ public class Level6 extends LevelState {
 
 		for (Fire f : fires) {
 			f.render(batch);
+		}
+		
+		for (Explosion e : explosions) {
+			e.render(batch);
 		}
 
 		batch.end();
@@ -343,6 +371,23 @@ public class Level6 extends LevelState {
 
 		}
 
+		layer = tileMap.getLayers().get("explosion");
+		if (layer == null)
+			return;
+		for (MapObject mo : layer.getObjects()) {
+
+			// get transport position from tile map object layer
+			float x = (float) mo.getProperties().get("x", Float.class);
+			float y = (float) mo.getProperties().get("y", Float.class);
+
+			// create new transport
+
+			Explosion e = new Explosion(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody,
+					"transport", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+			explosions.add(e);
+		}
+		
+		
 		layer = tileMap.getLayers().get("end");
 		if (layer == null)
 			return;
@@ -359,6 +404,7 @@ public class Level6 extends LevelState {
 					"transport", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
 
 		}
+		
 	}
 
 	@Override

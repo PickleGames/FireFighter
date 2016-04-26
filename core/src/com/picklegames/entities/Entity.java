@@ -71,6 +71,10 @@ public class Entity {
 		return body.getPosition();
 	}
 	
+	public Vector2 getWorldPosition() {
+		return body.getPosition().scl(B2DVars.PPM);
+	}
+	
 	public void setPosition(float x, float y) {
 		body.setTransform(x, y, 0);
 		

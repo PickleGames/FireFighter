@@ -66,7 +66,7 @@ public class LevelStateManager {
 //				B2DVars.BIT_GROUND));
 		 
 
-		pushState(Level_3);
+		pushState(Level_6);
 
 
 	}
@@ -122,6 +122,7 @@ public class LevelStateManager {
 	public void setState(int state) {
 		popState();
 		pushState(state);
+		game.getCam().setToOrtho(false, FireFighterGame.V_WIDTH / FireFighterGame.SCALE, FireFighterGame.V_HEIGHT / FireFighterGame.SCALE);
 	}
 
 	public void pushState(int state) {

@@ -1,5 +1,6 @@
 package com.picklegames.handlers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -49,8 +50,8 @@ public class HUD {
 	public void render(SpriteBatch batch){
 		
 		batch.begin();
-		batch.draw(box, 10, FireFighterGame.V_HEIGHT - 110);
-		batch.draw(weapons.getFrame(), 10, FireFighterGame.V_HEIGHT - 110);
+		batch.draw(box, 10, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() * .255f);
+		batch.draw(weapons.getFrame(), 10, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() * .255f);
 		batch.end();
 	}
 	

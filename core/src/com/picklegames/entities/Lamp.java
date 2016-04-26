@@ -154,9 +154,9 @@ public class Lamp extends Entity {
 			
 			currentWeapon.update(dt);
 			if(currentWeapon instanceof Extinguisher){
-				currentWeapon.setPosition(this.getPosition().x + 30 / PPM, this.getPosition().y + 60 / PPM);
+				currentWeapon.setPosition(this.getPosition().x + width / 3.75f / PPM, this.getPosition().y + height / 3.75f / PPM);
 			}else if(currentWeapon instanceof Axe){
-				currentWeapon.setPosition(this.getPosition().x + 30 / PPM, this.getPosition().y - 60 / PPM);
+				currentWeapon.setPosition(this.getPosition().x + width / 4f / PPM, this.getPosition().y + height / 5.25f / PPM);
 			}
 			
 

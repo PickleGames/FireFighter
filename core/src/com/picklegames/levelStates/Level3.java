@@ -134,7 +134,7 @@ public class Level3 extends LevelState{
 		
 			batch.draw(bg, 0, 0, FireFighterGame.V_WIDTH, FireFighterGame.V_HEIGHT);
 			batch.draw(bgBar, 0, FireFighterGame.V_HEIGHT -  FireFighterGame.V_HEIGHT / 4, FireFighterGame.V_WIDTH - 50, FireFighterGame.V_HEIGHT / 6);
-			batch.draw(teenGirl.getFrame(), cam.viewportWidth - 505, 5 , 500, 500);
+			batch.draw(teenGirl.getFrame(), FireFighterGame.V_WIDTH - teenGirl.getFrame().getRegionWidth() * 1.5f, 5 , 500, 500);
 			batch.draw(teenAni.getFrame(), 5, 5 ,500, 500);
 			
 			font.draw(batch, d.getName(), FireFighterGame.V_WIDTH/2  - 15, 625);
