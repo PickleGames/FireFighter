@@ -3,18 +3,21 @@ package com.picklegames.handlers;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class TransitionEffect {
 	public static final int FIRE = 1;
-	
-	private float segment = Gdx.graphics.getWidth() / 10;
+	private OrthographicCamera cam;
+	private float segment;
 	private ArrayList<ParticleEffect> effectList;
 	private ParticleEffect effect;
 	private boolean isStart = false;
 
-	public TransitionEffect(){
+	public TransitionEffect(OrthographicCamera cam){
+		this.cam = cam;
+		segment =  cam.viewportWidth / 10;
 		init();
 	}
 	

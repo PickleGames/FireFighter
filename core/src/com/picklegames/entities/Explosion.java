@@ -9,6 +9,7 @@ import com.picklegames.handlers.MathHelper;
 import com.picklegames.handlers.Box2D.B2DVars;
 
 public class Explosion extends Entity{
+
 	private ParticleEffect explosion;
 	private boolean isStart;
 
@@ -71,6 +72,12 @@ public class Explosion extends Entity{
 		float d = MathHelper.distanceEquation(body.getPosition().x * B2DVars.PPM, body.getPosition().y * B2DVars.PPM, x2, y2);
 		System.out.println("distance: "+ d);
 		return MathHelper.distanceEquation(body.getPosition().x * B2DVars.PPM, body.getPosition().y * B2DVars.PPM, x2, y2) < radius;
+	}
+	
+	@Override
+	public void scl(float scl) {
+		float size = explosion.getEmitters().first().getScale().getHighMax();
+		explosion.getEmitters().first().getScale().setHighMax(size * scl);
 	}
 	
 	@Override

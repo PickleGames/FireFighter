@@ -54,8 +54,6 @@ public class Level6 extends LevelState {
 	private ArrayList<Person> people;
 	private ArrayList<Fire> fires;
 	private ArrayList<Explosion> explosions;
-
-	private CameraStyles camStyle;
 	
 	private HUD hud;
 
@@ -101,7 +99,6 @@ public class Level6 extends LevelState {
 		hud = new HUD(cam);
 		
 		createDebrisBox2D();
-		camStyle = new CameraStyles();
 	}
 
 	@Override
@@ -170,7 +167,7 @@ public class Level6 extends LevelState {
 			hud.hudState = HudState.EXTINGUISHER;
 		}
 
-		if (transport.isInRange(player.getPosition().x, player.getPosition().y, 1)) {
+		if (transport.isInRange(player.getPosition().x * B2DVars.PPM, player.getPosition().y * B2DVars.PPM, 100)) {
 			isTransport = true;
 		}
 		if (isTransport) {
@@ -254,7 +251,7 @@ public class Level6 extends LevelState {
 					
 				}
 				if(e.isStart()){
-					camStyle.Shake(cam, initialCamPos, 500f, 1f);
+					lsm.getCamStyle().Shake(cam, initialCamPos, 500f, 1f);
 				}
 				
 				if(e.isComplete()){
@@ -266,7 +263,7 @@ public class Level6 extends LevelState {
 			}
 		}
 		
-		camStyle.update(dt);
+		lsm.getCamStyle().update(dt);
 	}
 
 	Vector3 initialCamPos = new Vector3(cam.position);
@@ -283,8 +280,8 @@ public class Level6 extends LevelState {
 		System.out.println("endx: " + endWidth + " endy: " + endHeight);
 		System.out.println(cam.position);
 		
-		camStyle.Lerp(cam, .5f, player.getWorldPosition());
-		camStyle.Boundary(cam, startx, starty, endWidth, endHeight);
+		lsm.getCamStyle().Lerp(cam, .5f, player.getWorldPosition());
+		lsm.getCamStyle().Boundary(cam, startx, starty, endWidth, endHeight);
 		initialCamPos = new Vector3(cam.position);
 		
 		

@@ -2,6 +2,7 @@ package com.picklegames.entities;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.picklegames.handlers.MathHelper;
+import com.picklegames.handlers.Box2D.B2DVars;
 
 public class Transport extends Entity {
 
@@ -10,7 +11,9 @@ public class Transport extends Entity {
 	}
 
 	public boolean isInRange(float x1, float y1, float range) {
-		return MathHelper.distanceEquation(body.getPosition().x, body.getPosition().y, x1, y1) < range;
+		float d = MathHelper.distanceEquation(body.getPosition().x * B2DVars.PPM, body.getPosition().y * B2DVars.PPM, x1, y1);
+		System.out.println(d);
+		return MathHelper.distanceEquation(body.getPosition().x * B2DVars.PPM, body.getPosition().y * B2DVars.PPM, x1, y1) < range;
 	}
 
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.entities.Lamp;
 import com.picklegames.game.FireFighterGame;
+import com.picklegames.handlers.CameraStyles;
 import com.picklegames.handlers.TransitionEffect;
 import com.picklegames.levelStates.Level0;
 import com.picklegames.levelStates.Level1;
@@ -33,6 +34,15 @@ public class LevelStateManager {
 
 	private TransitionEffect te;
 	private TweenManager tweenManager;
+	private CameraStyles camStyle;
+	
+	public CameraStyles getCamStyle() {
+		return camStyle;
+	}
+
+	public void setCamStyle(CameraStyles camStyle) {
+		this.camStyle = camStyle;
+	}
 
 	private Lamp player;
 
@@ -57,13 +67,13 @@ public class LevelStateManager {
 		this.setGsm(gsm);
 		levelStates = new Stack<LevelState>();
 
-		te = new TransitionEffect();
+		te = new TransitionEffect(game.getCam());
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
 		player = new Lamp();
-
-		pushState(Level_9);
+		camStyle = new CameraStyles();
+		pushState(Level_0);
 
 //		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
 //				new Vector2(0, -player.getHeight() / 3), BodyType.DynamicBody, "lamp", B2DVars.BIT_PLAYER,

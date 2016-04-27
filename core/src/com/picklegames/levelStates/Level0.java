@@ -16,9 +16,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.EntityTweenAccessor;
 import com.picklegames.entities.Entity;
+import com.picklegames.entities.Explosion;
 import com.picklegames.entities.Fire;
 import com.picklegames.entities.Lamp;
+import com.picklegames.entities.Transport;
 import com.picklegames.game.FireFighterGame;
+import com.picklegames.handlers.TileObject;
 import com.picklegames.handlers.Box2D.B2DVars;
 import com.picklegames.handlers.Box2D.CreateBox2D;
 import com.picklegames.managers.LevelStateManager;
@@ -33,7 +36,8 @@ public class Level0 extends LevelState {
 	private Box2DDebugRenderer b2dr;
 	private ArrayList<Fire> fires;
 
-
+	private Explosion explosion;
+	private Transport transport;
 	private Lamp player;
 
 	public Level0(LevelStateManager lsm) {
@@ -56,8 +60,8 @@ public class Level0 extends LevelState {
 		b2dr = new Box2DDebugRenderer();
 		fires = new ArrayList<Fire>();
 		createDebrisBox2D();
-
-
+		
+		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects());
 		player = lsm.getPlayer();
 		player.scl(8f);
 		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 100, 0, player.getWidth() / 3.5f,
@@ -91,8 +95,14 @@ public class Level0 extends LevelState {
 		for (Fire f : fires) {
 			f.update(dt);
 		}
-
-		System.out.println(player.getVelocity());
+		explosion.update(dt);
+		transport.update(dt);
+		
+		System.out.println(transport.isInRange(player.getBody().getPosition().x * B2DVars.PPM, player.getBody().getPosition().y * B2DVars.PPM, 100));
+		if(transport.isInRange(player.getBody().getPosition().x * B2DVars.PPM, player.getBody().getPosition().y * B2DVars.PPM, 200)){
+			explosion.start();
+		}
+		//System.out.println(player.getVelocity());
 	}
 
 	@Override
@@ -108,7 +118,7 @@ public class Level0 extends LevelState {
 
 		player.render(batch);
 		batch.begin();
-		
+		explosion.render(batch);
 		for (Fire f : fires) {
 			f.render(batch);
 		}
@@ -138,7 +148,38 @@ public class Level0 extends LevelState {
 			fires.add(f);
 
 		}
+		
+		layer = tileMap.getLayers().get("transport");
+		if (layer == null)
+			return;
 
+		for (MapObject mo : layer.getObjects()) {
+
+			// get fire position from tile map object layer
+			float x = (float) mo.getProperties().get("x", Float.class);
+			float y = (float) mo.getProperties().get("y", Float.class);
+			// create new fire and add to fires list
+
+		  transport = new Transport(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody, "fire",
+					B2DVars.BIT_PLAYER, B2DVars.BIT_PLAYER));
+		}
+		
+		layer = tileMap.getLayers().get("explosion");
+		if (layer == null)
+			return;
+
+		for (MapObject mo : layer.getObjects()) {
+
+			// get fire position from tile map object layer
+			float x = (float) mo.getProperties().get("x", Float.class);
+			float y = (float) mo.getProperties().get("y", Float.class);
+
+			// create new fire and add to fires list
+
+			 explosion = new Explosion(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody, "fire",
+					B2DVars.BIT_PLAYER, B2DVars.BIT_PLAYER));
+			 explosion.scl(20);
+		}
 	}
 
 	@Override
