@@ -1,0 +1,4 @@
+CHIEF MIGGY:2:0:"Scored perfect marks. I'm hardly surprised."
+CHIEF MIGGY:2:1:"You were one of the best students I have ever had."
+YOU:2:1:"Thanks Chief Miggy"
+CHIEF MIGGY:2:1:"You will make a fine fire fighter son."

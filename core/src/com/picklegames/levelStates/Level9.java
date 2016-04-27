@@ -12,7 +12,8 @@ import com.picklegames.handlers.Animation;
 import com.picklegames.handlers.dialogue.Dialogue;
 import com.picklegames.managers.LevelStateManager;
 
-public class Level8 extends LevelState{
+public class Level9 extends LevelState{
+	
 	private Dialogue d;
 	private BitmapFont font;
 	private GlyphLayout layout;
@@ -20,42 +21,44 @@ public class Level8 extends LevelState{
 	private Texture bg;
 	private Texture bgBar;
 	
-	private Animation teenGirl;
-	private TextureRegion[] girlReg;
+	private Animation ani1;
+	private TextureRegion[] reg1;
 	
-	private Animation teenAni;
-	private TextureRegion[] teenReg;
+	private Animation ani2;
+	private TextureRegion[] reg2;
 	
 	private Sound playerS, girlS, catS, currentSound;
 	
-	public Level8(LevelStateManager lsm) {
+	public Level9(LevelStateManager lsm) {
 		super(lsm);
 		// TODO Auto-generated constructor stub
-		init();
 		
+		init();
 	}
 
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		d = new Dialogue("dialogue/dialogue2.txt", "Summer, 1985");
+		d = new Dialogue("dialogue/dialogue4.txt", "Spring, 1995");
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 		font.setColor(Color.WHITE);
 		font.getData().scaleX = .4f;
 		layout = new GlyphLayout(); //dont do this every frame! Store it as member
 
-		FireFighterGame.res.loadTexture("image/Character/teenGirl.png", "girl");
-		FireFighterGame.res.loadTexture("image/Character/teenFace.png", "teen");
-		FireFighterGame.res.loadTexture("image/Backgrounds/bg1.png", "bg");
+		FireFighterGame.res.loadTexture("image/Character/miggyFace.png", "miggy");
+		FireFighterGame.res.loadTexture("image/Character/collegeFace.png", "coll");
+		FireFighterGame.res.loadTexture("image/Backgrounds/fStationN.png", "bg");
 		FireFighterGame.res.loadTexture("image/Backgrounds/diaBar.png", "diaBox");
 		
-		girlReg = TextureRegion.split(FireFighterGame.res.getTexture("girl"), 300, 300)[0];
-		teenGirl = new Animation();
-		teenGirl.setFrames(girlReg, 8f);
 		
-		teenReg = TextureRegion.split(FireFighterGame.res.getTexture("teen"), 300, 300)[0];
-		teenAni = new Animation();
-		teenAni.setFrames(teenReg, 16f);
+		reg1 = TextureRegion.split(FireFighterGame.res.getTexture("coll"), 300, 300)[0];
+		ani1 = new Animation();
+		ani1.setFrames(reg1, 16f);
+		
+		reg2 = TextureRegion.split(FireFighterGame.res.getTexture("miggy"), 300, 300)[0];
+		ani2 = new Animation();
+		ani2.setFrames(reg2, 8f);
+		
 		
 		bg = FireFighterGame.res.getTexture("bg");
 		bgBar = FireFighterGame.res.getTexture("diaBox");
@@ -68,7 +71,7 @@ public class Level8 extends LevelState{
 		catS = FireFighterGame.res.getSound("catS");
 		currentSound = playerS;
 		
-		cam.position.set(FireFighterGame.V_WIDTH / 2 , FireFighterGame.V_HEIGHT/ 2 , 0);
+		//cam.position.set(FireFighterGame.V_WIDTH / 2 , FireFighterGame.V_HEIGHT/ 2 , 0);
 		cam.update();
 		System.out.println(cam.position.toString());
 	}
@@ -78,12 +81,14 @@ public class Level8 extends LevelState{
 		// TODO Auto-generated method stub
 		
 	}
+
 	@Override
 	public void update(float dt) {
-		
-		if(d.isFinished()){
-			lsm.setState(LevelStateManager.Level_7);
-		}
+		// TODO Auto-generated method stub
+
+//		if(d.isFinished()){
+//			lsm.setState(LevelStateManager.Level_7);
+//		}
 		
 		if(d.getName().equals("YOU")){
 			currentSound = playerS;
@@ -101,15 +106,15 @@ public class Level8 extends LevelState{
 			//teenAni.update(dt);
 			
 			if(d.getName().equals("YOU")){
-				teenAni.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
-			}else if(d.getName().equals("GIRL")){
-				teenGirl.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
+				ani1.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
+			}else if(d.getName().equals("CHEIF MIGGY")){
+				ani2.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
 			}
 		}
 		
 		if(d.getName().equals("YOU")){
 			font.setColor(Color.BLUE);
-		}else if(d.getName().equals("GIRL")){
+		}else if(d.getName().equals("CHIEF MIGGY")){
 			font.setColor(Color.PURPLE);
 		}else{
 			font.setColor(Color.GREEN);
@@ -123,24 +128,28 @@ public class Level8 extends LevelState{
 	public void render() {
 		// TODO Auto-generated method stub
 		layout.setText(font, d.getCharacterLine());
+		
 		float width = layout.width;// contains the width of the current set text
 		//float height = layout.height; // contains the height of the current set text
 		batch.setProjectionMatrix(cam.combined);
 		
 		batch.begin();
 		
-			batch.draw(bg, 0, 0, FireFighterGame.V_WIDTH, FireFighterGame.V_HEIGHT);
-			batch.draw(bgBar, 0, FireFighterGame.V_HEIGHT -  FireFighterGame.V_HEIGHT / 4, FireFighterGame.V_WIDTH - 50, FireFighterGame.V_HEIGHT / 6);
-			batch.draw(teenGirl.getFrame(), cam.viewportWidth - 505, 5 , 500, 500);
-			batch.draw(teenAni.getFrame(), 5, 5 ,500, 500);
+			batch.draw(bg, 0, 0, cam.viewportWidth, cam.viewportHeight);
+			batch.draw(bgBar, 25, cam.viewportHeight -  cam.viewportHeight / 4, cam.viewportWidth - 50, cam.viewportHeight / 6);
+			batch.draw(ani1.getFrame(), 5, 5 ,500, 500);
+			batch.draw(ani2.getFrame(), cam.viewportWidth - 505, 5 , 500, 500);
 			
-			font.draw(batch, d.getName(), FireFighterGame.V_WIDTH/2  - 15, 625);
-			font.draw(batch, d.getCharacterLine(),  FireFighterGame.V_WIDTH/2 - width/2, 600);
+			font.draw(batch, d.getCharacterLine(),  cam.viewportWidth/2 - width/2, 600);
+			layout.setText(font, d.getName());
+			width = layout.width;
+			font.draw(batch, d.getName(), cam.viewportWidth/2  - width/2, 625);
+			
 		batch.end();
 		
 		d.render(batch);
 	}
-	
+
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
@@ -148,6 +157,7 @@ public class Level8 extends LevelState{
 		FireFighterGame.res.removeSound("playerS");
 		FireFighterGame.res.removeSound("girldS");
 		FireFighterGame.res.removeSound("catS");
+
 	}
 
 }
