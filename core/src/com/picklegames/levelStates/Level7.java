@@ -14,6 +14,8 @@ import com.picklegames.managers.LevelStateManager;
 
 public class Level7 extends LevelState{
 	
+	//4th dialogue with fire chief
+	
 	private Dialogue d;
 	private BitmapFont font;
 	private GlyphLayout layout;
@@ -21,48 +23,59 @@ public class Level7 extends LevelState{
 	private Texture bg;
 	private Texture bgBar;
 	
-	private Animation mom;
-	private TextureRegion[] momReg;
+	private Animation ani1;
+	private TextureRegion[] reg1;
 	
-	private Animation collAni;
-	private TextureRegion[] collReg;
+	private Animation ani2;
+	private TextureRegion[] reg2;
 	
-	private Sound playerS, currentSound;
+	private Sound playerS, girlS, catS, currentSound;
 	
 	public Level7(LevelStateManager lsm) {
 		super(lsm);
 		// TODO Auto-generated constructor stub
+		
 		init();
 	}
 
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		d = new Dialogue("dialogue/dialogue3.txt", "Spring, 1995");
+		d = new Dialogue("dialogue/dialogue4.txt", "Spring, 1995");
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 		font.setColor(Color.WHITE);
 		font.getData().scaleX = .4f;
 		layout = new GlyphLayout(); //dont do this every frame! Store it as member
 
-		FireFighterGame.res.loadTexture("image/Character/momFace.png", "mom");
-		FireFighterGame.res.loadTexture("image/Character/collegeFace.png", "college");
-		FireFighterGame.res.loadTexture("image/Backgrounds/dorm.png", "dorm_bg");
+		FireFighterGame.res.loadTexture("image/Character/miggyFace.png", "miggy");
+		FireFighterGame.res.loadTexture("image/Character/collegeFace.png", "coll");
+		FireFighterGame.res.loadTexture("image/Backgrounds/fStationN.png", "bg");
 		FireFighterGame.res.loadTexture("image/Backgrounds/diaBar.png", "diaBox");
 		
-		momReg = TextureRegion.split(FireFighterGame.res.getTexture("mom"), 300, 300)[0];
-		mom = new Animation();
-		mom.setFrames(momReg, 8f);
 		
-		collReg = TextureRegion.split(FireFighterGame.res.getTexture("college"), 300, 300)[0];
-		collAni = new Animation();
-		collAni.setFrames(collReg, 16f);
+		reg1 = TextureRegion.split(FireFighterGame.res.getTexture("coll"), 300, 300)[0];
+		ani1 = new Animation();
+		ani1.setFrames(reg1, 16f);
 		
-		bg = FireFighterGame.res.getTexture("dorm_bg");
+		reg2 = TextureRegion.split(FireFighterGame.res.getTexture("miggy"), 300, 300)[0];
+		ani2 = new Animation();
+		ani2.setFrames(reg2, 8f);
+		
+		
+		bg = FireFighterGame.res.getTexture("bg");
 		bgBar = FireFighterGame.res.getTexture("diaBox");
 		
 		FireFighterGame.res.loadSound("sound/wac.mp3", "playerS");
+		FireFighterGame.res.loadSound("sound/wac.mp3", "girlS");
+		FireFighterGame.res.loadSound("sound/wac.mp3", "catS");
 		playerS = FireFighterGame.res.getSound("playerS");
+		girlS = FireFighterGame.res.getSound("girlS");
+		catS = FireFighterGame.res.getSound("catS");
 		currentSound = playerS;
+		
+		//cam.position.set(FireFighterGame.V_WIDTH / 2 , FireFighterGame.V_HEIGHT/ 2 , 0);
+		cam.update();
+		System.out.println(cam.position.toString());
 	}
 
 	@Override
@@ -74,26 +87,42 @@ public class Level7 extends LevelState{
 	@Override
 	public void update(float dt) {
 		// TODO Auto-generated method stub
-		d.update(dt,currentSound);
-		if(d.isFinished()){
-			lsm.setState(LevelStateManager.Level_6);
+
+//		if(d.isFinished()){
+//			lsm.setState(LevelStateManager.Level_7);
+//		}
+		
+		if(d.getName().equals("YOU")){
+			currentSound = playerS;
+		}else if(d.getName().equals("GIRL")){
+			currentSound = girlS;
+		}else if(d.getName().equals("CAT")){
+			currentSound = catS;
+
 		}
+		
+		d.update(dt, currentSound);
 		
 		if(d.isIntroDone()){
 			//teenGirl.update(dt);
 			//teenAni.update(dt);
 			
 			if(d.getName().equals("YOU")){
-				collAni.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
-			}else if(d.getName().equals("MOM")){
-				mom.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
+				ani1.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
+			}else if(d.getName().equals("CHEIF MIGGY")){
+				ani2.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
 			}
 		}
+		
 		if(d.getName().equals("YOU")){
 			font.setColor(Color.BLUE);
-		}else{
+		}else if(d.getName().equals("CHIEF MIGGY")){
 			font.setColor(Color.PURPLE);
+		}else{
+			font.setColor(Color.GREEN);
 		}
+		
+		
 		
 	}
 
@@ -101,18 +130,23 @@ public class Level7 extends LevelState{
 	public void render() {
 		// TODO Auto-generated method stub
 		layout.setText(font, d.getCharacterLine());
+		
 		float width = layout.width;// contains the width of the current set text
 		//float height = layout.height; // contains the height of the current set text
+		batch.setProjectionMatrix(cam.combined);
 		
 		batch.begin();
 		
-			batch.draw(bg, 0, 0, FireFighterGame.V_WIDTH, FireFighterGame.V_HEIGHT);
-			batch.draw(bgBar, 0, FireFighterGame.V_HEIGHT -  FireFighterGame.V_HEIGHT / 4, FireFighterGame.V_WIDTH - 50, FireFighterGame.V_HEIGHT / 6);
-			batch.draw(mom.getFrame(), FireFighterGame.V_WIDTH - 505, 5 , 500, 500);
-			batch.draw(collAni.getFrame(), 5, 5 ,500, 500);
+			batch.draw(bg, 0, 0, cam.viewportWidth, cam.viewportHeight);
+			batch.draw(bgBar, 25, cam.viewportHeight -  cam.viewportHeight / 4, cam.viewportWidth - 50, cam.viewportHeight / 6);
+			batch.draw(ani1.getFrame(), 5, 5 ,500, 500);
+			batch.draw(ani2.getFrame(), cam.viewportWidth - 505, 5 , 500, 500);
 			
-			font.draw(batch, d.getName(), FireFighterGame.V_WIDTH/2  - 15, 625);
-			font.draw(batch, d.getCharacterLine(),  FireFighterGame.V_WIDTH/2 - width/2, 600);
+			font.draw(batch, d.getCharacterLine(),  cam.viewportWidth/2 - width/2, 600);
+			layout.setText(font, d.getName());
+			width = layout.width;
+			font.draw(batch, d.getName(), cam.viewportWidth/2  - width/2, 625);
+			
 		batch.end();
 		
 		d.render(batch);
@@ -120,8 +154,12 @@ public class Level7 extends LevelState{
 
 	@Override
 	public void dispose() {
-		font.dispose();
-		
+		// TODO Auto-generated method stub
+		d.dispose();
+		FireFighterGame.res.removeSound("playerS");
+		FireFighterGame.res.removeSound("girldS");
+		FireFighterGame.res.removeSound("catS");
+
 	}
 
 }
