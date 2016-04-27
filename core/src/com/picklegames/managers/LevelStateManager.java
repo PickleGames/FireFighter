@@ -4,14 +4,10 @@ import java.util.Stack;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.entities.Lamp;
 import com.picklegames.game.FireFighterGame;
 import com.picklegames.handlers.TransitionEffect;
-import com.picklegames.handlers.Box2D.B2DVars;
-import com.picklegames.handlers.Box2D.CreateBox2D;
 import com.picklegames.levelStates.Level0;
 import com.picklegames.levelStates.Level1;
 import com.picklegames.levelStates.Level2;
@@ -54,7 +50,7 @@ public class LevelStateManager {
 	public static final int Level_6 = 67;
 	public static final int Level_7 = 78;
 	public static final int Level_8 = 89;
-	public static final int Level_9 = 91;
+	public static final int Level_9 = 910;
 
 	public LevelStateManager(FireFighterGame game, GameStateManager gsm) {
 		this.game = game;
@@ -66,12 +62,15 @@ public class LevelStateManager {
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
 		player = new Lamp();
-		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
-				new Vector2(0, -player.getHeight() / 3), BodyType.DynamicBody, "lamp", B2DVars.BIT_PLAYER,
-				B2DVars.BIT_GROUND));
-		player.createWeapon();
 
 		pushState(Level_9);
+
+//		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
+//				new Vector2(0, -player.getHeight() / 3), BodyType.DynamicBody, "lamp", B2DVars.BIT_PLAYER,
+//				B2DVars.BIT_GROUND));
+		
+
+
 
 	}
 
@@ -122,7 +121,6 @@ public class LevelStateManager {
 			return new Level9(this);
 		}
 
-		
 		return null;
 
 	}
@@ -130,6 +128,7 @@ public class LevelStateManager {
 	public void setState(int state) {
 		popState();
 		pushState(state);
+		game.getCam().setToOrtho(false, FireFighterGame.V_WIDTH / FireFighterGame.SCALE, FireFighterGame.V_HEIGHT / FireFighterGame.SCALE);
 	}
 
 	public void pushState(int state) {

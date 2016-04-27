@@ -63,7 +63,7 @@ public final class CreateBox2D {
 		fdef.shape = shape;
 		fdef.filter.categoryBits = categoryBits;
 		fdef.filter.maskBits = maskBits;
-
+		
 		// create player collision box fixture
 		body.createFixture(fdef).setUserData(userData);
 		shape.dispose();

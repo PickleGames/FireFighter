@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.picklegames.handlers.MathHelper;
 import com.picklegames.handlers.Box2D.B2DVars;
 
 public class Fire extends Entity {
@@ -18,6 +19,7 @@ public class Fire extends Entity {
 		particleE.setPosition(body.getPosition().x * B2DVars.PPM, body.getPosition().y * B2DVars.PPM);
 		particleE.start();
 
+		
 	}
 	
 	public void update(float dt){
@@ -34,7 +36,7 @@ public class Fire extends Entity {
 	}
 
 	public boolean isInRadius(float x2, float y2, float radius) {
-		return findDistance(x2, y2) < radius;
+		return MathHelper.distanceEquation(body.getPosition().x * B2DVars.PPM, body.getPosition().y * B2DVars.PPM, x2, y2) < radius;
 	}
 
 	public float findDistance(float x2, float y2) {
@@ -42,5 +44,11 @@ public class Fire extends Entity {
 				(x2 - body.getPosition().x), 2) + Math.pow((y2 - body.getPosition().y), 2)));
 
 	}
+	
+	@Override
+	public void scl(float scl) {
+		particleE.getEmitters().first().getScale().setHighMax(scl);
+	}
+
 
 }

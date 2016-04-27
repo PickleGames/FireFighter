@@ -43,7 +43,7 @@ public class Level3 extends LevelState{
 		d = new Dialogue("dialogue/dialogue1.txt", "Summer, 1985");
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 		font.setColor(Color.WHITE);
-		font.getData().scaleX = .4f;
+		font.getData().scaleX = .45f;
 		layout = new GlyphLayout(); //dont do this every frame! Store it as member
 
 		FireFighterGame.res.loadTexture("image/Character/teenGirl.png", "girl");
@@ -134,7 +134,7 @@ public class Level3 extends LevelState{
 		
 			batch.draw(bg, 0, 0, FireFighterGame.V_WIDTH, FireFighterGame.V_HEIGHT);
 			batch.draw(bgBar, 0, FireFighterGame.V_HEIGHT -  FireFighterGame.V_HEIGHT / 4, FireFighterGame.V_WIDTH - 50, FireFighterGame.V_HEIGHT / 6);
-			batch.draw(teenGirl.getFrame(), cam.viewportWidth - 505, 5 , 500, 500);
+			batch.draw(teenGirl.getFrame(), FireFighterGame.V_WIDTH - teenGirl.getFrame().getRegionWidth() * 1.5f, 5 , 500, 500);
 			batch.draw(teenAni.getFrame(), 5, 5 ,500, 500);
 			
 			font.draw(batch, d.getName(), FireFighterGame.V_WIDTH/2  - 15, 625);

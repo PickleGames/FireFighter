@@ -37,6 +37,7 @@ public class FireFighterGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, V_WIDTH / SCALE, V_HEIGHT / SCALE);
+		
 		hudCam = new OrthographicCamera();
 		hudCam.setToOrtho(false, V_WIDTH, V_HEIGHT);
 

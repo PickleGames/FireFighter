@@ -23,7 +23,7 @@ public class Dialogue {
 	private Line currentLine;
 
 
-	private int animationIndex;
+	//private int animationIndex;
 	private String date = "";
 	private String characterLine = "";
 	private String name = "";
@@ -76,7 +76,7 @@ public class Dialogue {
 		if (isIntroDone()) {
 			currentLine = dialogue.get(dialogueIndex);
 			name = currentLine.getName();
-			animationIndex = currentLine.getAnimationIndex();
+			//animationIndex = currentLine.getAnimationIndex();
 			delayBetween = currentLine.getWait();
 			if (dialogueIndex < dialogue.size()) {
 				if (letterIndex >= currentLine.getLetter().length) {

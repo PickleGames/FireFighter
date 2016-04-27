@@ -9,17 +9,20 @@ import com.picklegames.handlers.Box2D.B2DVars;
 
 public class Entity {
 	protected Body body;
+	protected Vector2 velocity;
 	protected Animation animation;
 	protected float width;
 	protected float height;
 
 	public Entity(){
 		animation = new Animation();
+		velocity = new Vector2();
 	}
 	
 	public Entity(Body body) {
 		this.body = body;
 		animation = new Animation();
+		velocity = new Vector2();
 	}
 
 	public void setBody(Body body){
@@ -38,6 +41,7 @@ public class Entity {
 
 	public void update(float dt) {
 		animation.update(dt);
+		body.setLinearVelocity(velocity);
 	}
 
 	public void render(SpriteBatch batch) {
@@ -67,6 +71,10 @@ public class Entity {
 		return body.getPosition();
 	}
 	
+	public Vector2 getWorldPosition() {
+		return body.getPosition().scl(B2DVars.PPM);
+	}
+	
 	public void setPosition(float x, float y) {
 		body.setTransform(x, y, 0);
 		
@@ -79,7 +87,53 @@ public class Entity {
 	public float getHeight() {
 		return height;
 	}
+	
+	public void setWidth(float w){
+		width = w;
+	}
+	public void setHeight(float h){
+		height = h;
+	}
+	
+	public void setSize(float w, float h){
+		width = w;
+		height = h;
+	}
+	
+	public Vector2 getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(Vector2 velocity) {
+		this.velocity = velocity;
+	}
+
+	public void setVelocity(float x, float y) {
+		this.velocity = new Vector2(x, y);
+	}
+
+	public void setVelocityX(float x) {
+		this.velocity.x = x;
+	}
+
+	public void setVelocityY(float y) {
+		this.velocity.y = y;
+	}
 	public Animation getAnimation() {
 		return animation;
 	}
+	
+	public void scl(float scl){
+		width = animation.getFrame().getRegionWidth() * scl;
+		height = animation.getFrame().getRegionWidth() * scl;
+	}
+	
+	public void sclX(float scl){
+		width = animation.getFrame().getRegionWidth() * scl;
+	}
+	
+	public void sclY(float scl){
+		height = animation.getFrame().getRegionWidth() * scl;
+	}
+	
 }

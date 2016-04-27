@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -72,7 +73,11 @@ public class Tutorial extends LevelState {
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
 		player = lsm.getPlayer();
-
+		player.scl(3f);
+		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 100, 100, player.getWidth() / 3.5f, player.getHeight() / 9,
+				new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp", B2DVars.BIT_PLAYER,
+				B2DVars.BIT_GROUND));
+		
 		b2dr = new Box2DDebugRenderer();
 
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
