@@ -17,6 +17,7 @@ import com.picklegames.levelStates.Level5;
 import com.picklegames.levelStates.Level6;
 import com.picklegames.levelStates.Level7;
 import com.picklegames.levelStates.Level8;
+import com.picklegames.levelStates.Level9;
 import com.picklegames.levelStates.LevelState;
 import com.picklegames.levelStates.Tutorial;
 
@@ -50,6 +51,7 @@ public class LevelStateManager {
 	public static final int Level_7 = 78;
 	public static final int Level_8 = 89;
 	public static final int Level_9 = 910;
+
 	public LevelStateManager(FireFighterGame game, GameStateManager gsm) {
 		this.game = game;
 		this.setGsm(gsm);
@@ -61,12 +63,13 @@ public class LevelStateManager {
 
 		player = new Lamp();
 
+		pushState(Level_9);
+
 //		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
 //				new Vector2(0, -player.getHeight() / 3), BodyType.DynamicBody, "lamp", B2DVars.BIT_PLAYER,
 //				B2DVars.BIT_GROUND));
-		 
+		
 
-		pushState(Level_6);
 
 
 	}
@@ -114,7 +117,10 @@ public class LevelStateManager {
 			return new Level7(this);
 		} else if (state == Level_8){
 			return new Level8(this);
-		} 
+		}else if (state == Level_9){
+			return new Level9(this);
+		}
+
 		return null;
 
 	}
