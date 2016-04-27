@@ -15,6 +15,8 @@ import com.picklegames.managers.LevelStateManager;
 
 public class Level3 extends LevelState{
 	
+	// 2nd dialogue after saving the cat
+	
 	private Dialogue d;
 	private BitmapFont font;
 	private GlyphLayout layout;
@@ -40,7 +42,7 @@ public class Level3 extends LevelState{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		d = new Dialogue("dialogue/dialogue1.txt", "Summer, 1985");
+		d = new Dialogue("dialogue/dialogue2.txt", "Summer, 1985");
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 		font.setColor(Color.WHITE);
 		font.getData().scaleX = .45f;

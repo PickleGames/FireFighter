@@ -1,145 +1,158 @@
 package com.picklegames.levelStates;
 
-import static com.picklegames.handlers.Box2D.B2DVars.PPM;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
-import com.picklegames.entities.Entity;
-import com.picklegames.entities.Fire;
-import com.picklegames.entities.Lamp;
-import com.picklegames.handlers.Box2D.B2DVars;
-import com.picklegames.handlers.Box2D.CreateBox2D;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.picklegames.game.FireFighterGame;
+import com.picklegames.handlers.Animation;
+import com.picklegames.handlers.dialogue.Dialogue;
 import com.picklegames.managers.LevelStateManager;
 
-import aurelienribon.tweenengine.Tween;
-
-public class Level1 extends LevelState {
-
+public class Level1 extends LevelState{
+	
+	//First dialogue before cat
+	
+	private Dialogue d;
 	private BitmapFont font;
-	private OrthogonalTiledMapRenderer tmr;
-	private TiledMap tileMap;
-
-	private Box2DDebugRenderer b2dr;
-	private Lamp player;
-	private Entity box;
-
+	private GlyphLayout layout;
+	
+	private Texture bg;
+	private Texture bgBar;
+	
+	private Animation teenGirl;
+	private TextureRegion[] girlReg;
+	
+	private Animation teenAni;
+	private TextureRegion[] teenReg;
+	
+	private Sound playerS, girlS, catS, currentSound;
+	
 	public Level1(LevelStateManager lsm) {
 		super(lsm);
-		//init();
-
+		// TODO Auto-generated constructor stub
+		init();
+		
 	}
 
 	@Override
 	public void init() {
-		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
+		// TODO Auto-generated method stub
+		d = new Dialogue("dialogue/dialogue1.txt", "Summer, 1985");
+		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
+		font.setColor(Color.WHITE);
+		font.getData().scaleX = .45f;
+		layout = new GlyphLayout(); //dont do this every frame! Store it as member
 
-		tileMap = new TmxMapLoader().load("map/catlevel.tmx");
-		tmr = new OrthogonalTiledMapRenderer(tileMap);
-
-		player = lsm.getPlayer();
-				
-		b2dr = new Box2DDebugRenderer();
-
-		font = new BitmapFont();
-		font.getData().setScale(2);
+		FireFighterGame.res.loadTexture("image/Character/teenGirl.png", "girl");
+		FireFighterGame.res.loadTexture("image/Character/teenFace.png", "teen");
+		FireFighterGame.res.loadTexture("image/Backgrounds/bg1.png", "bg");
+		FireFighterGame.res.loadTexture("image/Backgrounds/diaBar.png", "diaBox");
 		
+		girlReg = TextureRegion.split(FireFighterGame.res.getTexture("girl"), 300, 300)[0];
+		teenGirl = new Animation();
+		teenGirl.setFrames(girlReg, 8f);
 		
-		box = new Fire(CreateBox2D.createCircle(game.getWorld(), 500, 100, 50, false, 1, BodyType.StaticBody, "box", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
-//		box.setBody();
-//		box.setAnimation(new TextureRegion(new Texture("fire.png")), .5f);
-
+		teenReg = TextureRegion.split(FireFighterGame.res.getTexture("teen"), 300, 300)[0];
+		teenAni = new Animation();
+		teenAni.setFrames(teenReg, 16f);
+		
+		bg = FireFighterGame.res.getTexture("bg");
+		bgBar = FireFighterGame.res.getTexture("diaBox");
+		
+		FireFighterGame.res.loadSound("sound/wac.mp3", "playerS");
+		FireFighterGame.res.loadSound("sound/wac.mp3", "girlS");
+		FireFighterGame.res.loadSound("sound/wac.mp3", "catS");
+		playerS = FireFighterGame.res.getSound("playerS");
+		girlS = FireFighterGame.res.getSound("girlS");
+		catS = FireFighterGame.res.getSound("catS");
+		currentSound = playerS;
+		
+		cam.position.set(FireFighterGame.V_WIDTH / 2 , FireFighterGame.V_HEIGHT/ 2 , 0);
+		cam.update();
+		System.out.println(cam.position.toString());
 	}
 
 	@Override
 	public void handleInput() {
-		if (Gdx.input.isKeyPressed(Keys.D)) {
-			player.setVelocityX(2);
-		} else if (Gdx.input.isKeyPressed(Keys.A)) {
-			player.setVelocityX(-2);
-		} else {
-			player.setVelocityX(0);
-		}
-		if (Gdx.input.isKeyPressed(Keys.W)) {
-			player.setVelocityY(2);
-		} else if (Gdx.input.isKeyPressed(Keys.S)) {
-			player.setVelocityY(-2);
-		} else {
-			player.setVelocityY(0);
-		}
-
-		if(Gdx.input.isKeyJustPressed(Keys.J)){
-			player.use();
-		}
+		// TODO Auto-generated method stub
 		
-//		if(Gdx.input.isKeyPressed(Keys.SPACE)){
-//			lsm.getTe().start();
-//		}
-		
-//		System.out.println(player.getVelocity().toString());
 	}
-
-	private float timeElapsed;
-
 	@Override
 	public void update(float dt) {
-		handleInput();
-		timeElapsed += dt;
+		
+		if(d.isFinished()){
+			lsm.setState(LevelStateManager.Level_7);
+		}
+		
+		if(d.getName().equals("YOU")){
+			currentSound = playerS;
+		}else if(d.getName().equals("GIRL")){
+			currentSound = girlS;
+		}else if(d.getName().equals("CAT")){
+			currentSound = catS;
 
-//		System.out.println(lsm.getTe().isStart());
+
+		}
 		
-//		if (timeElapsed >= 4) {
-//			if(!lsm.getTe().isStart())
-//				lsm.getTe().start();
-//		}
-//		if (timeElapsed >= 6) {
-//			lsm.setState(LevelStateManager.Level_2);
-//
-//		}	
+		d.update(dt, currentSound);
+		
+		if(d.isIntroDone()){
+			//teenGirl.update(dt);
+			//teenAni.update(dt);
+			
+			if(d.getName().equals("YOU")){
+				teenAni.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
+			}else if(d.getName().equals("GIRL")){
+				teenGirl.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
+			}
+		}
+		
+		if(d.getName().equals("YOU")){
+			font.setColor(Color.BLUE);
+		}else if(d.getName().equals("GIRL")){
+			font.setColor(Color.PURPLE);
+		}else{
+			font.setColor(Color.GREEN);
+		}
 		
 		
-		player.update(dt);
-		player.getBody().setLinearVelocity(player.getVelocity());
-		box.update(dt);
-		System.out.println(player.getCurrentWeapon().isInRange(box.getPosition().x * B2DVars.PPM, box.getPosition().y * B2DVars.PPM));
+		
 	}
 
 	@Override
 	public void render() {
-
+		// TODO Auto-generated method stub
+		layout.setText(font, d.getCharacterLine());
+		float width = layout.width;// contains the width of the current set text
+		//float height = layout.height; // contains the height of the current set text
 		batch.setProjectionMatrix(cam.combined);
-		tmr.setView(cam);
-		batch.begin();
-			tmr.render();
-			b2dr.render(game.getWorld(), cam.combined.scl(PPM));
-		batch.end();
-
-		//cam.unproject(new Vector3(player.getPosition(), 0));
-		cam.update();
-
-		player.render(batch);
 		
 		batch.begin();
-		font.draw(batch, "Level 1, time: " + timeElapsed, Gdx.graphics.getWidth() / 2,
-				Gdx.graphics.getHeight() / 2 + 50);
-		box.render(batch);
+		
+			batch.draw(bg, 0, 0, FireFighterGame.V_WIDTH, FireFighterGame.V_HEIGHT);
+			batch.draw(bgBar, 0, FireFighterGame.V_HEIGHT -  FireFighterGame.V_HEIGHT / 4, FireFighterGame.V_WIDTH - 50, FireFighterGame.V_HEIGHT / 6);
+			batch.draw(teenGirl.getFrame(), FireFighterGame.V_WIDTH - teenGirl.getFrame().getRegionWidth() * 1.5f, 5 , 500, 500);
+			batch.draw(teenAni.getFrame(), 5, 5 ,500, 500);
+			
+			font.draw(batch, d.getName(), FireFighterGame.V_WIDTH/2  - 15, 625);
+			font.draw(batch, d.getCharacterLine(),  FireFighterGame.V_WIDTH/2 - width/2, 600);
 		batch.end();
+		
+		d.render(batch);
 	}
-
+	
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		font.dispose();
-		tmr.dispose();
-		b2dr.dispose();
-		player.dispose();
+		d.dispose();
+		FireFighterGame.res.removeSound("playerS");
+		FireFighterGame.res.removeSound("girldS");
+		FireFighterGame.res.removeSound("catS");
 	}
 
 }
