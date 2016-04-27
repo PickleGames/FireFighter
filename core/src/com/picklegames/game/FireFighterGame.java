@@ -19,7 +19,7 @@ public class FireFighterGame extends ApplicationAdapter {
 	
 	private SpriteBatch batch;
 	private OrthographicCamera cam;
-	private OrthographicCamera hudCam;
+	public static OrthographicCamera hudCam;
 	private GameStateManager gsm;
 
 	
@@ -39,7 +39,7 @@ public class FireFighterGame extends ApplicationAdapter {
 		cam.setToOrtho(false, V_WIDTH / SCALE, V_HEIGHT / SCALE);
 		
 		hudCam = new OrthographicCamera();
-		hudCam.setToOrtho(false, V_WIDTH, V_HEIGHT);
+		hudCam.setToOrtho(false, V_WIDTH / SCALE, V_HEIGHT / SCALE);
 
 		// load up game
 		gsm = new GameStateManager(this);
@@ -94,7 +94,6 @@ public class FireFighterGame extends ApplicationAdapter {
 	public GameStateManager getGsm() {
 		return gsm;
 	}
-
 
 	public World getWorld() {
 		return world;

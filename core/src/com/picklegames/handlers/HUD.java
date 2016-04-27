@@ -1,6 +1,6 @@
 package com.picklegames.handlers;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,14 +11,15 @@ public class HUD {
 	private Animation weapons;
 	private TextureRegion[] weapReg;
 	private Texture box;
-	
+	private OrthographicCamera cam;
 	public enum HudState {
 		EXTINGUISHER, AXE
 	}
 	
 	public HudState hudState;
 	
-	public HUD(){
+	public HUD(OrthographicCamera cam){
+		this.cam = cam;
 		init();
 	}
 	
@@ -50,8 +51,8 @@ public class HUD {
 	public void render(SpriteBatch batch){
 		
 		batch.begin();
-		batch.draw(box, 10, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() * .255f);
-		batch.draw(weapons.getFrame(), 10, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() * .255f);
+		batch.draw(box, cam.position.x - cam.viewportWidth / 2, cam.viewportHeight - cam.viewportHeight * .175f);
+		batch.draw(weapons.getFrame(), cam.position.x - cam.viewportWidth / 2, cam.viewportHeight - cam.viewportHeight * .175f);
 		batch.end();
 	}
 	

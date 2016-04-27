@@ -3,6 +3,7 @@ package com.picklegames.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.picklegames.handlers.MathHelper;
 import com.picklegames.handlers.Box2D.B2DVars;
@@ -10,6 +11,7 @@ import com.picklegames.handlers.Box2D.B2DVars;
 public class Explosion extends Entity{
 	private ParticleEffect explosion;
 	private boolean isStart;
+
 	public Explosion(Body body){
 		super(body);
 		
@@ -53,11 +55,14 @@ public class Explosion extends Entity{
 		isStart = false;
 	}
 	
-	public void push(Body body){
-		//TODO Need adjustment
-		body.applyLinearImpulse(-200, 0, 100, 100, true);
+	public void push(Body body){	
+		body.applyLinearImpulse(new Vector2(-100000,0), this.body.getPosition(), true);
 	}
 	
+	public boolean isStart() {
+		return isStart;
+	}
+
 	public boolean isComplete(){
 		return explosion.isComplete();
 	}

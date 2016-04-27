@@ -55,6 +55,7 @@ public class Level6 extends LevelState {
 	private ArrayList<Fire> fires;
 	private ArrayList<Explosion> explosions;
 
+	private CameraStyles camStyle;
 	
 	private HUD hud;
 
@@ -97,10 +98,10 @@ public class Level6 extends LevelState {
 		fires = new ArrayList<Fire>();
 		explosions = new ArrayList<Explosion>();
 		
-		hud = new HUD();
+		hud = new HUD(cam);
 		
 		createDebrisBox2D();
-
+		camStyle = new CameraStyles();
 	}
 
 	@Override
@@ -249,6 +250,11 @@ public class Level6 extends LevelState {
 				if(e.isInRadius(player.getPosition().x * PPM, player.getPosition().y * PPM, 300)){
 					e.push(player.getBody());
 					e.start();
+					
+					
+				}
+				if(e.isStart()){
+					camStyle.Shake(cam, initialCamPos, 500f, 1f);
 				}
 				
 				if(e.isComplete()){
@@ -259,6 +265,8 @@ public class Level6 extends LevelState {
 				}
 			}
 		}
+		
+		camStyle.update(dt);
 	}
 
 	Vector3 initialCamPos = new Vector3(cam.position);
@@ -274,10 +282,11 @@ public class Level6 extends LevelState {
 		float endHeight = tileMap.getProperties().get("height", Integer.class) * 32 - starty * 2;
 		System.out.println("endx: " + endWidth + " endy: " + endHeight);
 		System.out.println(cam.position);
-		CameraStyles.Lerp(cam, .5f, player.getWorldPosition());
-		CameraStyles.Boundary(cam, startx, starty, endWidth, endHeight);
+		
+		camStyle.Lerp(cam, .5f, player.getWorldPosition());
+		camStyle.Boundary(cam, startx, starty, endWidth, endHeight);
 		initialCamPos = new Vector3(cam.position);
-		CameraStyles.Shake(cam, initialCamPos, 4f);
+		
 		
 		tmr.setView(cam);
 		batch.begin();

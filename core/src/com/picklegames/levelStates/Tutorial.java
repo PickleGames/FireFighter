@@ -90,7 +90,7 @@ public class Tutorial extends LevelState {
 		people = new ArrayList<Person>();
 		fires = new ArrayList<Fire>();
 
-		hud = new HUD();
+		hud = new HUD(cam);
 
 		createDebrisBox2D();
 
