@@ -79,7 +79,7 @@ public class Level1 extends LevelState {
 		bgBar = FireFighterGame.res.getTexture("diaBox");
 
 		FireFighterGame.res.loadSound("sound/wac.mp3", "playerS");
-		FireFighterGame.res.loadSound("sound/wac.mp3", "girlS");
+		FireFighterGame.res.loadSound("sound/girlWomp.mp3", "girlS");
 		FireFighterGame.res.loadSound("sound/wac.mp3", "catS");
 		playerS = FireFighterGame.res.getSound("playerS");
 		girlS = FireFighterGame.res.getSound("girlS");
@@ -111,7 +111,7 @@ public class Level1 extends LevelState {
 
 			if (d.getName().equals("YOU")) {
 				currentSound = playerS;
-			} else if (d.getName().equals("GIRL")) {
+			} else if (d.getName().equals("JOYCE")) {
 				currentSound = girlS;
 			} else if (d.getName().equals("CAT")) {
 				currentSound = catS;
@@ -126,14 +126,14 @@ public class Level1 extends LevelState {
 
 				if (d.getName().equals("YOU")) {
 					teenAni.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
-				} else if (d.getName().equals("GIRL")) {
+				} else if (d.getName().equals("JOYCE")) {
 					teenGirl.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
 				}
 			}
 
 			if (d.getName().equals("YOU")) {
 				font.setColor(Color.BLUE);
-			} else if (d.getName().equals("GIRL")) {
+			} else if (d.getName().equals("JOYCE")) {
 				font.setColor(Color.PURPLE);
 			} else {
 				font.setColor(Color.GREEN);

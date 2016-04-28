@@ -82,6 +82,7 @@ public class Level2 extends LevelState implements ContactListener{
 		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 100, 100, player.getWidth() / 3.5f,
 				player.getHeight() / 9, new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp",
 				B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
+//		player.characterState = CharacterState.YOUNG;
 
 		cat = new Cat();
 
@@ -119,21 +120,21 @@ public class Level2 extends LevelState implements ContactListener{
 		}
 
 		// if (player.getCurrentWeapon().isUsable()) {
-		if (Gdx.input.isKeyJustPressed(Keys.J)) {
-			player.use();
-		}
+//		if (Gdx.input.isKeyJustPressed(Keys.J)) {
+//			player.use();
+//		}
 		// }
 
-		if (player.characterState.equals(CharacterState.ADULT)) {
-			if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
-				player.getCurrentWeapon().reset();
-				player.weaponState = WeaponState.AXE;
-			}
-			if (Gdx.input.isKeyJustPressed(Keys.NUM_2)) {
-				player.getCurrentWeapon().reset();
-				player.weaponState = WeaponState.EXTINGUISHER;
-			}
-		}
+//		if (player.characterState.equals(CharacterState.ADULT)) {
+//			if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
+//				player.getCurrentWeapon().reset();
+//				player.weaponState = WeaponState.AXE;
+//			}
+//			if (Gdx.input.isKeyJustPressed(Keys.NUM_2)) {
+//				player.getCurrentWeapon().reset();
+//				player.weaponState = WeaponState.EXTINGUISHER;
+//			}
+//		}
 
 		if (Gdx.input.isKeyPressed(Keys.Q)) {
 			cam.viewportHeight += 10;

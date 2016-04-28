@@ -1,0 +1,8 @@
+YOU:2:1:"Ma'am are you alright?"
+VET JOYCE:2:0:"Yeah, I'm alright."
+VET JOYCE:2:0:"Hey. don't I know you? You look familiar."
+YOU:2:1:"..."
+VET JOYCE:2:0:"Oh my god. Hey it's me Joyce. Remember the cat you saved "Whiskey" ."
+YOU:2:1:"I do remember now. You look the same. Just a bit older."
+VET JOYCE:2:0:"Yeah. Time does that to people. I should treat you to dinner. A thank you for saving me."
+YOU:2:1:"That would be great."

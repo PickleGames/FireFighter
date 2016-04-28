@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
+import com.picklegames.TweenAccessor.SpriteTweenAccessor;
 import com.picklegames.entities.Debris;
 import com.picklegames.entities.Explosion;
 import com.picklegames.entities.Fire;
@@ -38,6 +39,7 @@ import com.picklegames.handlers.Box2D.CreateBox2D;
 import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
 
 public class Level6 extends LevelState {
 
@@ -159,7 +161,15 @@ public class Level6 extends LevelState {
 		 transport.update(dt);
 		hud.update(dt);
 
-		if (player.weaponState.equals(WeaponState.AXE)) {
+		
+		hud.playerHurt(player.isInDanger());
+		
+		if(player.isDead()){
+			lsm.setState(LevelStateManager.Dead);
+		}
+		
+		
+		if(player.weaponState.equals(WeaponState.AXE)){
 			hud.hudState = HudState.AXE;
 		} else if (player.weaponState.equals(WeaponState.EXTINGUISHER)) {
 			hud.hudState = HudState.EXTINGUISHER;
@@ -182,7 +192,11 @@ public class Level6 extends LevelState {
 			for (int i = 0; i < fires.size(); i++) {
 				Fire f = fires.get(i);
 				f.update(dt);
-
+				
+				if(f.isInRadius(player.getWorldPosition().x, player.getWorldPosition().y, 100)){
+					player.burn(.05f);
+				}
+				
 				if (!(player.getCurrentWeapon() instanceof Extinguisher))
 					continue;
 
@@ -242,8 +256,9 @@ public class Level6 extends LevelState {
 				if (e.isInRadius(player.getPosition().x * PPM, player.getPosition().y * PPM, 300)) {
 					e.push(player.getBody());
 					e.start();
-
+					player.setHealth(player.getHealth()- 90f);
 				}
+				
 				if (e.isStart()) {
 					lsm.getCamStyle().Shake(cam, initialCamPos, 500f, 1f);
 				}
@@ -271,8 +286,8 @@ public class Level6 extends LevelState {
 		float starty = cam.viewportHeight / 2;
 		float endWidth = tileMap.getProperties().get("width", Integer.class) * 32 - startx * 2;
 		float endHeight = tileMap.getProperties().get("height", Integer.class) * 32 - starty * 2;
-		System.out.println("endx: " + endWidth + " endy: " + endHeight);
-		System.out.println(cam.position);
+//		System.out.println("endx: " + endWidth + " endy: " + endHeight);
+//		System.out.println(cam.position);
 
 		lsm.getCamStyle().Lerp(cam, .5f, player.getWorldPosition());
 		lsm.getCamStyle().Boundary(cam, startx, starty, endWidth, endHeight);
@@ -310,8 +325,11 @@ public class Level6 extends LevelState {
 		batch.end();
 
 		batch.begin();
-		font.draw(batch, "Level 6, time: " + timeElapsed, Gdx.graphics.getWidth() / 2,
-				Gdx.graphics.getHeight() / 2 + 50);
+		font.draw(batch, "Level 6, time: " + timeElapsed, cam.viewportWidth / 2,
+				cam.viewportHeight / 2 + 50);
+		font.draw(batch, "PLAYER HEALTH: " + player.getHealth(),cam.viewportWidth / 2 + 100,
+				cam.viewportHeight / 2 + 50);
+		
 		batch.end();
 
 		hud.render(batch);

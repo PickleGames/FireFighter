@@ -17,12 +17,20 @@ import com.picklegames.handlers.Box2D.B2DVars;
 import com.picklegames.handlers.Box2D.CreateBox2D;
 
 public class Lamp extends Entity {
-
+	
 	private TextureRegion[] textureR, textureAdult_ext, textureAdult_axe, textureAdult_ext_use, textureAdult_axe_use;
-	private Texture textureYoungStand;
+//	private Texture textureYoungStand;
 
 	private Weapon[] weapons;
 	private Weapon currentWeapon;
+	
+	private float health = 100;
+	private float healthLast;
+
+	private boolean isInDanger = false;
+	
+	
+	private boolean isDead = false;
 
 	public enum CharacterState {
 		YOUNG, ADULT
@@ -47,12 +55,12 @@ public class Lamp extends Entity {
 
 	public void init() {
 
-		characterState = CharacterState.ADULT;
+		characterState = CharacterState.YOUNG;
 		weaponState = WeaponState.EXTINGUISHER;
 
 		FireFighterGame.res.loadTexture("image/Character/WalkingSprites.png", "YoungWalkLamp");
-		FireFighterGame.res.loadTexture("image/Character/Stand_1.png", "Lamp_Stand_Young");
-
+//		FireFighterGame.res.loadTexture("image/Character/Stand_1.png", "Lamp_Stand_Young");
+//		textureYoungStand = FireFighterGame.res.getTexture("Lamp_Stand_Young");
 		// FireFighterGame.res.loadTexture("image/Character/FireManSide.png",
 		// "Lamp_Stand_Adult");
 
@@ -98,7 +106,6 @@ public class Lamp extends Entity {
 		currentWeapon = weapons[2];
 		
 		
-		
 	}
 
 	public void createWeapon() {
@@ -109,10 +116,27 @@ public class Lamp extends Entity {
 	boolean isSetExtWalk = false;
 	boolean isSetAxeUse = false;
 	boolean isSetExtUse = false;
-
+	boolean isSetYoung= false;
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+		if(health >= 100){
+			health = 100;
+		}
+		
+		if(isDamagedApplied(health, healthLast)){
+			health += .05f;
+		}
+		
+		if(health < 1){
+			isDead = true;
+		}
+		
+		if(getHealth() < 30){
+			isInDanger = true;
+		}else{
+			isInDanger = false;
+		}
 
 		if (characterState.equals(CharacterState.ADULT)) {
 			if (currentWeapon.isUse()) {
@@ -161,11 +185,19 @@ public class Lamp extends Entity {
 			
 
 		} else if (characterState.equals(CharacterState.YOUNG)) {
-
+			if(!isSetYoung){
+				animation.setFrames(textureR, 1 / 8f);
+				isSetYoung = true;
+			}
 		}
-
+		
+		healthLast = health;
 	}
 
+	private boolean isDamagedApplied(float health, float last){
+		return last > health;
+	}
+	
 	public void use() {
 		if (!characterState.equals(CharacterState.YOUNG)) {
 			currentWeapon.use();
@@ -182,10 +214,12 @@ public class Lamp extends Entity {
 
 	public void render(SpriteBatch spriteBatch) {
 		spriteBatch.begin();
+		
 
 		if (characterState.equals(CharacterState.YOUNG)) {
 			if (velocity.x == 0 && velocity.y == 0) {
-				spriteBatch.draw(textureYoungStand, getPosition().x * PPM - width / 2,
+				animation.setCurrentFrame(0);
+				spriteBatch.draw(animation.getFrame(), getPosition().x * PPM - width / 2,
 						getPosition().y * PPM - height / 2, width, height);
 			}
 		} else if (characterState.equals(CharacterState.ADULT)) {
@@ -197,19 +231,42 @@ public class Lamp extends Entity {
 			}
 		}
 		
-		if (velocity.x > 0)
+		if (velocity.x > 0){
 			spriteBatch.draw(animation.getFrame(), getPosition().x * PPM - width / 2,
 					getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
-		else if (velocity.x < 0)
+		}
+		else if (velocity.x < 0){
 			spriteBatch.draw(animation.getFrame(), getPosition().x * PPM - width / 2,
 					getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, -1, 1, 0);
+		}
 		else {
 			spriteBatch.draw(animation.getFrame(), getPosition().x * PPM - width / 2,
 					getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
 		}
 
+		
 		spriteBatch.end();
 
+	}
+
+	public float getHealth() {
+		return health;
+	}
+
+	public void setHealth(float health) {
+		this.health = health;
+	}
+	
+	public void burn(float i){
+		health -= i;
+	}
+	
+	public boolean isInDanger(){
+		return isInDanger;
+	}
+	
+	public boolean isDead(){
+		return isDead;
 	}
 
 	public void dispose() {
