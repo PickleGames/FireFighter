@@ -22,6 +22,8 @@ public class Dead extends LevelState{
 		FireFighterGame.res.loadTexture("image/Backgrounds/dead.png", "dead");
 		
 		tex = FireFighterGame.res.getTexture("dead");
+		
+		cam.update();
 	}
 
 	@Override
@@ -40,7 +42,7 @@ public class Dead extends LevelState{
 	public void render() {
 		// TODO Auto-generated method stub
 		batch.begin();
-		batch.draw(tex, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		batch.draw(tex, 0, 0, cam.viewportWidth, cam.viewportHeight);
 		batch.end();
 		
 	}
