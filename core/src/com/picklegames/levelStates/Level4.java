@@ -180,7 +180,7 @@ public class Level4 extends LevelState {
 			}
 
 			if (timeElapsed >= 2f) {
-				lsm.setState(LevelStateManager.Level_3);
+				lsm.setState(LevelStateManager.Level_5);
 			}
 		} else {
 			for (int i = 0; i < fires.size(); i++) {

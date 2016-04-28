@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.picklegames.game.FireFighterGame;
 import com.picklegames.handlers.MathHelper;
 import com.picklegames.handlers.Box2D.B2DVars;
 
@@ -21,6 +22,10 @@ public class Explosion extends Entity{
 		explosion.setPosition(body.getPosition().x * B2DVars.PPM, body.getPosition().y * B2DVars.PPM);
 		
 		isStart = false;
+		
+		FireFighterGame.res.loadSound("sound/Explosion.mp3", "boom");
+		
+		
 	}
 	
 	@Override
@@ -48,6 +53,7 @@ public class Explosion extends Entity{
 		if(!isStart){
 			explosion.start();
 			isStart = true;
+			FireFighterGame.res.getSound("boom").play();
 		}
 	}
 	

@@ -92,7 +92,6 @@ public class LevelStateManager {
 		levelStates.peek().update(dt);
 		te.update(dt);
 		tweenManager.update(dt);
-
 	}
 
 	public void render(SpriteBatch batch) {

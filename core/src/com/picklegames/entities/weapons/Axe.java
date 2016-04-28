@@ -24,6 +24,8 @@ public class Axe extends Weapon{
 		setTimeCoolDown(1);
 		animation.setFrames(texR, 1/8f);
 		setRadius(200f);
+		
+		FireFighterGame.res.loadSound("sound/Chopping Sound.mp3", "chop");
 	}
 
 	@Override
@@ -32,6 +34,7 @@ public class Axe extends Weapon{
 			setIsUse(true);
 			setUsable(false);
 			System.out.println("use");	
+			FireFighterGame.res.getSound("chop").play();
 		}
 	}
 

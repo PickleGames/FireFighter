@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.picklegames.game.FireFighterGame;
 import com.picklegames.handlers.MathHelper;
 import com.picklegames.handlers.Box2D.B2DVars;
 
@@ -17,6 +18,8 @@ public class Extinguisher extends Weapon{
 		thingy.getEmitters().first().setPosition(getPosition().x, getPosition().y);
 		setRadius(200f);
 		setTimeCoolDown(1);
+		
+		FireFighterGame.res.loadSound("sound/Fire Extinguisher Sound Effect.mp3", "ext");
 	}
 	
 	public void update(float dt){
@@ -44,6 +47,8 @@ public class Extinguisher extends Weapon{
 	public void use() {
 		setIsUse(true);
 		System.out.println("use");
+		
+		FireFighterGame.res.getSound("ext").play();
 		
 		if(!thingy.isComplete()) return;
 		thingy.start();

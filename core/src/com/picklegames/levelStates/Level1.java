@@ -104,6 +104,7 @@ public class Level1 extends LevelState {
 				lsm.setState(LevelStateManager.Level_7);
 			}
 
+
 			if (d.getName().equals("YOU")) {
 				currentSound = playerS;
 			} else if (d.getName().equals("GIRL")) {
