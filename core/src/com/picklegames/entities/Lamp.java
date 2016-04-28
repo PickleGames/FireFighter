@@ -2,12 +2,15 @@ package com.picklegames.entities;
 
 import static com.picklegames.handlers.Box2D.B2DVars.PPM;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.picklegames.TweenAccessor.SpriteTweenAccessor;
 import com.picklegames.entities.weapons.Axe;
 import com.picklegames.entities.weapons.Extinguisher;
 import com.picklegames.entities.weapons.NoWep;
@@ -16,13 +19,22 @@ import com.picklegames.game.FireFighterGame;
 import com.picklegames.handlers.Box2D.B2DVars;
 import com.picklegames.handlers.Box2D.CreateBox2D;
 
-public class Lamp extends Entity {
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
 
+public class Lamp extends Entity {
+	
 	private TextureRegion[] textureR, textureAdult_ext, textureAdult_axe, textureAdult_ext_use, textureAdult_axe_use;
 	private Texture textureYoungStand;
 
 	private Weapon[] weapons;
 	private Weapon currentWeapon;
+	
+	private float health = 100;
+	private boolean isInDanger = false;
+	
+	
+	private boolean isDead = false;
 
 	public enum CharacterState {
 		YOUNG, ADULT
@@ -98,7 +110,6 @@ public class Lamp extends Entity {
 		currentWeapon = weapons[2];
 		
 		
-		
 	}
 
 	public void createWeapon() {
@@ -113,6 +124,16 @@ public class Lamp extends Entity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+		
+		if(health < 1){
+			isDead = true;
+		}
+		
+		if(getHealth() < 25){
+			isInDanger = true;
+		}else{
+			isInDanger = false;
+		}
 
 		if (characterState.equals(CharacterState.ADULT)) {
 			if (currentWeapon.isUse()) {
@@ -182,6 +203,7 @@ public class Lamp extends Entity {
 
 	public void render(SpriteBatch spriteBatch) {
 		spriteBatch.begin();
+		
 
 		if (characterState.equals(CharacterState.YOUNG)) {
 			if (velocity.x == 0 && velocity.y == 0) {
@@ -208,8 +230,29 @@ public class Lamp extends Entity {
 					getPosition().y * PPM - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
 		}
 
+		
 		spriteBatch.end();
 
+	}
+
+	public float getHealth() {
+		return health;
+	}
+
+	public void setHealth(float health) {
+		this.health = health;
+	}
+	
+	public void burn(){
+		health -=.5f;
+	}
+	
+	public boolean isInDanger(){
+		return isInDanger;
+	}
+	
+	public boolean isDead(){
+		return isDead;
 	}
 
 	public void dispose() {

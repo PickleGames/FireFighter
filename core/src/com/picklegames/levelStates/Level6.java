@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
+import com.picklegames.TweenAccessor.SpriteTweenAccessor;
 import com.picklegames.entities.Debris;
 import com.picklegames.entities.Explosion;
 import com.picklegames.entities.Fire;
@@ -39,6 +40,7 @@ import com.picklegames.handlers.Box2D.CreateBox2D;
 import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
 
 public class Level6 extends LevelState {
 
@@ -161,6 +163,13 @@ public class Level6 extends LevelState {
 		transport.update(dt);
 		hud.update(dt);
 		
+		hud.playerHurt(player.isInDanger());
+		
+		if(player.isDead()){
+			lsm.setState(lsm.Dead);
+		}
+		
+		
 		if(player.weaponState.equals(WeaponState.AXE)){
 			hud.hudState = HudState.AXE;
 		}else if(player.weaponState.equals(WeaponState.EXTINGUISHER)){
@@ -183,7 +192,11 @@ public class Level6 extends LevelState {
 			for (int i = 0; i < fires.size(); i++) {
 				Fire f = fires.get(i);
 				f.update(dt);
-
+				
+				if(f.isInRadius(player.getWorldPosition().x, player.getWorldPosition().y, 100)){
+					player.burn();
+				}
+				
 				if (!(player.getCurrentWeapon() instanceof Extinguisher))
 					continue;
 
@@ -247,6 +260,7 @@ public class Level6 extends LevelState {
 				if(e.isInRadius(player.getPosition().x * PPM, player.getPosition().y * PPM, 300)){
 					e.push(player.getBody());
 					e.start();
+					player.setHealth(player.getHealth()- 90f);
 					
 					
 				}
@@ -322,6 +336,9 @@ public class Level6 extends LevelState {
 		batch.begin();
 		font.draw(batch, "Level 6, time: " + timeElapsed, Gdx.graphics.getWidth() / 2,
 				Gdx.graphics.getHeight() / 2 + 50);
+		font.draw(batch, "PLAYER HEALTH: " + player.getHealth(),Gdx.graphics.getWidth() / 2 + 100,
+				Gdx.graphics.getHeight() / 2 + 50);
+		
 		batch.end();
 	}
 

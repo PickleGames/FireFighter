@@ -39,19 +39,19 @@ public class Level9 extends LevelState{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		d = new Dialogue("dialogue/dialogue4.txt", "Spring, 1995");
+		d = new Dialogue("dialogue/dialogue5.txt", "Spring, 1995");
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 		font.setColor(Color.WHITE);
 		font.getData().scaleX = .4f;
 		layout = new GlyphLayout(); //dont do this every frame! Store it as member
 
-		FireFighterGame.res.loadTexture("image/Character/collegeFace.png", "coll");
+		FireFighterGame.res.loadTexture("image/Character/firemanFace.png", "manFace");
 		FireFighterGame.res.loadTexture("image/Character/vetFace.png", "vet");
 		FireFighterGame.res.loadTexture("image/Backgrounds/vetClinic.png", "vet_bg");
 		FireFighterGame.res.loadTexture("image/Backgrounds/diaBar.png", "diaBox");
 		
 		
-		reg1 = TextureRegion.split(FireFighterGame.res.getTexture("coll"), 300, 300)[0];
+		reg1 = TextureRegion.split(FireFighterGame.res.getTexture("manFace"), 300, 300)[0];
 		ani1 = new Animation();
 		ani1.setFrames(reg1);
 		
@@ -64,7 +64,7 @@ public class Level9 extends LevelState{
 		bgBar = FireFighterGame.res.getTexture("diaBox");
 		
 		FireFighterGame.res.loadSound("sound/wac.mp3", "playerS");
-		FireFighterGame.res.loadSound("sound/wac.mp3", "girlS");
+		FireFighterGame.res.loadSound("sound/girlWomp.mp3", "girlS");
 		FireFighterGame.res.loadSound("sound/wac.mp3", "catS");
 		playerS = FireFighterGame.res.getSound("playerS");
 		girlS = FireFighterGame.res.getSound("girlS");
@@ -92,7 +92,7 @@ public class Level9 extends LevelState{
 		
 		if(d.getName().equals("YOU")){
 			currentSound = playerS;
-		}else if(d.getName().equals("GIRL")){
+		}else if(d.getName().equals("VET JOYCE")){
 			currentSound = girlS;
 		}else if(d.getName().equals("CAT")){
 			currentSound = catS;
@@ -107,14 +107,14 @@ public class Level9 extends LevelState{
 			
 			if(d.getName().equals("YOU")){
 				ani1.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
-			}else if(d.getName().equals("VET")){
+			}else if(d.getName().equals("VET JOYCE")){
 				ani2.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
 			}
 		}
 		
 		if(d.getName().equals("YOU")){
 			font.setColor(Color.BLUE);
-		}else if(d.getName().equals("VET")){
+		}else if(d.getName().equals("VET JOYCE")){
 			font.setColor(Color.PURPLE);
 		}else{
 			font.setColor(Color.GREEN);
