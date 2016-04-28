@@ -85,7 +85,7 @@ public class Level0 extends LevelState {
 		}
 
 	}
-
+	float timeElapsed;
 	@Override
 	public void update(float dt) {
 		handleInput();
@@ -101,8 +101,12 @@ public class Level0 extends LevelState {
 		System.out.println(transport.isInRange(player.getBody().getPosition().x * B2DVars.PPM, player.getBody().getPosition().y * B2DVars.PPM, 100));
 		if(transport.isInRange(player.getBody().getPosition().x * B2DVars.PPM, player.getBody().getPosition().y * B2DVars.PPM, 200)){
 			explosion.start();
+			timeElapsed+=dt;
 		}
-		//System.out.println(player.getVelocity());
+
+		if(timeElapsed >= .5f){
+			lsm.setState(LevelStateManager.Level_1);
+		}
 	}
 
 	@Override
