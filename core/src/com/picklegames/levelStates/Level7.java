@@ -109,7 +109,7 @@ public class Level7 extends LevelState{
 			
 			if(d.getName().equals("YOU")){
 				ani1.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
-			}else if(d.getName().equals("CHEIF MIGGY")){
+			}else if(d.getName().equals("CHIEF MIGGY")){
 				ani2.setCurrentFrame(d.getCurrentLine().getAnimationIndex());
 			}
 		}

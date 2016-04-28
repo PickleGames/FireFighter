@@ -86,7 +86,7 @@ public class Level3 extends LevelState{
 	public void update(float dt) {
 		
 		if(d.isFinished()){
-			lsm.setState(LevelStateManager.Level_7);
+			lsm.setState(LevelStateManager.Level_4);
 		}
 		
 		if(d.getName().equals("YOU")){

@@ -178,7 +178,6 @@ public class Level8 extends LevelState {
 			if (!lsm.getTe().isStart()) {
 				lsm.getTe().start();
 			}
-
 			if (timeElapsed >= 2f) {
 				lsm.setState(LevelStateManager.Level_3);
 			}
