@@ -47,9 +47,12 @@ public class Level1 extends LevelState {
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		white = new Sprite(new Texture(("whitebg.png")));
+		white = new Sprite(new Texture(("image/Backgrounds/whitebg.png")));
+		
 		Tween.registerAccessor(Sprite.class, new SpriteTweenAccessor());
-		Tween.to(white, SpriteTweenAccessor.ALPHA, 1f).target(0).ease(TweenEquations.easeNone)
+		white.setAlpha(1);
+		white.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		Tween.to(white, SpriteTweenAccessor.ALPHA, 3f).target(0).delay(3f).ease(TweenEquations.easeNone)
 				.start(lsm.getTweenManager());
 
 		d = new Dialogue("dialogue/dialogue1.txt", "Summer, 1985");
@@ -99,9 +102,10 @@ public class Level1 extends LevelState {
 	@Override
 	public void update(float dt) {
 		timeElapsed += dt;
-		if (timeElapsed > 2f) {
+		
+		if (white.getColor().a <= .1f) {
 			if (d.isFinished()) {
-				lsm.setState(LevelStateManager.Level_7);
+				lsm.setState(LevelStateManager.Level_2);
 			}
 
 
@@ -141,7 +145,7 @@ public class Level1 extends LevelState {
 
 	@Override
 	public void render() {
-		// TODO Auto-generated method stub
+		
 		layout.setText(font, d.getCharacterLine());
 		float width = layout.width;// contains the width of the current set text
 		// float height = layout.height; // contains the height of the current
@@ -159,9 +163,14 @@ public class Level1 extends LevelState {
 
 		font.draw(batch, d.getName(), FireFighterGame.V_WIDTH / 2 - 15, 625);
 		font.draw(batch, d.getCharacterLine(), FireFighterGame.V_WIDTH / 2 - width / 2, 600);
+		
 		batch.end();
 
 		d.render(batch);
+		
+		batch.begin();
+		white.draw(batch);
+		batch.end();
 	}
 
 	@Override

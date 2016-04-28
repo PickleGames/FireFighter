@@ -33,7 +33,7 @@ public class Axe extends Weapon{
 		if(isUsable()){		
 			setIsUse(true);
 			setUsable(false);
-			System.out.println("use");	
+			//System.out.println("use");	
 			FireFighterGame.res.getSound("chop").play();
 		}
 	}

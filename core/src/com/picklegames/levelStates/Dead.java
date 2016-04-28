@@ -1,18 +1,16 @@
 package com.picklegames.levelStates;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.picklegames.game.FireFighterGame;
 import com.picklegames.managers.LevelStateManager;
 
 public class Dead extends LevelState{
 
-	private Texture tex;
+	private Sprite tex;
 	
 	public Dead(LevelStateManager lsm) {
 		super(lsm);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	@Override
@@ -21,9 +19,8 @@ public class Dead extends LevelState{
 		
 		FireFighterGame.res.loadTexture("image/Backgrounds/dead.png", "dead");
 		
-		tex = FireFighterGame.res.getTexture("dead");
-		
-		cam.update();
+		tex = new Sprite(FireFighterGame.res.getTexture("dead"));
+		tex.setSize(cam.viewportWidth, cam.viewportHeight);
 	}
 
 	@Override
@@ -42,15 +39,14 @@ public class Dead extends LevelState{
 	public void render() {
 		// TODO Auto-generated method stub
 		batch.begin();
-		batch.draw(tex, 0, 0, cam.viewportWidth, cam.viewportHeight);
+		tex.draw(batch);
 		batch.end();
 		
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+		FireFighterGame.res.disposeTexture("dead");
 	}
 
 }

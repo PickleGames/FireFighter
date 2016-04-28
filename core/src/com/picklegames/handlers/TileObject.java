@@ -28,11 +28,12 @@ public class TileObject {
 			BodyDef bdef = new BodyDef();
 			bdef.type = BodyDef.BodyType.StaticBody;
 			body = world.createBody(bdef);
+			body.setUserData("ground");
 			FixtureDef fdef = new FixtureDef();
 			fdef.shape = shape;
 			fdef.filter.categoryBits = B2DVars.BIT_GROUND;
 			fdef.filter.maskBits =  B2DVars.BIT_PLAYER;
-			body.createFixture(fdef);
+			body.createFixture(fdef).setUserData("ground");
 			shape.dispose();
 
 		}

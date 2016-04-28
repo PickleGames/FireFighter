@@ -106,7 +106,7 @@ public class Level4 extends LevelState {
 
 	@Override
 	public void handleInput() {
-		// TODO Auto-generated method stub
+
 		if(!player.getCurrentWeapon().isUse()){
 			if (Gdx.input.isKeyPressed(Keys.D)) {
 				player.setVelocityX(2);
@@ -357,8 +357,10 @@ public class Level4 extends LevelState {
 			float y = (float) mo.getProperties().get("y", Float.class);
 
 			// create new person and add to people list
-			Person f = new Person(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.DynamicBody,
-					"people", B2DVars.BIT_GROUND, B2DVars.BIT_GROUND));
+			Person f = new Person();
+			f.setBody(CreateBox2D.createBox(FireFighterGame.world, x, y, 20, 20,
+					new Vector2(0, 0), BodyType.DynamicBody, "lamp", B2DVars.BIT_PLAYER,
+					B2DVars.BIT_PLAYER));
 			people.add(f);
 		}
 
