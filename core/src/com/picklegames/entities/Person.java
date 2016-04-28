@@ -5,6 +5,7 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.picklegames.game.FireFighterGame;
@@ -17,17 +18,15 @@ public class Person extends Entity {
 	private BitmapFont font;
 	private Random r;
 	
-	private Texture tex;
+	private TextureRegion[] personStand, personRun;
 	
 	public enum PersonState {
 		HELP, RUN
 	}
 
 	public PersonState personState;
-	
-	public Person(Body body) {
-		super(body);
-
+	public Person(){
+		super();
 		r = new Random();
 
 		expressions = new String[4];
@@ -37,31 +36,49 @@ public class Person extends Entity {
 		expressions[2] = "PLEASE HELP ME";
 		expressions[3] = "I DON'T WANT TO DIE!!";
 		
-		FireFighterGame.res.loadTexture("image/Character/person.png", "person");
+		FireFighterGame.res.loadTexture("image/Character/person_stand.png", "person_stand");
+		FireFighterGame.res.loadTexture("image/Character/person_run.png", "person_run");
 		
-		tex = FireFighterGame.res.getTexture("person");
-		width = tex.getWidth();
-		height = tex.getHeight();
+		Texture tps = FireFighterGame.res.getTexture("person_stand"); //925 564
+		Texture tpr = FireFighterGame.res.getTexture("person_run"); //1158 600
+		personStand = TextureRegion.split(tps, 925 / 3, 568)[0];
+		personRun = TextureRegion.split(tpr, 1500 / 4, 500)[0];
+		
+		animation.setFrames(personStand, 1/8f);
+		
+		width = animation.getFrame().getRegionWidth() * .4f;
+		height = animation.getFrame().getRegionHeight() * .4f;
 
 		font = new BitmapFont();
 		personState = PersonState.HELP;
 	}
+	
+	public Person(Body body) {
+		super(body);
+	}
 
+	boolean isRun = false;
 	public void update(float dt) {
 		super.update(dt);
 
 		if (personState.equals(PersonState.HELP)) {
 			updateHelp(dt);
 		} else if(personState.equals(PersonState.RUN)){
+			if(!isRun){
+				animation.setFrames(personRun);
+				width = animation.getFrame().getRegionWidth() * .356f;
+				height = animation.getFrame().getRegionHeight() * .356f;
+				isRun = true;
+			}
 			runAway();
-			//System.out.println("person velocity " + body.getLinearVelocity().toString());
+			
 		}
 
 	}
 
 	public void render(SpriteBatch batch) {
 		
-		batch.draw(tex, body.getPosition().x * B2DVars.PPM - width / 2, body.getPosition().y * B2DVars.PPM - height / 2);
+		batch.draw(animation.getFrame(), body.getPosition().x * B2DVars.PPM - width /2 , body.getPosition().y * B2DVars.PPM - height /2 , width, height);
 		if (personState.equals(PersonState.HELP)) {
 			font.draw(batch, currentSay, body.getPosition().x * B2DVars.PPM - width / 2,
 					(body.getPosition().y * B2DVars.PPM - width / 2) + 100);
@@ -85,7 +102,7 @@ public class Person extends Entity {
 	}
 
 	private void runAway() {
-		body.setLinearVelocity(new Vector2(-2,0));
+		body.setLinearVelocity(new Vector2(-5,0));
 	}
 
 

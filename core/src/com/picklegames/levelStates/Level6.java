@@ -30,7 +30,6 @@ import com.picklegames.entities.Transport;
 import com.picklegames.entities.weapons.Axe;
 import com.picklegames.entities.weapons.Extinguisher;
 import com.picklegames.game.FireFighterGame;
-import com.picklegames.handlers.CameraStyles;
 import com.picklegames.handlers.HUD;
 import com.picklegames.handlers.HUD.HudState;
 import com.picklegames.handlers.TileObject;
@@ -54,7 +53,7 @@ public class Level6 extends LevelState {
 	private ArrayList<Person> people;
 	private ArrayList<Fire> fires;
 	private ArrayList<Explosion> explosions;
-	
+
 	private HUD hud;
 
 	public Level6(LevelStateManager lsm) {
@@ -67,24 +66,23 @@ public class Level6 extends LevelState {
 
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
-		tileMap = new TmxMapLoader().load("map/catlevel.tmx");
+		tileMap = new TmxMapLoader().load("map/level1.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
-//		cam.viewportWidth = tmr.getMap().getProperties().get("width", Integer.class) * 32;
-//		cam.viewportHeight = tmr.getMap().getProperties().get("height", Integer.class) * 32;
-//		cam.viewportWidth = tmr.getMap().getProperties().get("width", Integer.class) * 32;
+		// cam.viewportWidth = tmr.getMap().getProperties().get("width",
+		// Integer.class) * 32;
 		cam.viewportHeight = tmr.getMap().getProperties().get("height", Integer.class) * 32;
-//		cam.position.x = cam.viewportWidth / 2;
+		// cam.position.x = cam.viewportWidth / 2;
 		cam.position.y = cam.viewportHeight / 2;
-		
-		//batch.setTransformMatrix(cam.combined.scl(PPM));
-		
+
+		// batch.setTransformMatrix(cam.combined.scl(PPM));
+
 		player = lsm.getPlayer();
 		player.scl(2f);
-		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 100, 100, player.getWidth() / 3.5f, player.getHeight() / 9,
-				new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp", B2DVars.BIT_PLAYER,
-				B2DVars.BIT_GROUND));
-		
+		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 10, 100, player.getWidth() / 3.5f,
+				player.getHeight() / 9, new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp",
+				B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
+
 		b2dr = new Box2DDebugRenderer();
 
 		font = new BitmapFont();
@@ -95,16 +93,16 @@ public class Level6 extends LevelState {
 		people = new ArrayList<Person>();
 		fires = new ArrayList<Fire>();
 		explosions = new ArrayList<Explosion>();
-		
+
 		hud = new HUD(cam);
-		
+
 		createDebrisBox2D();
 	}
 
 	@Override
 	public void handleInput() {
 		// TODO Auto-generated method stub
-		if(!player.getCurrentWeapon().isUse()){
+		if (!player.getCurrentWeapon().isUse()) {
 			if (Gdx.input.isKeyPressed(Keys.D)) {
 				player.setVelocityX(2);
 			} else if (Gdx.input.isKeyPressed(Keys.A)) {
@@ -121,12 +119,12 @@ public class Level6 extends LevelState {
 			}
 		}
 
-		//if (player.getCurrentWeapon().isUsable()) {
-			if (Gdx.input.isKeyJustPressed(Keys.J)) {
-				player.use();
-			}
-		//}
-			
+		// if (player.getCurrentWeapon().isUsable()) {
+		if (Gdx.input.isKeyJustPressed(Keys.J)) {
+			player.use();
+		}
+		// }
+
 		if (player.characterState.equals(CharacterState.ADULT)) {
 			if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
 				player.getCurrentWeapon().reset();
@@ -155,21 +153,22 @@ public class Level6 extends LevelState {
 		handleInput();
 
 		player.update(dt);
-		//player.getBody().setLinearVelocity(player.getVelocity());
-		//player.setSize(player.getWidth() - 2, player.getHeight() - 2);
-		
-		transport.update(dt);
+		// player.getBody().setLinearVelocity(player.getVelocity());
+		// player.setSize(player.getWidth() - 2, player.getHeight() - 2);
+
+		 transport.update(dt);
 		hud.update(dt);
-		
-		if(player.weaponState.equals(WeaponState.AXE)){
+
+		if (player.weaponState.equals(WeaponState.AXE)) {
 			hud.hudState = HudState.AXE;
-		}else if(player.weaponState.equals(WeaponState.EXTINGUISHER)){
+		} else if (player.weaponState.equals(WeaponState.EXTINGUISHER)) {
 			hud.hudState = HudState.EXTINGUISHER;
 		}
 
-		if (transport.isInRange(player.getPosition().x * B2DVars.PPM, player.getPosition().y * B2DVars.PPM, 100)) {
-			isTransport = true;
-		}
+		 if (transport.isInRange(player.getPosition().x * B2DVars.PPM,
+		 player.getPosition().y * B2DVars.PPM, 100)) {
+		 isTransport = true;
+		 }
 		if (isTransport) {
 			timeElapsed += dt;
 			if (!lsm.getTe().isStart()) {
@@ -192,16 +191,12 @@ public class Level6 extends LevelState {
 						float life = f.getParticleEffect().getEmitters().first().getLife().getHighMax();
 						f.getParticleEffect().getEmitters().first().getLife().setHighMax(life -= 5f);
 
-						// Tween.to(f.getParticleEffect(),
-						// ParticleEffectTweenAccessor.LIFE, 2).target(0, 0)
-						// .ease(TweenEquations.easeNone).start(lsm.getTweenManager());
 					} else {
 
 					}
 
 				}
-				// System.out.println(f.getParticleEffect().getEmitters().first().getLife().getHighMax()
-				// );
+
 				if (f.getParticleEffect().getEmitters().first().getLife().getHighMax() <= 0f) {
 					f.dispose();
 					game.getWorld().destroyBody(f.getBody());
@@ -221,7 +216,7 @@ public class Level6 extends LevelState {
 			for (int i = 0; i < crap.size(); i++) {
 				Debris d = crap.get(i);
 				d.update(dt);
-				if (!(player.getCurrentWeapon() instanceof Axe))
+				if (!(player.getCurrentWeapon() instanceof Axe) && d.getHealth() > 0)
 					continue;
 
 				if (player.getCurrentWeapon().isInRange(d.getPosition().x * PPM, d.getPosition().y * PPM)) {
@@ -240,21 +235,20 @@ public class Level6 extends LevelState {
 					i--;
 				}
 			}
-			
+
 			for (int i = 0; i < explosions.size(); i++) {
 				Explosion e = explosions.get(i);
 				e.update(dt);
-				if(e.isInRadius(player.getPosition().x * PPM, player.getPosition().y * PPM, 300)){
+				if (e.isInRadius(player.getPosition().x * PPM, player.getPosition().y * PPM, 300)) {
 					e.push(player.getBody());
 					e.start();
-					
-					
+
 				}
-				if(e.isStart()){
+				if (e.isStart()) {
 					lsm.getCamStyle().Shake(cam, initialCamPos, 500f, 1f);
 				}
-				
-				if(e.isComplete()){
+
+				if (e.isComplete()) {
 					e.dispose();
 					game.getWorld().destroyBody(e.getBody());
 					explosions.remove(e);
@@ -262,7 +256,7 @@ public class Level6 extends LevelState {
 				}
 			}
 		}
-		
+
 		lsm.getCamStyle().update(dt);
 	}
 
@@ -272,32 +266,28 @@ public class Level6 extends LevelState {
 	public void render() {
 		// TODO Auto-generated method stub
 		batch.setProjectionMatrix(cam.combined);
-		
+
 		float startx = cam.viewportWidth / 2;
 		float starty = cam.viewportHeight / 2;
 		float endWidth = tileMap.getProperties().get("width", Integer.class) * 32 - startx * 2;
 		float endHeight = tileMap.getProperties().get("height", Integer.class) * 32 - starty * 2;
 		System.out.println("endx: " + endWidth + " endy: " + endHeight);
 		System.out.println(cam.position);
-		
+
 		lsm.getCamStyle().Lerp(cam, .5f, player.getWorldPosition());
 		lsm.getCamStyle().Boundary(cam, startx, starty, endWidth, endHeight);
 		initialCamPos = new Vector3(cam.position);
-		
-		
+
 		tmr.setView(cam);
 		batch.begin();
-			tmr.render();
-			b2dr.render(game.getWorld(), cam.combined.scl(PPM));
+		tmr.render();
+		b2dr.render(game.getWorld(), cam.combined.scl(PPM));
 		batch.end();
 
 		cam.update();
-		
-		
+
 		player.render(batch);
-		
-		hud.render(batch);
-		
+
 		batch.begin();
 		transport.render(batch);
 
@@ -312,7 +302,7 @@ public class Level6 extends LevelState {
 		for (Fire f : fires) {
 			f.render(batch);
 		}
-		
+
 		for (Explosion e : explosions) {
 			e.render(batch);
 		}
@@ -323,94 +313,93 @@ public class Level6 extends LevelState {
 		font.draw(batch, "Level 6, time: " + timeElapsed, Gdx.graphics.getWidth() / 2,
 				Gdx.graphics.getHeight() / 2 + 50);
 		batch.end();
+
+		hud.render(batch);
 	}
 
 	public void createDebrisBox2D() {
 
 		MapLayer layer = tileMap.getLayers().get("debris");
-		if (layer == null)
-			return;
+		if (layer != null) {
+			for (MapObject mo : layer.getObjects()) {
 
-		for (MapObject mo : layer.getObjects()) {
+				// get debris position from tile map object layer
+				float x = (float) mo.getProperties().get("x", Float.class);
+				float y = (float) mo.getProperties().get("y", Float.class);
 
-			// get debris position from tile map object layer
-			float x = (float) mo.getProperties().get("x", Float.class);
-			float y = (float) mo.getProperties().get("y", Float.class);
-
-			// create new debris and add to crap list
-			Debris f = new Debris(CreateBox2D.createCircle(game.getWorld(), x, y, 100, false, 1, BodyType.StaticBody,
-					"debris", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
-			crap.add(f);
+				// create new debris and add to crap list
+				Debris f = new Debris(CreateBox2D.createCircle(game.getWorld(), x, y, 100, false, 1, BodyType.StaticBody,
+						"debris", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+				crap.add(f);
+			}
 		}
 
 		layer = tileMap.getLayers().get("people");
-		if (layer == null)
-			return;
+		if (layer != null) {
+			for (MapObject mo : layer.getObjects()) {
 
-		for (MapObject mo : layer.getObjects()) {
+				// get people position from tile map object layer
+				float x = (float) mo.getProperties().get("x", Float.class);
+				float y = (float) mo.getProperties().get("y", Float.class);
 
-			// get people position from tile map object layer
-			float x = (float) mo.getProperties().get("x", Float.class);
-			float y = (float) mo.getProperties().get("y", Float.class);
-
-			// create new person and add to people list
-			Person f = new Person(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.DynamicBody,
-					"people", B2DVars.BIT_GROUND, B2DVars.BIT_GROUND));
-			people.add(f);
+				// create new person and add to people list
+				Person f = new Person(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1,
+						BodyType.DynamicBody, "people", B2DVars.BIT_GROUND, B2DVars.BIT_GROUND));
+				people.add(f);
+			}
 		}
 
 		layer = tileMap.getLayers().get("fire");
-		if (layer == null)
-			return;
+		if (layer != null) {
+			for (MapObject mo : layer.getObjects()) {
 
-		for (MapObject mo : layer.getObjects()) {
+				// get fire position from tile map object layer
+				float x = (float) mo.getProperties().get("x", Float.class);
+				float y = (float) mo.getProperties().get("y", Float.class);
 
-			// get fire position from tile map object layer
-			float x = (float) mo.getProperties().get("x", Float.class);
-			float y = (float) mo.getProperties().get("y", Float.class);
+				// create new fire and add to fires list
 
-			// create new fire and add to fires list
+				Fire f = new Fire(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody,
+						"fire", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+				f.scl((float) Math.random() * 100);
+				fires.add(f);
 
-			Fire f = new Fire(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody, "fire",
-					B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
-			fires.add(f);
-
+			}
 		}
 
 		layer = tileMap.getLayers().get("explosion");
-		if (layer == null)
-			return;
-		for (MapObject mo : layer.getObjects()) {
+		if (layer != null) {
+			for (MapObject mo : layer.getObjects()) {
 
-			// get transport position from tile map object layer
-			float x = (float) mo.getProperties().get("x", Float.class);
-			float y = (float) mo.getProperties().get("y", Float.class);
+				// get transport position from tile map object layer
+				float x = (float) mo.getProperties().get("x", Float.class);
+				float y = (float) mo.getProperties().get("y", Float.class);
 
-			// create new transport
+				// create new transport
 
-			Explosion e = new Explosion(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody,
-					"transport", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
-			explosions.add(e);
+				Explosion e = new Explosion(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1,
+						BodyType.StaticBody, "transport", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+				explosions.add(e);
+			}
+
 		}
-		
-		
+
 		layer = tileMap.getLayers().get("end");
-		if (layer == null)
-			return;
+		if (layer != null) {
 
-		for (MapObject mo : layer.getObjects()) {
+			for (MapObject mo : layer.getObjects()) {
 
-			// get transport position from tile map object layer
-			float x = (float) mo.getProperties().get("x", Float.class);
-			float y = (float) mo.getProperties().get("y", Float.class);
+				// get transport position from tile map object layer
+				float x = (float) mo.getProperties().get("x", Float.class);
+				float y = (float) mo.getProperties().get("y", Float.class);
 
-			// create new transport
+				// create new transport
 
-			transport = new Transport(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody,
-					"transport", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+				transport = new Transport(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1,
+						BodyType.StaticBody, "transport", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
 
+			}
 		}
-		
 	}
 
 	@Override

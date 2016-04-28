@@ -39,8 +39,8 @@ public class Dialogue {
 		setDate(date);
 		
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
-		font.getData().scaleX = 15;
-		font.getData().scaleY = 15;
+		font.getData().scaleX = 18;
+		font.getData().scaleY = 18;
 		layout = new GlyphLayout();
 		
 		while (diaScanner.hasNextLine()) {

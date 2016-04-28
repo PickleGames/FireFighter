@@ -73,7 +73,7 @@ public class LevelStateManager {
 
 		player = new Lamp();
 		camStyle = new CameraStyles();
-		pushState(Level_0);
+		pushState(Level_2);
 
 //		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
 //				new Vector2(0, -player.getHeight() / 3), BodyType.DynamicBody, "lamp", B2DVars.BIT_PLAYER,

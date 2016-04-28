@@ -51,8 +51,8 @@ public class HUD {
 	public void render(SpriteBatch batch){
 		
 		batch.begin();
-		batch.draw(box, cam.position.x - cam.viewportWidth / 2, cam.viewportHeight - cam.viewportHeight * .175f);
-		batch.draw(weapons.getFrame(), cam.position.x - cam.viewportWidth / 2, cam.viewportHeight - cam.viewportHeight * .175f);
+		batch.draw(box, cam.position.x - cam.viewportWidth / 2, 0, 70, 70);
+		batch.draw(weapons.getFrame(), cam.position.x - cam.viewportWidth / 2, 0, 70, 70);
 		batch.end();
 	}
 	

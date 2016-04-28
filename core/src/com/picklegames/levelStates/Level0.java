@@ -68,7 +68,7 @@ public class Level0 extends LevelState {
 				player.getHeight() / 9, new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp",
 				B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
 
-		Tween.to(player, EntityTweenAccessor.VEL, 2f).target(2f, 1f).ease(TweenEquations.easeNone).delay(2f)
+		Tween.set(player, EntityTweenAccessor.VEL).target(2f, 1f).ease(TweenEquations.easeNone).delay(.5f)
 				.start(lsm.getTweenManager());
 		Tween.to(player, EntityTweenAccessor.DIMENSION, 7f).target(player.getWidth() * .5f, player.getHeight() * .5f)
 				.ease(TweenEquations.easeInOutQuad).delay(3f).start(lsm.getTweenManager());
@@ -134,55 +134,59 @@ public class Level0 extends LevelState {
 
 	public void createDebrisBox2D() {
 
-		MapLayer layer = tileMap.getLayers().get("fire");
-		if (layer == null)
-			return;
+		MapLayer layer = tileMap.getLayers().get("debris");
 
-		for (MapObject mo : layer.getObjects()) {
 
-			// get fire position from tile map object layer
-			float x = (float) mo.getProperties().get("x", Float.class);
-			float y = (float) mo.getProperties().get("y", Float.class);
+		layer = tileMap.getLayers().get("fire");
+		if (layer != null) {
+			for (MapObject mo : layer.getObjects()) {
 
-			// create new fire and add to fires list
+				// get fire position from tile map object layer
+				float x = (float) mo.getProperties().get("x", Float.class);
+				float y = (float) mo.getProperties().get("y", Float.class);
 
-			Fire f = new Fire(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody, "fire",
-					B2DVars.BIT_PLAYER, B2DVars.BIT_PLAYER));
-			f.scl((float) Math.random() * 500);
-			fires.add(f);
+				// create new fire and add to fires list
 
+				Fire f = new Fire(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody,
+						"fire", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+				f.scl((float) Math.random() * 400);
+				fires.add(f);
+
+			}
 		}
-		
-		layer = tileMap.getLayers().get("transport");
-		if (layer == null)
-			return;
 
-		for (MapObject mo : layer.getObjects()) {
-
-			// get fire position from tile map object layer
-			float x = (float) mo.getProperties().get("x", Float.class);
-			float y = (float) mo.getProperties().get("y", Float.class);
-			// create new fire and add to fires list
-
-		  transport = new Transport(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody, "fire",
-					B2DVars.BIT_PLAYER, B2DVars.BIT_PLAYER));
-		}
-		
 		layer = tileMap.getLayers().get("explosion");
-		if (layer == null)
-			return;
+		if (layer != null) {
+			for (MapObject mo : layer.getObjects()) {
 
-		for (MapObject mo : layer.getObjects()) {
+				// get transport position from tile map object layer
+				float x = (float) mo.getProperties().get("x", Float.class);
+				float y = (float) mo.getProperties().get("y", Float.class);
 
-			// get fire position from tile map object layer
-			float x = (float) mo.getProperties().get("x", Float.class);
-			float y = (float) mo.getProperties().get("y", Float.class);
+				// create new transport
 
-			// create new fire and add to fires list
+				explosion = new Explosion(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1,
+						BodyType.StaticBody, "transport", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+				explosion.scl(700);
+			}
 
-			 explosion = new Explosion(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1, BodyType.StaticBody, "fire",
-					B2DVars.BIT_PLAYER, B2DVars.BIT_PLAYER));
-			 explosion.scl(20);
+		}
+
+		layer = tileMap.getLayers().get("transport");
+		if (layer != null) {
+
+			for (MapObject mo : layer.getObjects()) {
+
+				// get transport position from tile map object layer
+				float x = (float) mo.getProperties().get("x", Float.class);
+				float y = (float) mo.getProperties().get("y", Float.class);
+
+				// create new transport
+
+				transport = new Transport(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1,
+						BodyType.StaticBody, "transport", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+
+			}
 		}
 	}
 

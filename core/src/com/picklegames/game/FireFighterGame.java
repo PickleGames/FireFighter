@@ -22,9 +22,6 @@ public class FireFighterGame extends ApplicationAdapter {
 	public static OrthographicCamera hudCam;
 	private GameStateManager gsm;
 
-	
-	
-
 
 	@Override
 	public void create() {

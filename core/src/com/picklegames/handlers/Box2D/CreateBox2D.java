@@ -22,7 +22,7 @@ public final class CreateBox2D {
 
 		// create body from the body definition
 		Body body = world.createBody(bdef);
-
+		body.setUserData(userData);
 		// create fixture definition
 		FixtureDef fdef = new FixtureDef();
 		fdef.filter.categoryBits = categoryBits;
@@ -52,7 +52,7 @@ public final class CreateBox2D {
 
 		// create body from the body definition
 		Body body = world.createBody(bdef);
-
+		body.setUserData(userData);
 		// create box shape for player collision
 		PolygonShape shape = new PolygonShape();
 		// shape.set(new float[]{0,,1,1});
@@ -87,7 +87,7 @@ public final class CreateBox2D {
 
 		// create body from the body definition
 		Body body = world.createBody(bdef);
-
+		body.setUserData(userData);
 		// create box shape for player collision
 		CircleShape shape = new CircleShape();
 		shape.setRadius(radius / PPM);
@@ -123,7 +123,7 @@ public final class CreateBox2D {
 
 		// create body from the body definition
 		Body body = world.createBody(bdef);
-
+		body.setUserData(userData);
 		// create box shape for player collision
 		PolygonShape shape = new PolygonShape();
 		shape.set(vertices);

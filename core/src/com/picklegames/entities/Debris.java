@@ -57,7 +57,7 @@ public class Debris extends Entity {
 				breakAnimationDone = true;
 			}
 		}
-		System.out.println(debrisState);
+		//System.out.println(debrisState);
 		if (getHealth() <= 0 && !debrisState.equals(DebrisState.BREAK)) {
 			debrisState = DebrisState.BREAK;
 			resetAnimation();
