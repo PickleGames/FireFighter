@@ -18,7 +18,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
-import com.picklegames.TweenAccessor.SpriteTweenAccessor;
+import com.picklegames.entities.Animal;
+import com.picklegames.entities.Animal.AnimalState;
 import com.picklegames.entities.Debris;
 import com.picklegames.entities.Explosion;
 import com.picklegames.entities.Fire;
@@ -39,7 +40,6 @@ import com.picklegames.handlers.Box2D.CreateBox2D;
 import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenEquations;
 
 public class Level6 extends LevelState {
 
@@ -56,6 +56,7 @@ public class Level6 extends LevelState {
 	private ArrayList<Person> people;
 	private ArrayList<Fire> fires;
 	private ArrayList<Explosion> explosions;
+	private ArrayList<Animal> animals;
 
 	private TileObject tileObject;
 	private HUD hud;
@@ -70,7 +71,7 @@ public class Level6 extends LevelState {
 
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
-		tileMap = new TmxMapLoader().load("map/Level2.tmx");
+		tileMap = new TmxMapLoader().load("map/Level1.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
 		// cam.viewportWidth = tmr.getMap().getProperties().get("width",
@@ -81,7 +82,7 @@ public class Level6 extends LevelState {
 		// batch.setTransformMatrix(cam.combined.scl(PPM));
 
 		player = lsm.getPlayer();
-		player.scl(2f);
+		player.scl(1f);
 		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 10, 100, player.getWidth() / 3.5f,
 				player.getHeight() / 9, new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp",
 				B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
@@ -97,6 +98,7 @@ public class Level6 extends LevelState {
 		people = new ArrayList<Person>();
 		fires = new ArrayList<Fire>();
 		explosions = new ArrayList<Explosion>();
+		animals = new ArrayList<Animal>();
 
 		hud = new HUD(cam);
 
@@ -229,6 +231,14 @@ public class Level6 extends LevelState {
 					p.personState = PersonState.RUN;
 				}
 			}
+			
+			for (Animal a: animals) {
+				a.update(dt);
+
+				if (a.isInRadius(player.getPosition().x, player.getPosition().y, 2)) {
+					a.animalState = AnimalState.RUN;
+				}
+			}
 
 			for (int i = 0; i < crap.size(); i++) {
 				Debris d = crap.get(i);
@@ -316,6 +326,10 @@ public class Level6 extends LevelState {
 		for (Person p : people) {
 			p.render(batch);
 		}
+		
+		for (Animal a : animals) {
+			a.render(batch);
+		}
 
 		for (Fire f : fires) {
 			f.render(batch);
@@ -367,6 +381,21 @@ public class Level6 extends LevelState {
 				Person f = new Person(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1,
 						BodyType.DynamicBody, "people", B2DVars.BIT_GROUND, B2DVars.BIT_GROUND));
 				people.add(f);
+			}
+		}
+		
+		layer = tileMap.getLayers().get("animals");
+		if (layer != null) {
+			for (MapObject mo : layer.getObjects()) {
+
+				// get people position from tile map object layer
+				float x = (float) mo.getProperties().get("x", Float.class);
+				float y = (float) mo.getProperties().get("y", Float.class);
+
+				// create new person and add to people list
+				Animal a = new Animal(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1,
+						BodyType.DynamicBody, "people", B2DVars.BIT_GROUND, B2DVars.BIT_GROUND));
+				animals.add(a);
 			}
 		}
 

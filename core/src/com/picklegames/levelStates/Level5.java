@@ -66,6 +66,7 @@ public class Level5 extends LevelState{
 		playerS = FireFighterGame.res.getSound("playerS");
 		currentSound = playerS;
 		
+		cam.update();
 	}
 
 	@Override
@@ -106,16 +107,21 @@ public class Level5 extends LevelState{
 		layout.setText(font, d.getCharacterLine());
 		float width = layout.width;// contains the width of the current set text
 		//float height = layout.height; // contains the height of the current set text
+		batch.setProjectionMatrix(cam.combined);
+		
 		
 		batch.begin();
 		
-			batch.draw(bg, 0, 0, FireFighterGame.V_WIDTH, FireFighterGame.V_HEIGHT);
-			batch.draw(bgBar, 0, FireFighterGame.V_HEIGHT -  FireFighterGame.V_HEIGHT / 4, FireFighterGame.V_WIDTH - 50, FireFighterGame.V_HEIGHT / 6);
-			batch.draw(mom.getFrame(), FireFighterGame.V_WIDTH - 505, 5 , 500, 500);
+			batch.draw(bg, 0, 0, cam.viewportWidth, cam.viewportHeight);
+			batch.draw(bgBar, 25, cam.viewportHeight -  cam.viewportHeight / 4, cam.viewportWidth - 50, cam.viewportHeight / 6);
+			batch.draw(mom.getFrame(), cam.viewportWidth - 505, 5 , 500, 500);
 			batch.draw(collAni.getFrame(), 5, 5 ,500, 500);
 			
-			font.draw(batch, d.getName(), FireFighterGame.V_WIDTH/2  - 15, 625);
-			font.draw(batch, d.getCharacterLine(),  FireFighterGame.V_WIDTH/2 - width/2, 600);
+
+			font.draw(batch, d.getCharacterLine(),  cam.viewportWidth/2 - width/2, 600);
+			layout.setText(font, d.getName());
+			width = layout.width;
+			font.draw(batch, d.getName(), cam.viewportWidth/2  - width/2, 625);
 		batch.end();
 		
 		d.render(batch);

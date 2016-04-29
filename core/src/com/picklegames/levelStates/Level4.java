@@ -75,11 +75,11 @@ public class Level4 extends LevelState {
 		cam.viewportHeight = tmr.getMap().getProperties().get("height", Integer.class) * 32;
 		// cam.position.x = cam.viewportWidth / 2;
 		cam.position.y = cam.viewportHeight / 2;
-		cam.update();
+		//cam.update();
 		// batch.setTransformMatrix(cam.combined.scl(PPM));
 
 		player = lsm.getPlayer();
-		player.scl(2f);
+		player.scl(1f);
 		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 10, 100, player.getWidth() / 3.5f,
 				player.getHeight() / 9, new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp",
 				B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
@@ -124,6 +124,9 @@ public class Level4 extends LevelState {
 		// if (player.getCurrentWeapon().isUsable()) {
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			player.use();
+		}
+		if (Gdx.input.isKeyJustPressed(Keys.G)) {
+			lsm.setState(lsm.Level_5);
 		}
 		// }
 
