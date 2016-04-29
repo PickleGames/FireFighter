@@ -2,6 +2,7 @@ package com.picklegames.entities;
 
 import static com.picklegames.handlers.Box2D.B2DVars.PPM;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -28,9 +29,8 @@ public class Lamp extends Entity {
 
 
 	private boolean isInDanger = false;
-	
-	
 	private boolean isDead = false;
+	private Sound hurtS;
 
 	public enum CharacterState {
 		YOUNG, ADULT
@@ -105,6 +105,8 @@ public class Lamp extends Entity {
 
 		currentWeapon = weapons[2];
 		
+		FireFighterGame.res.loadSound("sound/Grunt.mp3", "hurt");
+		hurtS = FireFighterGame.res.getSound("hurt");
 		
 	}
 
@@ -128,14 +130,17 @@ public class Lamp extends Entity {
 		}
 		
 
-		timeHealthElapsed+=dt;
-		if(timeHealthElapsed >= 5f){
+		timeHealthElapsed +=dt;
+		if(timeHealthElapsed >= 1f){
 			if(health < 100 ) {
-				if(health + 5 < 100) health+=5;
+				if(health + 1 <= 100) health+=5;
 				else health = 100;
 				
 			}
+			timeHealthElapsed = 0;
 		}
+		
+		System.out.println("health: "+ health);
 		
 		if(health < 1){
 			isDead = true;
@@ -210,8 +215,8 @@ public class Lamp extends Entity {
 	public void resetScl(){
 		width = 80 * 1.5f;
 		height = 150 * 1.5f;
-		System.out.println("width "+ width);
-		System.out.println("height "+ height);
+//		System.out.println("width "+ width);
+//		System.out.println("height "+ height);
 	}
 	
 	
@@ -276,6 +281,7 @@ public class Lamp extends Entity {
 	
 	public void burn(float i){
 		health -= i;
+		//hurtS.play();
 	}
 	
 	public boolean isInDanger(){

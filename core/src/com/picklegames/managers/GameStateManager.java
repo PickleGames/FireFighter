@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import com.picklegames.game.FireFighterGame;
 import com.picklegames.gameStates.GameState;
+import com.picklegames.gameStates.Help;
 import com.picklegames.gameStates.Menu;
 import com.picklegames.gameStates.Play;
 import com.picklegames.gameStates.SplashScreen;
@@ -18,6 +19,7 @@ public class GameStateManager {
 	private TweenManager tweenManager;
 	
 	public static final int MENU = 123;
+	public static final int HELP = 360;
 	public static final int PLAY = 007;
 	public static final int DIALOGUE = 420;
 	public static final int SPLASH = 6969;
@@ -26,7 +28,7 @@ public class GameStateManager {
 		this.game = game;
 		gameStates = new Stack<GameState>();
 		tweenManager = new TweenManager();
-		pushState(PLAY);
+		pushState(MENU);
 	}
 	
 	
@@ -50,6 +52,8 @@ public class GameStateManager {
 			return new Menu(this);
 		if (state == PLAY)
 			return new Play(this);
+		if (state == HELP)
+			return new Help(this);
 		
 		return null;
 

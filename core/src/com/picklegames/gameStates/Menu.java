@@ -86,7 +86,7 @@ public class Menu extends GameState{
 						gsm.setState(GameStateManager.PLAY);
 					}
 				}else if(t.text.equals("Help")){
-					gsm.setState(GameStateManager.PLAY);
+					gsm.setState(GameStateManager.HELP);
 				}else if(t.text.equals("Exit")){
 					System.exit(0);
 				}
@@ -111,8 +111,7 @@ public class Menu extends GameState{
 
 	@Override
 	public void dispose() {
-		
-		
+		whitebg.getTexture().dispose();
 	}
 
 	public class TextBox{

@@ -176,7 +176,7 @@ public class Level6 extends LevelState {
 			lsm.setState(LevelStateManager.Dead);
 		}
 		
-		System.out.println( "CAM WIDTH " + cam.viewportWidth + " CAM HEIGHT" + cam.viewportHeight);
+		//System.out.println( "CAM WIDTH " + cam.viewportWidth + " CAM HEIGHT" + cam.viewportHeight);
 		
 		if(player.weaponState.equals(WeaponState.AXE)){
 			hud.hudState = HudState.AXE;

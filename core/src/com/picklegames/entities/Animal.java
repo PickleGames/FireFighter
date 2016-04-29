@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.picklegames.entities.Person.PersonState;
 import com.picklegames.game.FireFighterGame;
 import com.picklegames.handlers.Animation;
 import com.picklegames.handlers.Box2D.B2DVars;
@@ -43,16 +42,16 @@ private Animation ani;
 		
 		animals = new Texture[4];
 		
-		animals[0] = FireFighterGame.res.getTexture("doge");
-		animals[1] = FireFighterGame.res.getTexture("dalm");
-		animals[2] = FireFighterGame.res.getTexture("fox");
-		animals[3] = FireFighterGame.res.getTexture("hedgehog");
+		animals[0] = FireFighterGame.res.getTexture("doge"); //178 55
+		animals[1] = FireFighterGame.res.getTexture("dalm"); //178 55
+		animals[2] = FireFighterGame.res.getTexture("fox");  //178 55
+		animals[3] = FireFighterGame.res.getTexture("hedgehog"); //157 55
 		
 		texReg = new ArrayList<TextureRegion[]>();
 		texReg.add(TextureRegion.split(animals[0], 89, 55)[0]);
 		texReg.add(TextureRegion.split(animals[1], 89, 55)[0]);
 		texReg.add(TextureRegion.split(animals[2], 89, 55)[0]);
-		texReg.add(TextureRegion.split(animals[3], 89, 55)[0]);
+		texReg.add(TextureRegion.split(animals[3], 157 / 2, 55)[0]);
 		
 		ani = new Animation();
 		
