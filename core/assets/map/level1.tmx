@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="75" height="12" tilewidth="32" tileheight="32" nextobjectid="185">
- <tileset firstgid="1" name="FLOOR THINGS " tilewidth="32" tileheight="32" tilecount="784" columns="28">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="75" height="12" tilewidth="32" tileheight="32" nextobjectid="191">
+ <tileset firstgid="1" name="FLOOR THINGS " tilewidth="32" tileheight="32">
   <image source="combined tiles.png" width="900" height="900"/>
  </tileset>
  <tileset firstgid="785" name="TO THE WINDOW -- TO THE WALL" tilewidth="32" tileheight="32" tilecount="16" columns="4">
@@ -173,6 +173,25 @@
  <objectgroup name="streetbound">
   <object id="142" x="-1" y="193">
    <polyline points="0,0 0,188 2400,189 2400,-3 2,-2"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="people">
+  <object id="185" x="607" y="274">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="animals">
+  <object id="186" x="1492" y="548">
+   <ellipse/>
+  </object>
+  <object id="188" x="942.667" y="254.667">
+   <ellipse/>
+  </object>
+  <object id="189" x="1005.33" y="333.333">
+   <ellipse/>
+  </object>
+  <object id="190" x="865.333" y="316">
+   <ellipse/>
   </object>
  </objectgroup>
 </map>

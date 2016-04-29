@@ -27,6 +27,15 @@ public class Person extends Entity {
 	public PersonState personState;
 	public Person(){
 		super();
+		init();
+	}
+	
+	public Person(Body body) {
+		super(body);
+		init();
+	}
+	
+	public void init(){
 		r = new Random();
 
 		expressions = new String[4];
@@ -51,10 +60,6 @@ public class Person extends Entity {
 
 		font = new BitmapFont();
 		personState = PersonState.HELP;
-	}
-	
-	public Person(Body body) {
-		super(body);
 	}
 
 	boolean isRun = false;
@@ -81,7 +86,7 @@ public class Person extends Entity {
 		batch.draw(animation.getFrame(), body.getPosition().x * B2DVars.PPM - width /2 , body.getPosition().y * B2DVars.PPM - height /2 , width, height);
 		if (personState.equals(PersonState.HELP)) {
 			font.draw(batch, currentSay, body.getPosition().x * B2DVars.PPM - width / 2,
-					(body.getPosition().y * B2DVars.PPM - width / 2) + 100);
+					(body.getPosition().y * B2DVars.PPM - width / 2) + height - height / 4);
 		} else {
 
 		}
