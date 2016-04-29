@@ -196,7 +196,8 @@ public class Level3 extends LevelState {
 		FireFighterGame.res.removeSound("girldS");
 		FireFighterGame.res.removeSound("catS");
 		FireFighterGame.res.getMusic("d_2").dispose();
-		;
+		white.getTexture().dispose();
+
 	}
 
 }
