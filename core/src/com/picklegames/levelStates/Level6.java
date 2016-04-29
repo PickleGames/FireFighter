@@ -123,6 +123,10 @@ public class Level6 extends LevelState {
 			} else {
 				player.setVelocityY(0);
 			}
+			
+			if(Gdx.input.isKeyPressed(Keys.P)){
+				lsm.setState(LevelStateManager.Level_7);
+			}
 		}
 
 		// if (player.getCurrentWeapon().isUsable()) {
@@ -309,7 +313,7 @@ public class Level6 extends LevelState {
 		tmr.setView(cam);
 		batch.begin();
 		tmr.render();
-		b2dr.render(game.getWorld(), cam.combined.scl(PPM));
+		//b2dr.render(game.getWorld(), cam.combined.scl(PPM));
 		batch.end();
 
 		cam.update();
@@ -342,10 +346,10 @@ public class Level6 extends LevelState {
 		batch.end();
 
 		batch.begin();
-		font.draw(batch, "Level 6, time: " + timeElapsed, cam.viewportWidth / 2,
-				cam.viewportHeight / 2 + 50);
-		font.draw(batch, "PLAYER HEALTH: " + player.getHealth(),cam.viewportWidth / 2 + 100,
-				cam.viewportHeight / 2 + 50);
+//		font.draw(batch, "Level 6, time: " + timeElapsed, cam.viewportWidth / 2,
+//				cam.viewportHeight / 2 + 50);
+//		font.draw(batch, "PLAYER HEALTH: " + player.getHealth(),cam.viewportWidth / 2 + 100,
+//				cam.viewportHeight / 2 + 50);
 		
 		batch.end();
 

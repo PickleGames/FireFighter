@@ -2,6 +2,7 @@ package com.picklegames.levelStates;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -72,19 +73,23 @@ public class Level3 extends LevelState{
 		catS = FireFighterGame.res.getSound("catS");
 		currentSound = playerS;
 		
-		cam.position.set(FireFighterGame.V_WIDTH / 2 , FireFighterGame.V_HEIGHT/ 2 , 0);
+		//cam.position.set(FireFighterGame.V_WIDTH / 2 , FireFighterGame.V_HEIGHT/ 2 , 0);
+		cam.position.x = cam.viewportWidth / 2;
+		cam.position.y = cam.viewportHeight / 2;
 		cam.update();
 		System.out.println(cam.position.toString());
 	}
 
 	@Override
 	public void handleInput() {
-		// TODO Auto-generated method stub
+		if(Gdx.input.isKeyPressed(Keys.P)){
+			lsm.setState(LevelStateManager.Level_4);
+		}
 		
 	}
 	@Override
 	public void update(float dt) {
-		
+		handleInput();
 		if(d.isFinished()){
 			lsm.setState(LevelStateManager.Level_4);
 		}

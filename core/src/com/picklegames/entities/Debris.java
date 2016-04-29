@@ -22,8 +22,8 @@ public class Debris extends Entity {
 		super(body);
 
 		FireFighterGame.res.loadTexture("image/Objects/debris.png", "dFresh");
-		FireFighterGame.res.loadTexture("image/Objects/debris_crack.png", "dCrack");
-		FireFighterGame.res.loadTexture("image/Objects/debris_break.png", "dBreak");
+		FireFighterGame.res.loadTexture("image/Objects/debris_crack1.png", "dCrack");
+		FireFighterGame.res.loadTexture("image/Objects/debris_break1.png", "dBreak");
 
 		dFresh = FireFighterGame.res.getTexture("dFresh");
 		dCrack = FireFighterGame.res.getTexture("dCrack");
@@ -89,10 +89,10 @@ public class Debris extends Entity {
 			texR = TextureRegion.split(dFresh, 64, 64)[0];
 			animation.setFrames(texR);
 		} else if (debrisState.equals(DebrisState.CRACK)) {
-			texR = TextureRegion.split(dCrack, 64, 64)[0];
+			texR = TextureRegion.split(dCrack, 256/4, 64)[0];
 			animation.setFrames(texR);
 		} else {
-			texR = TextureRegion.split(dBreak, 64, 64)[0];
+			texR = TextureRegion.split(dBreak, 442/6, 64)[0];
 			animation.setFrames(texR, 1 / 8f);
 		}
 	}
