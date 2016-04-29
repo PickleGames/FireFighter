@@ -93,7 +93,7 @@ public class Level1 extends LevelState {
 		System.out.println(cam.position.toString());
 
 		FireFighterGame.res.loadMusic("sound/Level 1, Level 2.mp3", "l_1");
-		FireFighterGame.res.getMusic("l_1").play();
+		//FireFighterGame.res.getMusic("l_1").play();
 	}
 
 	@Override
@@ -132,9 +132,11 @@ public class Level1 extends LevelState {
 				if (!isCallTween) {
 					callTween();
 				}
-				if (white.getColor().a >= .9f) {
+//				if (white.getColor().a >= .8f) {
 					lsm.setState(LevelStateManager.Level_2);
-				}
+//				}
+//				System.out.println(white.getColor().a);
+//				System.out.println("finish?");
 				FireFighterGame.res.getMusic("l_1").stop();
 
 			}

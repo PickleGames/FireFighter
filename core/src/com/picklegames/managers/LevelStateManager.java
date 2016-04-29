@@ -94,6 +94,7 @@ public class LevelStateManager {
 		pushState(Level_8);
 
 
+
 //		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
 //				new Vector2(0, -player.getHeight() / 3), BodyType.DynamicBody, "lamp", B2DVars.BIT_PLAYER,
 //				B2DVars.BIT_GROUND));
@@ -180,6 +181,8 @@ public class LevelStateManager {
 		popState();
 		game.getCam().setToOrtho(false, FireFighterGame.V_WIDTH / FireFighterGame.SCALE, FireFighterGame.V_HEIGHT / FireFighterGame.SCALE);
 		player.resetScl();
+		player.setHealth(100);
+		player.setDead(false);
 		pushState(state);
 	}
 
