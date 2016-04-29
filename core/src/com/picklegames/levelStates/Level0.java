@@ -80,7 +80,7 @@ public class Level0 extends LevelState {
 		Tween.to(player, EntityTweenAccessor.DIMENSION, 7f).target(player.getWidth() * .5f, player.getHeight() * .5f)
 				.ease(TweenEquations.easeInOutQuad).start(lsm.getTweenManager());
 		
-		FireFighterGame.res.loadMusic("sound/Dialogue 1, Dialogue 3.mp3", "d_1");
+		FireFighterGame.res.loadMusic("sound/Dialogue1,Dialogue3.mp3", "d_1");
 		FireFighterGame.res.getMusic("d_1").play();
 	}
 

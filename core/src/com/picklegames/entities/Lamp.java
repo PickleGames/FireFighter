@@ -212,6 +212,10 @@ public class Lamp extends Entity {
 		
 	}
 
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
+	}
+
 	public void resetScl(){
 		width = 80 * 1.5f;
 		height = 150 * 1.5f;
