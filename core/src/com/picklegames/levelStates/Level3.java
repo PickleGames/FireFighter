@@ -166,6 +166,7 @@ public class Level3 extends LevelState{
 	public void dispose() {
 		// TODO Auto-generated method stub
 		d.dispose();
+		font.dispose();
 		FireFighterGame.res.removeSound("playerS");
 		FireFighterGame.res.removeSound("girldS");
 		FireFighterGame.res.removeSound("catS");

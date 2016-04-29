@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.maps.MapLayer;
@@ -70,6 +71,7 @@ public class Level4 extends LevelState {
 		tileMap = new TmxMapLoader().load("map/Level1.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
+		
 		// cam.viewportWidth = tmr.getMap().getProperties().get("width",
 		// Integer.class) * 32;
 		cam.viewportHeight = tmr.getMap().getProperties().get("height", Integer.class) * 32;
@@ -79,7 +81,6 @@ public class Level4 extends LevelState {
 		// batch.setTransformMatrix(cam.combined.scl(PPM));
 
 		player = lsm.getPlayer();
-
 		player.characterState = CharacterState.ADULT;
 		player.scl(1f);
 		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 10, 100, player.getWidth() / 3.5f,
@@ -88,8 +89,10 @@ public class Level4 extends LevelState {
 
 		b2dr = new Box2DDebugRenderer();
 
-		font = new BitmapFont();
-
+		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
+		font.setColor(Color.RED);
+		font.getData().setScale(1f);
+		
 		tileObject = new TileObject();
 		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(),
 				"ground");
@@ -130,10 +133,7 @@ public class Level4 extends LevelState {
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			player.use();
 		}
-		if (Gdx.input.isKeyJustPressed(Keys.G)) {
-			lsm.setState(lsm.Level_5);
-		}
-		// }
+
 
 		if (player.characterState.equals(CharacterState.ADULT)) {
 			if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
@@ -214,7 +214,7 @@ public class Level4 extends LevelState {
 				f.update(dt);
 
 				if (f.isInRadius(player.getWorldPosition().x, player.getWorldPosition().y, 120)) {
-					player.burn(1.5f);
+					player.burn(.2f);
 				}
 
 				if (!(player.getCurrentWeapon() instanceof Extinguisher))
@@ -345,11 +345,12 @@ public class Level4 extends LevelState {
 		batch.end();
 
 		batch.begin();
-		// font.draw(batch, "Level 6, time: " + timeElapsed, cam.viewportWidth /
-		// 2,
-		// cam.viewportHeight / 2 + 50);
-		font.draw(batch, "PLAYER HEALTH: " + player.getHealth(), cam.viewportWidth / 2 + 100,
-				cam.viewportHeight / 2 + 50);
+		font.draw(batch, "[1] & [2] to switch weapons", 20, cam.viewportHeight / 2 + 150);
+		font.draw(batch, "[2] and [SPACE] to extinguish" , 800, cam.viewportHeight / 2 + 150);
+		font.draw(batch, "[1] and [SPACE] to chop" , 1600, cam.viewportHeight / 2 + 150);
+		font.draw(batch, "Good Luck!" , 2500, cam.viewportHeight / 2 + 150);
+//		font.draw(batch, "PLAYER HEALTH: " + player.getHealth(), cam.viewportWidth / 2 + 100,
+//				cam.viewportHeight / 2 + 50);
 
 		batch.end();
 
@@ -448,8 +449,8 @@ public class Level4 extends LevelState {
 		game.getWorld().destroyBody(transport.getBody());
 
 		for (Explosion e : explosions) {
+			e.dispose();
 			game.getWorld().destroyBody(e.getBody());
-			;
 		}
 
 		if (fires != null) {
@@ -458,6 +459,7 @@ public class Level4 extends LevelState {
 				game.getWorld().destroyBody(f.getBody());
 			}
 		}
+		
 		if (crap != null) {
 			for (Debris d : crap) {
 				d.dispose();

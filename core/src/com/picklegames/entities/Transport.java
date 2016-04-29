@@ -12,7 +12,6 @@ public class Transport extends Entity {
 
 	public boolean isInRange(float x1, float y1, float range) {
 		float d = MathHelper.distanceEquation(body.getPosition().x * B2DVars.PPM, body.getPosition().y * B2DVars.PPM, x1, y1);
-		System.out.println(d);
 		return MathHelper.distanceEquation(body.getPosition().x * B2DVars.PPM, body.getPosition().y * B2DVars.PPM, x1, y1) < range;
 	}
 

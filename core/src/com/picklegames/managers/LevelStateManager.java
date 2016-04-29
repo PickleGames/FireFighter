@@ -43,6 +43,8 @@ public class LevelStateManager {
 	private TweenManager tweenManager;
 	private CameraStyles camStyle;
 	
+	private LevelState lastLevel;
+	private int lastLevelNum;
 	public CameraStyles getCamStyle() {
 		return camStyle;
 	}
@@ -109,6 +111,10 @@ public class LevelStateManager {
 		levelStates.peek().update(dt);
 		te.update(dt);
 		tweenManager.update(dt);
+		
+		if(!(levelStates.peek() instanceof Dead)){
+			lastLevel = levelStates.peek();
+		}
 	}
 
 	public void render(SpriteBatch batch) {
@@ -122,6 +128,8 @@ public class LevelStateManager {
 	}
 
 	private LevelState getState(int state) {
+		
+		if(state != Dead) lastLevelNum = state;
 		
 		if (state == Tutorial){
 			return new Tutorial(this);
@@ -165,6 +173,9 @@ public class LevelStateManager {
 
 	}
 
+	public int getLastLevel(){
+		return lastLevelNum;
+	}
 	public void setState(int state) {
 		popState();
 		game.getCam().setToOrtho(false, FireFighterGame.V_WIDTH / FireFighterGame.SCALE, FireFighterGame.V_HEIGHT / FireFighterGame.SCALE);

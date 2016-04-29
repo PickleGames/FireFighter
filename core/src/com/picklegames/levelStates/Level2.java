@@ -242,7 +242,7 @@ public class Level2 extends LevelState implements ContactListener{
 //				Gdx.graphics.getHeight() / 2 + 50);
 		if(d.getName().equals("LAMP")){
 		//font.draw(batch, d.getName(), player.getWorldPosition().x, player.getWorldPosition().y);
-			font.draw(batch, d.getCharacterLine(), player.getWorldPosition().x, player.getWorldPosition().y + 100);
+			font.draw(batch, d.getCharacterLine(), player.getWorldPosition().x+20, player.getWorldPosition().y + 100);
 		}else {
 			font.draw(batch, d.getCharacterLine(), cat.getWorldPosition().x, cat.getWorldPosition().y + 50);
 		}
@@ -279,6 +279,7 @@ public class Level2 extends LevelState implements ContactListener{
 	public void dispose() {
 		font.dispose();
 		font_tutorial.dispose();
+		
 		game.getWorld().destroyBody(cat.getBody());
 		cat.dispose();
 		game.getWorld().destroyBody(streetBound.body);

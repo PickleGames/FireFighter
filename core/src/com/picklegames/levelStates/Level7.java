@@ -84,13 +84,17 @@ public class Level7 extends LevelState{
 
 	@Override
 	public void handleInput() {
-		// TODO Auto-generated method stub
+		if (Gdx.input.isKeyPressed(Keys.P)) {
+			lsm.setState(LevelStateManager.Level_8);
+		}
 		
 	}
 
 	@Override
 	public void update(float dt) {
 		// TODO Auto-generated method stub
+		handleInput();
+
 		
 		if(Gdx.input.isKeyPressed(Keys.P)){
 			FireFighterGame.res.getMusic("d_4").stop();
@@ -100,7 +104,7 @@ public class Level7 extends LevelState{
 		if(!FireFighterGame.res.getMusic("d_4").isPlaying()){
 			FireFighterGame.res.getMusic("d_4").play();
 		}
-		
+
 		if(d.isFinished()){
 			FireFighterGame.res.getMusic("d_4").stop();
 			lsm.setState(LevelStateManager.Level_8);

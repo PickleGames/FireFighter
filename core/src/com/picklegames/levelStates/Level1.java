@@ -49,7 +49,7 @@ public class Level1 extends LevelState {
 	public void init() {
 		// TODO Auto-generated method stub
 		white = new Sprite(new Texture(("image/Backgrounds/whitebg.png")));
-		
+
 		Tween.registerAccessor(Sprite.class, new SpriteTweenAccessor());
 		white.setAlpha(1);
 		white.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -81,7 +81,7 @@ public class Level1 extends LevelState {
 
 		FireFighterGame.res.loadSound("sound/wac.mp3", "playerS");
 		FireFighterGame.res.loadSound("sound/girlWomp.mp3", "girlS");
-		FireFighterGame.res.loadSound("sound/wac.mp3", "catS");
+		FireFighterGame.res.loadSound("sound/Meow.mp3", "catS");
 		playerS = FireFighterGame.res.getSound("playerS");
 		girlS = FireFighterGame.res.getSound("girlS");
 		catS = FireFighterGame.res.getSound("catS");
@@ -91,14 +91,15 @@ public class Level1 extends LevelState {
 		cam.position.y = cam.viewportHeight / 2;
 		cam.update();
 		System.out.println(cam.position.toString());
-		
+
 		FireFighterGame.res.loadMusic("sound/Level 1, Level 2.mp3", "l_1");
 		FireFighterGame.res.getMusic("l_1").play();
 	}
 
 	@Override
 	public void handleInput() {
-		if(Gdx.input.isKeyPressed(Keys.P)){
+
+		if (Gdx.input.isKeyPressed(Keys.P)) {
 			FireFighterGame.res.getMusic("l_1").stop();
 			lsm.setState(LevelStateManager.Level_2);
 		}
@@ -106,22 +107,37 @@ public class Level1 extends LevelState {
 	}
 
 	float timeElapsed;
+	boolean isCallTween = false;
+
+	public void callTween() {
+		Tween.to(white, SpriteTweenAccessor.ALPHA, 1f).target(1).ease(TweenEquations.easeNone)
+				.start(lsm.getTweenManager());
+		isCallTween = true;
+	}
 
 	@Override
 	public void update(float dt) {
 		handleInput();
+
 		timeElapsed += dt;
-		
-		if(!FireFighterGame.res.getMusic("l_1").isPlaying()){
+
+		if (!FireFighterGame.res.getMusic("l_1").isPlaying()) {
 			FireFighterGame.res.getMusic("l_1").play();
 		}
-		
+
 		if (white.getColor().a <= .1f) {
 			if (d.isFinished()) {
-				FireFighterGame.res.getMusic("l_1").stop();
-				lsm.setState(LevelStateManager.Level_2);
-			}
 
+				timeElapsed += dt;
+				if (!isCallTween) {
+					callTween();
+				}
+				if (white.getColor().a >= .9f) {
+					lsm.setState(LevelStateManager.Level_2);
+				}
+				FireFighterGame.res.getMusic("l_1").stop();
+
+			}
 
 			if (d.getName().equals("YOU")) {
 				currentSound = playerS;
@@ -152,16 +168,13 @@ public class Level1 extends LevelState {
 			} else {
 				font.setColor(Color.GREEN);
 			}
-
 		}
-		
-		
 
 	}
 
 	@Override
 	public void render() {
-		
+
 		layout.setText(font, d.getCharacterLine());
 		float width = layout.width;// contains the width of the current set text
 		// float height = layout.height; // contains the height of the current
@@ -179,11 +192,11 @@ public class Level1 extends LevelState {
 
 		font.draw(batch, d.getName(), FireFighterGame.V_WIDTH / 2 - 15, 625);
 		font.draw(batch, d.getCharacterLine(), FireFighterGame.V_WIDTH / 2 - width / 2, 600);
-		
+
 		batch.end();
 
 		d.render(batch);
-		
+
 		batch.begin();
 		white.draw(batch);
 		batch.end();
