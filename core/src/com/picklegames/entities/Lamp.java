@@ -86,8 +86,8 @@ public class Lamp extends Entity {
 
 		animation.setFrames(textureR, 1 / 8f);
 
-		width = textureR[0].getRegionWidth() * 1.5f;
-		height = textureR[0].getRegionHeight() * 1.5f;
+		width = 80 * 1.5f;
+		height = 150 * 1.5f;
 
 		weapons = new Weapon[3];
 		Extinguisher ex = new Extinguisher(CreateBox2D.createBox(FireFighterGame.world, 0, 0, 1, 1, new Vector2(0, 0),
@@ -117,6 +117,7 @@ public class Lamp extends Entity {
 	boolean isSetAxeUse = false;
 	boolean isSetExtUse = false;
 	boolean isSetYoung= false;
+	float timeHealthElapsed;
 	@Override
 	public void update(float dt) {
 		super.update(dt);
@@ -124,8 +125,14 @@ public class Lamp extends Entity {
 			health = 100;
 		}
 		
-		if(isDamagedApplied(health, healthLast)){
-			health += .05f;
+
+		timeHealthElapsed+=dt;
+		if(timeHealthElapsed >= 1f){
+			if(health < 100 ) {
+				if(health+5 < 100)	health+=5;
+				else health = 100;
+				
+			}
 		}
 		
 		if(health < 1){
@@ -194,9 +201,13 @@ public class Lamp extends Entity {
 		healthLast = health;
 	}
 
-	private boolean isDamagedApplied(float health, float last){
-		return last > health;
+	public void resetScl(){
+		width = 80 * 1.5f;
+		height = 150 * 1.5f;
+		System.out.println("width "+ width);
+		System.out.println("height "+ height);
 	}
+	
 	
 	public void use() {
 		if (!characterState.equals(CharacterState.YOUNG)) {

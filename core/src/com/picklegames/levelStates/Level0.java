@@ -40,7 +40,9 @@ public class Level0 extends LevelState {
 	private Explosion explosion;
 	private Transport transport;
 	private Lamp player;
-
+	
+	private TileObject tileObject;
+	
 	public Level0(LevelStateManager lsm) {
 		super(lsm);
 
@@ -62,18 +64,20 @@ public class Level0 extends LevelState {
 		fires = new ArrayList<Fire>();
 		createDebrisBox2D();
 		
-		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
+		tileObject = new TileObject();
+		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
+		
 		player = lsm.getPlayer();
-		player.scl(8f);
+		player.scl(3f);
 		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 100, 0, player.getWidth() / 3.5f,
 				player.getHeight() / 9, new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp",
 				B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
 		player.characterState = CharacterState.ADULT;
 
-		Tween.set(player, EntityTweenAccessor.VEL).target(2f, 1f).ease(TweenEquations.easeNone).delay(.5f)
+		Tween.set(player, EntityTweenAccessor.VEL).target(4f, 2f).ease(TweenEquations.easeNone).delay(.5f)
 				.start(lsm.getTweenManager());
 		Tween.to(player, EntityTweenAccessor.DIMENSION, 7f).target(player.getWidth() * .5f, player.getHeight() * .5f)
-				.ease(TweenEquations.easeInOutQuad).delay(3f).start(lsm.getTweenManager());
+				.ease(TweenEquations.easeInOutQuad).start(lsm.getTweenManager());
 	}
 
 	@Override
@@ -100,7 +104,7 @@ public class Level0 extends LevelState {
 		explosion.update(dt);
 		transport.update(dt);
 		
-		System.out.println(transport.isInRange(player.getBody().getPosition().x * B2DVars.PPM, player.getBody().getPosition().y * B2DVars.PPM, 100));
+		//System.out.println(transport.isInRange(player.getBody().getPosition().x * B2DVars.PPM, player.getBody().getPosition().y * B2DVars.PPM, 100));
 		if(transport.isInRange(player.getBody().getPosition().x * B2DVars.PPM, player.getBody().getPosition().y * B2DVars.PPM, 200)){
 			explosion.start();
 			timeElapsed+=dt;
@@ -109,6 +113,9 @@ public class Level0 extends LevelState {
 		if(timeElapsed >= .5f){
 			lsm.setState(LevelStateManager.Level_1);
 		}
+		
+		System.out.println("width " + player.getWidth());
+		System.out.println("height " + player.getHeight());
 	}
 
 	@Override
@@ -169,7 +176,7 @@ public class Level0 extends LevelState {
 
 				explosion = new Explosion(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1,
 						BodyType.StaticBody, "transport", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
-				explosion.scl(700);
+				explosion.scl(500);
 			}
 
 		}
@@ -194,10 +201,18 @@ public class Level0 extends LevelState {
 
 	@Override
 	public void dispose() {
-		for (Fire f : fires) {
+		for (int i = 0; i < fires.size() ; i++) {
+			Fire f = fires.get(i);
 			f.dispose();
+			game.getWorld().destroyBody(f.getBody());
+			fires.remove(f);
+			
 		}
-
+		
+		game.getWorld().destroyBody(explosion.getBody());
+		explosion.dispose();
+		
+		game.getWorld().destroyBody(tileObject.body);
 	}
 
 }

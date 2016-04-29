@@ -56,7 +56,7 @@ public class Level4 extends LevelState {
 	private ArrayList<Explosion> explosions;
 
 	private CameraStyles camStyle;
-	
+	private TileObject tileObject;
 	private HUD hud;
 
 	public Level4(LevelStateManager lsm) {
@@ -91,7 +91,8 @@ public class Level4 extends LevelState {
 
 		font = new BitmapFont();
 
-		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
+		tileObject = new TileObject();
+		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
 
 		crap = new ArrayList<Debris>();
 		people = new ArrayList<Person>();
@@ -420,7 +421,8 @@ public class Level4 extends LevelState {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		game.getWorld().destroyBody(tileObject.body);
+		
 
 	}
 

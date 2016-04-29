@@ -7,7 +7,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -27,6 +26,7 @@ import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.entities.Cat;
 import com.picklegames.entities.Cat.CatState;
 import com.picklegames.entities.Lamp;
+import com.picklegames.entities.Lamp.CharacterState;
 import com.picklegames.game.FireFighterGame;
 import com.picklegames.handlers.CameraStyles;
 import com.picklegames.handlers.TileObject;
@@ -41,15 +41,16 @@ public class Level2 extends LevelState implements ContactListener{
 
 	private BitmapFont font;
 	private BitmapFont font_tutorial;
-	private GlyphLayout layout;
+	
 	private OrthogonalTiledMapRenderer tmr;
 	private TiledMap tileMap;
 	private Dialogue d;
 	private Box2DDebugRenderer b2dr;
 	private Lamp player;
 	private Cat cat;
-	Sound s;
+	private Sound currentS, catS, playerS;
 
+	private TileObject streetBound, stopBound;
 	
 	private CameraStyles camStyle;
 
@@ -68,28 +69,22 @@ public class Level2 extends LevelState implements ContactListener{
 		font_tutorial.setColor(Color.WHITE);
 		font.setColor(Color.WHITE);
 		font.getData().scaleX = .45f;
-		layout = new GlyphLayout(); // dont do this every frame! Store it as
-									// member
+
 		
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
 		tileMap = new TmxMapLoader().load("map/catlevel1.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 		d = new Dialogue("dialogue/catIngameDialogue", "");
-		// cam.viewportWidth = tmr.getMap().getProperties().get("width",
-		// Integer.class) * 32;
-		// cam.viewportHeight = tmr.getMap().getProperties().get("height",
-		// Integer.class) * 32;
-		// cam.viewportWidth = tmr.getMap().getProperties().get("width",
-		// Integer.class) * 32;
+		
 		cam.viewportHeight = tmr.getMap().getProperties().get("height", Integer.class) * 32;
-		// cam.position.x = cam.viewportWidth / 2;
 		cam.position.y = cam.viewportHeight / 2;
-
+		cam.update();
 		// batch.setTransformMatrix(cam.combined.scl(PPM));
 
 		player = lsm.getPlayer();
-		player.scl(2f);
+		player.characterState = CharacterState.YOUNG;
+		player.scl(1f);
 		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 100, 100, player.getWidth() / 3.5f,
 				player.getHeight() / 9, new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp",
 				B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
@@ -100,9 +95,11 @@ public class Level2 extends LevelState implements ContactListener{
 		b2dr = new Box2DDebugRenderer();
 
 		font = new BitmapFont();
-
-		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
-		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("stop").getObjects(), "stop");
+		
+		streetBound = new TileObject();
+		stopBound = new TileObject();
+		streetBound.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
+		stopBound.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("stop").getObjects(), "stop");
 
 //		hud = new HUD(cam);
 
@@ -110,7 +107,10 @@ public class Level2 extends LevelState implements ContactListener{
 		camStyle = new CameraStyles();
 		game.getWorld().setContactListener(this);
 		FireFighterGame.res.loadSound("sound/wac.mp3", "wac");
-		s = FireFighterGame.res.getSound("wac");
+		FireFighterGame.res.loadSound("sound/Meow.mp3", "meow");
+		playerS = FireFighterGame.res.getSound("wac");
+		catS = FireFighterGame.res.getSound("meow");
+		currentS = playerS;
 	}
 
 	@Override
@@ -151,11 +151,20 @@ public class Level2 extends LevelState implements ContactListener{
 	public void update(float dt) {
 		handleInput();
 		if(isPlayerTouch){
-			d.update(dt, s);
+			d.update(dt, currentS);
 			timeElapsed+=dt;
 		}
+		
 		player.update(dt);
 		cat.update(dt);
+		
+		if(d.getName().equals("CAT")){
+			currentS = catS;
+			font.setColor(Color.GREEN);
+		}else if(d.getName().equals("LAMP")){
+			currentS = playerS;
+			font.setColor(Color.BLUE);
+		}
 		
 		if(cat.isInRange(player.getWorldPosition().x, player.getWorldPosition().y) && !ground_cat_contact && isPlayerTouch && timeElapsed > 6f){
 			cat.catState = CatState.Fall;
@@ -166,11 +175,13 @@ public class Level2 extends LevelState implements ContactListener{
 		if(d.isFinished()){
 			if(cat.isInRange(player.getWorldPosition().x, player.getWorldPosition().y)){
 				if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
-					
+					lsm.setState(LevelStateManager.Level_3);
 				}
 			}
 		}
 
+		System.out.println("width " + player.getWidth());
+		System.out.println("height " + player.getHeight());
 		camStyle.update(dt);
 	}
 
@@ -212,23 +223,21 @@ public class Level2 extends LevelState implements ContactListener{
 		//float width = layout.width;// contains the width of the current set text
 		// float height = layout.height; // contains the height of the current
 
-		if(d.getName().equals("PLAYER")){
-			font.setColor(Color.BLUE);
-		}else {
-			font.setColor(Color.GREEN);
-		}
 		batch.begin();
 		font.draw(batch, "Level 6, time: " + timeElapsed, Gdx.graphics.getWidth() / 2,
 				Gdx.graphics.getHeight() / 2 + 50);
-		if(d.getName().equals("PLAYER")){
+		if(d.getName().equals("LAMP")){
 		//font.draw(batch, d.getName(), player.getWorldPosition().x, player.getWorldPosition().y);
 			font.draw(batch, d.getCharacterLine(), player.getWorldPosition().x, player.getWorldPosition().y + 100);
 		}else {
 			font.draw(batch, d.getCharacterLine(), cat.getWorldPosition().x, cat.getWorldPosition().y + 50);
 		}
 		
-		font_tutorial.draw(batch, "ARROW KEY TO MOVE", 200, 400);
-		
+		if(d.isFinished()){
+			font_tutorial.draw(batch, "\"X\" to interact", 600, 400);
+		}else {
+			font_tutorial.draw(batch, "ARROW KEY TO MOVE", 200, 400);
+		}
 		batch.end();
 	}
 
@@ -254,8 +263,12 @@ public class Level2 extends LevelState implements ContactListener{
 
 	@Override
 	public void dispose() {
-		
-
+		font.dispose();
+		font_tutorial.dispose();
+		game.getWorld().destroyBody(cat.getBody());
+		cat.dispose();
+		game.getWorld().destroyBody(streetBound.body);
+		game.getWorld().destroyBody(stopBound.body);
 	}
 	
 	boolean ground_cat_contact;

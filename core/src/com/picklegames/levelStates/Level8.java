@@ -56,7 +56,7 @@ public class Level8 extends LevelState {
 	private ArrayList<Explosion> explosions;
 
 	private CameraStyles camStyle;
-	
+	private TileObject tileObject;
 	private HUD hud;
 
 	public Level8(LevelStateManager lsm) {
@@ -90,8 +90,9 @@ public class Level8 extends LevelState {
 		b2dr = new Box2DDebugRenderer();
 
 		font = new BitmapFont();
-
-		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
+		
+		tileObject = new TileObject();
+		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
 
 		crap = new ArrayList<Debris>();
 		people = new ArrayList<Person>();

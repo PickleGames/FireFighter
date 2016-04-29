@@ -124,8 +124,8 @@ public class Entity {
 	}
 	
 	public void scl(float scl){
-		width = animation.getFrame().getRegionWidth() * scl;
-		height = animation.getFrame().getRegionWidth() * scl;
+		width *= scl;
+		height *= scl;
 	}
 	
 	public void sclX(float scl){

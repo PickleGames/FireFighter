@@ -76,7 +76,7 @@ public class LevelStateManager {
 		player = new Lamp();
 		camStyle = new CameraStyles();
 
-		pushState(Level_2);
+		pushState(Level_4);
 
 
 //		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
@@ -143,6 +143,7 @@ public class LevelStateManager {
 	public void setState(int state) {
 		popState();
 		game.getCam().setToOrtho(false, FireFighterGame.V_WIDTH / FireFighterGame.SCALE, FireFighterGame.V_HEIGHT / FireFighterGame.SCALE);
+		player.resetScl();
 		pushState(state);
 		
 	}

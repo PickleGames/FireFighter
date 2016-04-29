@@ -55,7 +55,7 @@
   </object>
  </objectgroup>
  <objectgroup name="stop">
-  <object id="7" x="1120" y="408">
+  <object id="7" x="1056" y="408">
    <polyline points="0,0 0,72"/>
   </object>
  </objectgroup>

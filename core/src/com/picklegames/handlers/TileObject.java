@@ -13,8 +13,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.picklegames.handlers.Box2D.B2DVars;
 
 public class TileObject {
-
-	public static void parseTiledObjectLayer(World world, MapObjects objects, String userData) {
+	public Body body;
+	
+	public void parseTiledObjectLayer(World world, MapObjects objects, String userData) {
 
 		for (MapObject object : objects) {
 			Shape shape;
@@ -24,7 +25,6 @@ public class TileObject {
 				continue;
 			}
 
-			Body body;
 			BodyDef bdef = new BodyDef();
 			bdef.type = BodyDef.BodyType.StaticBody;
 			body = world.createBody(bdef);
@@ -39,7 +39,7 @@ public class TileObject {
 		}
 	}
 
-	private static ChainShape createPolyline(PolylineMapObject polyline) {
+	private ChainShape createPolyline(PolylineMapObject polyline) {
 
 		float[] vertices = polyline.getPolyline().getTransformedVertices();
 		Vector2[] worldVertices = new Vector2[vertices.length / 2];

@@ -55,6 +55,7 @@ public class Tutorial extends LevelState {
 	private ArrayList<Person> people;
 	private ArrayList<Fire> fires;
 
+	private TileObject tileObject;
 	private HUD hud;
 
 	private String help = "Switch between your tools using [1] and [2]";
@@ -84,7 +85,8 @@ public class Tutorial extends LevelState {
 		font.getData().setScale(.5f, .5f);
 		layout = new GlyphLayout();
 
-		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
+		tileObject = new TileObject();
+		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
 
 		crap = new ArrayList<Debris>();
 		people = new ArrayList<Person>();

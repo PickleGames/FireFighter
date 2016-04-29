@@ -1,6 +1,7 @@
 package com.picklegames.levelStates;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -93,7 +94,9 @@ public class Level1 extends LevelState {
 
 	@Override
 	public void handleInput() {
-		// TODO Auto-generated method stub
+		if(Gdx.input.isKeyPressed(Keys.P)){
+			lsm.setState(LevelStateManager.Level_2);
+		}
 
 	}
 
@@ -101,6 +104,7 @@ public class Level1 extends LevelState {
 
 	@Override
 	public void update(float dt) {
+		handleInput();
 		timeElapsed += dt;
 		
 		if (white.getColor().a <= .1f) {
@@ -140,6 +144,8 @@ public class Level1 extends LevelState {
 			}
 
 		}
+		
+		
 
 	}
 
