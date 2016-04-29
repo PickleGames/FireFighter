@@ -7,11 +7,16 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.picklegames.TweenAccessor.SpriteTweenAccessor;
 import com.picklegames.game.FireFighterGame;
 import com.picklegames.handlers.Animation;
 import com.picklegames.handlers.dialogue.Dialogue;
 import com.picklegames.managers.LevelStateManager;
+
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
 
 public class Level11 extends LevelState {
 
@@ -31,6 +36,7 @@ public class Level11 extends LevelState {
 	private TextureRegion[] collReg;
 
 	private Sound playerS, girlS, catS, currentSound;
+	private Sprite white;
 
 	public Level11(LevelStateManager lsm) {
 		super(lsm);
@@ -47,6 +53,10 @@ public class Level11 extends LevelState {
 		font.getData().scaleX = .4f;
 		layout = new GlyphLayout(); // dont do this every frame! Store it as
 									// member
+		white = new Sprite(new Texture(("image/Backgrounds/whitebg.png")));
+		white.setAlpha(0);
+		white.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		white.setPosition(0, 0);
 
 		FireFighterGame.res.loadTexture("image/Character/oldMom.png", "oMom");
 		FireFighterGame.res.loadTexture("image/Character/collegeFace.png", "college");
@@ -81,20 +91,21 @@ public class Level11 extends LevelState {
 	@Override
 	public void handleInput() {
 		// TODO Auto-generated method stub
-
+		if (FireFighterGame.DEBUG) {
+			if (Gdx.input.isKeyPressed(Keys.P)) {
+				FireFighterGame.res.getMusic("d_6").stop();
+				lsm.setState(LevelStateManager.Level_12);
+			}
+		}
 	}
 
 	float timeElapsed;
+	boolean isTween;
 
 	@Override
 	public void update(float dt) {
 		// TODO Auto-generated method stub
-
-		if (Gdx.input.isKeyPressed(Keys.P)) {
-			FireFighterGame.res.getMusic("d_6").stop();
-			lsm.setState(LevelStateManager.Level_12);
-		}
-
+		handleInput();
 		if (!FireFighterGame.res.getMusic("d_6").isPlaying()) {
 			FireFighterGame.res.getMusic("d_6").play();
 		}
@@ -109,12 +120,21 @@ public class Level11 extends LevelState {
 
 		d.update(dt, currentSound);
 		if (d.isFinished()) {
-			timeElapsed += dt;
-			if (timeElapsed >= 3f) {
-				FireFighterGame.res.getMusic("d_6").stop();
+			if (!isTween) {
+				Tween.to(white, SpriteTweenAccessor.ALPHA, 2f).target(1).ease(TweenEquations.easeNone)
+						.start(lsm.getTweenManager());
+				isTween = true;
+			}
 
+			if (white.getColor().a >= .95f) {
+				FireFighterGame.res.getMusic("d_6").stop();
 				lsm.setState(LevelStateManager.Level_12);
 			}
+
+			// FireFighterGame.res.getMusic("d_6").stop();
+			//
+			// lsm.setState(LevelStateManager.Level_12);
+
 		}
 
 		if (d.isIntroDone()) {
@@ -157,6 +177,7 @@ public class Level11 extends LevelState {
 		layout.setText(font, d.getName());
 		width = layout.width;
 		font.draw(batch, d.getName(), cam.viewportWidth / 2 - width / 2, 625);
+		white.draw(batch);
 		batch.end();
 
 		d.render(batch);

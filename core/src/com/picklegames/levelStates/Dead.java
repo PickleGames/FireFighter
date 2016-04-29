@@ -33,6 +33,8 @@ public class Dead extends LevelState{
 		
 		cam.position.set(cam.viewportWidth / 2 , cam.viewportHeight /2 , 0);
 		
+		cam.update();
+		
 	}
 
 	@Override

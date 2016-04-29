@@ -95,13 +95,15 @@ public class Level1 extends LevelState {
 		FireFighterGame.res.loadMusic("sound/Level 1, Level 2.mp3", "l_1");
 		//FireFighterGame.res.getMusic("l_1").play();
 	}
-
+	
 	@Override
 	public void handleInput() {
 
-		if (Gdx.input.isKeyPressed(Keys.P)) {
-			FireFighterGame.res.getMusic("l_1").stop();
-			lsm.setState(LevelStateManager.Level_2);
+		if(FireFighterGame.DEBUG){
+			if (Gdx.input.isKeyPressed(Keys.P)) {
+				FireFighterGame.res.getMusic("l_1").stop();
+				lsm.setState(LevelStateManager.Level_2);
+			}
 		}
 
 	}

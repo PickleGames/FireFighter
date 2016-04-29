@@ -127,7 +127,7 @@
   </object>
  </objectgroup>
  <objectgroup color="#00aa00" name="end">
-  <object id="184" x="3160" y="296">
+  <object id="184" x="3040" y="288">
    <ellipse/>
   </object>
  </objectgroup>

@@ -130,7 +130,7 @@ public class Level0 extends LevelState {
 		tmr.setView(cam);
 		batch.begin();
 		tmr.render();
-		b2dr.render(game.getWorld(), cam.combined.scl(PPM));
+		//b2dr.render(game.getWorld(), cam.combined.scl(PPM));
 		batch.end();
 		cam.update();
 

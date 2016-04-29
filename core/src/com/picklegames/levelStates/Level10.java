@@ -18,8 +18,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
-import com.picklegames.TweenAccessor.SpriteTweenAccessor;
-import com.picklegames.entities.Animal;
 import com.picklegames.entities.Debris;
 import com.picklegames.entities.Explosion;
 import com.picklegames.entities.Fire;
@@ -29,7 +27,6 @@ import com.picklegames.entities.Lamp.WeaponState;
 import com.picklegames.entities.Person;
 import com.picklegames.entities.Person.PersonState;
 import com.picklegames.entities.Transport;
-import com.picklegames.entities.Animal.AnimalState;
 import com.picklegames.entities.weapons.Axe;
 import com.picklegames.entities.weapons.Extinguisher;
 import com.picklegames.game.FireFighterGame;
@@ -41,7 +38,6 @@ import com.picklegames.handlers.Box2D.CreateBox2D;
 import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenEquations;
 
 public class Level10 extends LevelState {
 
@@ -91,9 +87,10 @@ public class Level10 extends LevelState {
 		b2dr = new Box2DDebugRenderer();
 
 		font = new BitmapFont();
-		
+
 		tileObject = new TileObject();
-		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
+		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(),
+				"ground");
 
 		crap = new ArrayList<Debris>();
 		people = new ArrayList<Person>();
@@ -103,9 +100,9 @@ public class Level10 extends LevelState {
 		hud = new HUD(cam);
 
 		createDebrisBox2D();
-		
+
 		FireFighterGame.res.loadMusic("sound/actionMusic2.mp3", "l_4");
-		
+
 	}
 
 	@Override
@@ -126,13 +123,13 @@ public class Level10 extends LevelState {
 			} else {
 				player.setVelocityY(0);
 			}
-			
-			if(Gdx.input.isKeyPressed(Keys.P)){
+		}
+		if (FireFighterGame.DEBUG) {
+			if (Gdx.input.isKeyPressed(Keys.P)) {
 				FireFighterGame.res.getMusic("l_4").stop();
 				lsm.setState(LevelStateManager.Level_11);
 			}
 		}
-
 		// if (player.getCurrentWeapon().isUsable()) {
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			player.use();
@@ -164,39 +161,38 @@ public class Level10 extends LevelState {
 
 	@Override
 	public void update(float dt) {
-		
-		if(!FireFighterGame.res.getMusic("l_4").isPlaying()){
+
+		if (!FireFighterGame.res.getMusic("l_4").isPlaying()) {
 			FireFighterGame.res.getMusic("l_4").play();
 		}
-		
+
 		handleInput();
 
 		player.update(dt);
 		// player.getBody().setLinearVelocity(player.getVelocity());
 		// player.setSize(player.getWidth() - 2, player.getHeight() - 2);
 
-		 transport.update(dt);
+		transport.update(dt);
 		hud.update(dt);
 
-		
 		hud.playerHurt(player.isInDanger());
-		
-		if(player.isDead()){
+
+		if (player.isDead()) {
 			lsm.setState(LevelStateManager.Dead);
 		}
-		
-		//System.out.println( "CAM WIDTH " + cam.viewportWidth + " CAM HEIGHT" + cam.viewportHeight);
-		
-		if(player.weaponState.equals(WeaponState.AXE)){
+
+		// System.out.println( "CAM WIDTH " + cam.viewportWidth + " CAM HEIGHT"
+		// + cam.viewportHeight);
+
+		if (player.weaponState.equals(WeaponState.AXE)) {
 			hud.hudState = HudState.AXE;
 		} else if (player.weaponState.equals(WeaponState.EXTINGUISHER)) {
 			hud.hudState = HudState.EXTINGUISHER;
 		}
 
-		 if (transport.isInRange(player.getPosition().x * B2DVars.PPM,
-		 player.getPosition().y * B2DVars.PPM, 100)) {
-		 isTransport = true;
-		 }
+		if (transport.isInRange(player.getPosition().x * B2DVars.PPM, player.getPosition().y * B2DVars.PPM, 100)) {
+			isTransport = true;
+		}
 		if (isTransport) {
 			timeElapsed += dt;
 			if (!lsm.getTe().isStart()) {
@@ -211,11 +207,11 @@ public class Level10 extends LevelState {
 			for (int i = 0; i < fires.size(); i++) {
 				Fire f = fires.get(i);
 				f.update(dt);
-				
-				if(f.isInRadius(player.getWorldPosition().x, player.getWorldPosition().y, 100)){
+
+				if (f.isInRadius(player.getWorldPosition().x, player.getWorldPosition().y, 100)) {
 					player.burn(.25f);
 				}
-				
+
 				if (!(player.getCurrentWeapon() instanceof Extinguisher))
 					continue;
 
@@ -245,7 +241,6 @@ public class Level10 extends LevelState {
 					p.personState = PersonState.RUN;
 				}
 			}
-			
 
 			for (int i = 0; i < crap.size(); i++) {
 				Debris d = crap.get(i);
@@ -276,9 +271,9 @@ public class Level10 extends LevelState {
 				if (e.isInRadius(player.getPosition().x * PPM, player.getPosition().y * PPM, 300)) {
 					e.push(player.getBody());
 					e.start();
-					player.setHealth(player.getHealth()- 90f);
+					player.setHealth(player.getHealth() - 90f);
 				}
-				
+
 				if (e.isStart()) {
 					lsm.getCamStyle().Shake(cam, initialCamPos, 500f, 1f);
 				}
@@ -291,7 +286,7 @@ public class Level10 extends LevelState {
 				}
 			}
 		}
-		
+
 		lsm.getCamStyle().update(dt);
 	}
 
@@ -306,17 +301,17 @@ public class Level10 extends LevelState {
 		float starty = cam.viewportHeight / 2;
 		float endWidth = tileMap.getProperties().get("width", Integer.class) * 32 - startx * 2;
 		float endHeight = tileMap.getProperties().get("height", Integer.class) * 32 - starty * 2;
-//		System.out.println("endx: " + endWidth + " endy: " + endHeight);
-//		System.out.println(cam.position);
+		// System.out.println("endx: " + endWidth + " endy: " + endHeight);
+		// System.out.println(cam.position);
 
 		lsm.getCamStyle().Lerp(cam, .5f, player.getWorldPosition());
 		lsm.getCamStyle().Boundary(cam, startx, starty, endWidth, endHeight);
 		initialCamPos = new Vector3(cam.position);
-
+		lsm.getCamStyle().Shake(cam, initialCamPos, 2f);
 		tmr.setView(cam);
 		batch.begin();
 		tmr.render();
-		b2dr.render(game.getWorld(), cam.combined.scl(PPM));
+		// b2dr.render(game.getWorld(), cam.combined.scl(PPM));
 		batch.end();
 
 		cam.update();
@@ -345,11 +340,13 @@ public class Level10 extends LevelState {
 		batch.end();
 
 		batch.begin();
-//		font.draw(batch, "Level 6, time: " + timeElapsed, cam.viewportWidth / 2,
-//				cam.viewportHeight / 2 + 50);
-//		font.draw(batch, "PLAYER HEALTH: " + player.getHealth(),cam.viewportWidth / 2 + 100,
-//				cam.viewportHeight / 2 + 50);
-		
+		// font.draw(batch, "Level 6, time: " + timeElapsed, cam.viewportWidth /
+		// 2,
+		// cam.viewportHeight / 2 + 50);
+		// font.draw(batch, "PLAYER HEALTH: " +
+		// player.getHealth(),cam.viewportWidth / 2 + 100,
+		// cam.viewportHeight / 2 + 50);
+
 		batch.end();
 
 		hud.render(batch);
@@ -366,8 +363,8 @@ public class Level10 extends LevelState {
 				float y = (float) mo.getProperties().get("y", Float.class);
 
 				// create new debris and add to crap list
-				Debris f = new Debris(CreateBox2D.createCircle(game.getWorld(), x, y, 100, false, 1, BodyType.StaticBody,
-						"debris", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+				Debris f = new Debris(CreateBox2D.createCircle(game.getWorld(), x, y, 100, false, 1,
+						BodyType.StaticBody, "debris", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
 				crap.add(f);
 			}
 		}
@@ -444,30 +441,31 @@ public class Level10 extends LevelState {
 	public void dispose() {
 		// TODO Auto-generated method stub
 		game.getWorld().destroyBody(transport.getBody());
-		
-		for(Explosion e : explosions){
-			game.getWorld().destroyBody(e.getBody());;
+
+		for (Explosion e : explosions) {
+			game.getWorld().destroyBody(e.getBody());
+			;
 		}
-		
-		if(fires != null){
-			for(Fire f: fires){
+
+		if (fires != null) {
+			for (Fire f : fires) {
 				f.dispose();
 				game.getWorld().destroyBody(f.getBody());
 			}
 		}
-		if(crap != null){
-			for(Debris d: crap){
+		if (crap != null) {
+			for (Debris d : crap) {
 				d.dispose();
 				game.getWorld().destroyBody(d.getBody());
 			}
 		}
-		if(people != null){
-			for(Person p: people){
+		if (people != null) {
+			for (Person p : people) {
 				p.dispose();
 				game.getWorld().destroyBody(p.getBody());
 			}
 		}
-		
+
 		tileMap.dispose();
 		tmr.dispose();
 		b2dr.dispose();

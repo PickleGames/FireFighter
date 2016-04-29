@@ -45,18 +45,25 @@ public class CameraStyles {
 	}
 
 	public void Shake(Camera cam, Vector3 initPos, float amplitude, float duration) {
-		if(!isStart && timeElapsed <= duration) {
+		if (!isStart && timeElapsed <= duration) {
 			isStart = true;
 		}
-		if(timeElapsed >= duration) isStart = false;
-		
+		if (timeElapsed >= duration)
+			isStart = false;
+
 		if (isStart) {
 			cam.position.x = (float) (initPos.x + opposite() * Math.random() * amplitude);
 			cam.position.y = (float) (initPos.y + opposite() * Math.random() * amplitude);
 		}
 	}
-	
-	public void reset(){
+
+	public void Shake(Camera cam, Vector3 initPos, float amplitude) {
+		cam.position.x = (float) (initPos.x + opposite() * Math.random() * amplitude);
+		cam.position.y = (float) (initPos.y + opposite() * Math.random() * amplitude);
+
+	}
+
+	public void reset() {
 		timeElapsed = 0;
 		isStart = false;
 	}

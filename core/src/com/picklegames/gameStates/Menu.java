@@ -37,13 +37,14 @@ public class Menu extends GameState {
 		background.setSize(cam.viewportWidth, cam.viewportHeight);
 
 		textBoxes = new TextBox[3];
-		textBoxes[0] = new TextBox("Play", cam.viewportWidth - 250, 500);
-		textBoxes[1] = new TextBox("Help", cam.viewportWidth - 250, 440);
-		textBoxes[2] = new TextBox("Exit", cam.viewportWidth - 250, 380);
+		textBoxes[0] = new TextBox("Play", cam.viewportWidth - 325, 500);
+		textBoxes[1] = new TextBox("Help", cam.viewportWidth - 325, 440);
+		textBoxes[2] = new TextBox("Exit", cam.viewportWidth - 325, 380);
 
 		FireFighterGame.res.loadMusic("sound/Menu, Dialogue 2.mp3", "men");
+		FireFighterGame.res.getMusic("men").setLooping(true);
 		FireFighterGame.res.getMusic("men").play();
-
+		
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 		font.getData().setScale(1.5f);
 	}

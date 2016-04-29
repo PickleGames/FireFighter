@@ -7,11 +7,16 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.picklegames.TweenAccessor.SpriteTweenAccessor;
 import com.picklegames.game.FireFighterGame;
 import com.picklegames.handlers.Animation;
 import com.picklegames.handlers.dialogue.Dialogue;
 import com.picklegames.managers.LevelStateManager;
+
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
 
 public class Level5 extends LevelState {
 
@@ -31,6 +36,7 @@ public class Level5 extends LevelState {
 	private TextureRegion[] collReg;
 
 	private Sound playerS, girlS, catS, currentSound;
+	private Sprite white;
 
 	public Level5(LevelStateManager lsm) {
 		super(lsm);
@@ -46,6 +52,11 @@ public class Level5 extends LevelState {
 		font.getData().scaleX = .4f;
 		layout = new GlyphLayout(); // dont do this every frame! Store it as
 									// member
+
+		white = new Sprite(new Texture(("image/Backgrounds/whitebg.png")));
+		white.setAlpha(0);
+		white.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		white.setPosition(0, 0);
 
 		FireFighterGame.res.loadTexture("image/Character/momFace.png", "mom");
 		FireFighterGame.res.loadTexture("image/Character/collegeFace.png", "college");
@@ -72,9 +83,9 @@ public class Level5 extends LevelState {
 		currentSound = playerS;
 
 		cam.update();
-		
+
 		FireFighterGame.res.loadMusic("sound/Dialogue1,Dialogue3.mp3", "d_3");
-		
+
 	}
 
 	@Override
@@ -87,38 +98,48 @@ public class Level5 extends LevelState {
 			cam.viewportHeight -= 10;
 			cam.viewportWidth -= 10;
 		}
-
-		if (Gdx.input.isKeyPressed(Keys.P)) {
-			FireFighterGame.res.getMusic("l_2").stop();
-			lsm.setState(LevelStateManager.Level_6);
+		if (FireFighterGame.DEBUG) {
+			if (Gdx.input.isKeyPressed(Keys.P)) {
+				FireFighterGame.res.getMusic("l_2").stop();
+				lsm.setState(LevelStateManager.Level_6);
+			}
 		}
-
 	}
+
+	boolean isTween = false;
 
 	@Override
 	public void update(float dt) {
-		
-		if(!FireFighterGame.res.getMusic("d_3").isPlaying()){
+
+		if (!FireFighterGame.res.getMusic("d_3").isPlaying()) {
 			FireFighterGame.res.getMusic("d_3").play();
 		}
-		
+
 		handleInput();
 		d.update(dt, currentSound);
-		
-		if(d.getName().equals("YOU")){
+
+		if (d.getName().equals("YOU")) {
 			currentSound = playerS;
-		}else if(d.getName().equals("MOM")){
+		} else if (d.getName().equals("MOM")) {
 			currentSound = girlS;
-		}else if(d.getName().equals("CAT")){
+		} else if (d.getName().equals("CAT")) {
 			currentSound = catS;
 		}
-		
+
 		if (d.isFinished()) {
-			FireFighterGame.res.getMusic("d_3").stop();
-			lsm.setState(LevelStateManager.Level_6);
+			if (!isTween) {
+				Tween.to(white, SpriteTweenAccessor.ALPHA, 2f).target(1).ease(TweenEquations.easeNone)
+						.start(lsm.getTweenManager());
+				isTween = true;
+			}
+			if (white.getColor().a >= .95f) {
+				FireFighterGame.res.getMusic("d_3").stop();
+				lsm.setState(LevelStateManager.Level_6);
+			}
 		}
-//		System.out.println("CAM WIDTH " + cam.viewportWidth + " CAM HEIGHT " + cam.viewportHeight);
-//		System.out.println("CAM POS " + cam.position);
+		// System.out.println("CAM WIDTH " + cam.viewportWidth + " CAM HEIGHT "
+		// + cam.viewportHeight);
+		// System.out.println("CAM POS " + cam.position);
 		if (d.isIntroDone()) {
 			// teenGirl.update(dt);
 			// teenAni.update(dt);
@@ -142,23 +163,24 @@ public class Level5 extends LevelState {
 		// TODO Auto-generated method stub
 		layout.setText(font, d.getCharacterLine());
 		float width = layout.width;// contains the width of the current set text
-		//float height = layout.height; // contains the height of the current set text
+		// float height = layout.height; // contains the height of the current
+		// set text
 		batch.setProjectionMatrix(cam.combined);
-		
-		
+
 		batch.begin();
-		
-			batch.draw(bg, 0, 0, cam.viewportWidth, cam.viewportHeight);
-			batch.draw(bgBar, 25, cam.viewportHeight -  cam.viewportHeight / 4, cam.viewportWidth - 50, cam.viewportHeight / 6);
-			batch.draw(mom.getFrame(), cam.viewportWidth - 505, 5 , 500, 500);
-			batch.draw(collAni.getFrame(), 5, 5 ,500, 500);
-			
 
-			font.draw(batch, d.getCharacterLine(),  cam.viewportWidth/2 - width/2, 600);
-			layout.setText(font, d.getName());
-			width = layout.width;
-			font.draw(batch, d.getName(), cam.viewportWidth/2  - width/2, 625);
+		batch.draw(bg, 0, 0, cam.viewportWidth, cam.viewportHeight);
+		batch.draw(bgBar, 25, cam.viewportHeight - cam.viewportHeight / 4, cam.viewportWidth - 50,
+				cam.viewportHeight / 6);
+		batch.draw(mom.getFrame(), cam.viewportWidth - 505, 5, 500, 500);
+		batch.draw(collAni.getFrame(), 5, 5, 500, 500);
 
+		font.draw(batch, d.getCharacterLine(), cam.viewportWidth / 2 - width / 2, 600);
+		layout.setText(font, d.getName());
+		width = layout.width;
+		font.draw(batch, d.getName(), cam.viewportWidth / 2 - width / 2, 625);
+
+		white.draw(batch);
 		batch.end();
 
 		d.render(batch);
@@ -167,7 +189,8 @@ public class Level5 extends LevelState {
 	@Override
 	public void dispose() {
 		font.dispose();
-		FireFighterGame.res.getMusic("l_2").dispose();;
+		FireFighterGame.res.getMusic("l_2").dispose();
+		;
 
 	}
 

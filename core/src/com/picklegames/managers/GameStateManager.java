@@ -26,7 +26,7 @@ public class GameStateManager {
 		this.game = game;
 		gameStates = new Stack<GameState>();
 		tweenManager = new TweenManager();
-		pushState(MENU);
+		pushState(SPLASH);
 	}
 	
 	

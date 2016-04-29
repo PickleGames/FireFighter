@@ -138,12 +138,13 @@ public class Level8 extends LevelState {
 				player.setVelocityY(0);
 			}
 
+		}
+		if (FireFighterGame.DEBUG) {
 			if (Gdx.input.isKeyPressed(Keys.P)) {
 				FireFighterGame.res.getMusic("l_3").stop();
 				lsm.setState(LevelStateManager.Level_9);
 			}
 		}
-
 		// if (player.getCurrentWeapon().isUsable()) {
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			player.use();
@@ -335,11 +336,12 @@ public class Level8 extends LevelState {
 		camStyle.Lerp(cam, .5f, player.getWorldPosition());
 		camStyle.Boundary(cam, startx, starty, endWidth, endHeight);
 		initialCamPos = new Vector3(cam.position);
+		// lsm.getCamStyle().Shake(cam, initialCamPos, 2f);
 
 		tmr.setView(cam);
 		batch.begin();
 		tmr.render();
-		b2dr.render(game.getWorld(), cam.combined.scl(PPM));
+		// b2dr.render(game.getWorld(), cam.combined.scl(PPM));
 		batch.end();
 
 		cam.update();
@@ -378,8 +380,7 @@ public class Level8 extends LevelState {
 		batch.end();
 
 		batch.begin();
-		font.draw(batch, "Level 6, time: " + timeElapsed, Gdx.graphics.getWidth() / 2,
-				Gdx.graphics.getHeight() / 2 + 50);
+		font.draw(batch, "Go near animal to save", 20, cam.viewportHeight / 2 + 150);
 		batch.end();
 	}
 

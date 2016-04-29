@@ -70,7 +70,7 @@ public class Axe extends Weapon{
 	
 	public void render(SpriteBatch batch){
 		if(isUse()){	
-			batch.draw(animation.getFrame(), getPosition().x * B2DVars.PPM, getPosition().y * B2DVars.PPM);
+			//batch.draw(animation.getFrame(), getPosition().x * B2DVars.PPM, getPosition().y * B2DVars.PPM);
 		}
 	}
 

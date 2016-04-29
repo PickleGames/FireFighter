@@ -9,8 +9,10 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		new LwjglApplication(new FireFighterGame(), config);
 		
-		config.title = "";
+		config.title = "Final Flame";
 		config.width = 1080;
 		config.height = 720;
+		config.resizable = false;
+		
 	}
 }
