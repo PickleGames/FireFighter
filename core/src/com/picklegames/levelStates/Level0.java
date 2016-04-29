@@ -19,6 +19,7 @@ import com.picklegames.entities.Entity;
 import com.picklegames.entities.Explosion;
 import com.picklegames.entities.Fire;
 import com.picklegames.entities.Lamp;
+import com.picklegames.entities.Lamp.CharacterState;
 import com.picklegames.entities.Transport;
 import com.picklegames.game.FireFighterGame;
 import com.picklegames.handlers.TileObject;
@@ -61,12 +62,13 @@ public class Level0 extends LevelState {
 		fires = new ArrayList<Fire>();
 		createDebrisBox2D();
 		
-		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects());
+		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
 		player = lsm.getPlayer();
 		player.scl(8f);
 		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 100, 0, player.getWidth() / 3.5f,
 				player.getHeight() / 9, new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp",
 				B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
+		player.characterState = CharacterState.ADULT;
 
 		Tween.set(player, EntityTweenAccessor.VEL).target(2f, 1f).ease(TweenEquations.easeNone).delay(.5f)
 				.start(lsm.getTweenManager());

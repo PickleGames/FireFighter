@@ -14,7 +14,7 @@ import com.picklegames.handlers.Box2D.B2DVars;
 
 public class TileObject {
 
-	public static void parseTiledObjectLayer(World world, MapObjects objects) {
+	public static void parseTiledObjectLayer(World world, MapObjects objects, String userData) {
 
 		for (MapObject object : objects) {
 			Shape shape;
@@ -28,12 +28,12 @@ public class TileObject {
 			BodyDef bdef = new BodyDef();
 			bdef.type = BodyDef.BodyType.StaticBody;
 			body = world.createBody(bdef);
-			body.setUserData("ground");
+			body.setUserData(userData);
 			FixtureDef fdef = new FixtureDef();
 			fdef.shape = shape;
 			fdef.filter.categoryBits = B2DVars.BIT_GROUND;
 			fdef.filter.maskBits =  B2DVars.BIT_PLAYER;
-			body.createFixture(fdef).setUserData("ground");
+			body.createFixture(fdef).setUserData(userData);
 			shape.dispose();
 
 		}

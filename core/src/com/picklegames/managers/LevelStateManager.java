@@ -142,8 +142,9 @@ public class LevelStateManager {
 
 	public void setState(int state) {
 		popState();
-		pushState(state);
 		game.getCam().setToOrtho(false, FireFighterGame.V_WIDTH / FireFighterGame.SCALE, FireFighterGame.V_HEIGHT / FireFighterGame.SCALE);
+		pushState(state);
+		
 	}
 
 	public void pushState(int state) {

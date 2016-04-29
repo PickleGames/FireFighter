@@ -76,7 +76,7 @@ public class Level6 extends LevelState {
 		cam.viewportHeight = tmr.getMap().getProperties().get("height", Integer.class) * 32;
 		// cam.position.x = cam.viewportWidth / 2;
 		cam.position.y = cam.viewportHeight / 2;
-
+		
 		// batch.setTransformMatrix(cam.combined.scl(PPM));
 
 		player = lsm.getPlayer();
@@ -89,7 +89,7 @@ public class Level6 extends LevelState {
 
 		font = new BitmapFont();
 
-		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects());
+		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
 
 		crap = new ArrayList<Debris>();
 		people = new ArrayList<Person>();

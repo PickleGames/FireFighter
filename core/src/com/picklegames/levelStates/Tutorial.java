@@ -84,7 +84,7 @@ public class Tutorial extends LevelState {
 		font.getData().setScale(.5f, .5f);
 		layout = new GlyphLayout();
 
-		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects());
+		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
 
 		crap = new ArrayList<Debris>();
 		people = new ArrayList<Person>();
