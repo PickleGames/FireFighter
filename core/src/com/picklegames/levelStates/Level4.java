@@ -71,13 +71,12 @@ public class Level4 extends LevelState {
 		tileMap = new TmxMapLoader().load("map/Level1.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
-		
 		// cam.viewportWidth = tmr.getMap().getProperties().get("width",
 		// Integer.class) * 32;
 		cam.viewportHeight = tmr.getMap().getProperties().get("height", Integer.class) * 32;
 		// cam.position.x = cam.viewportWidth / 2;
 		cam.position.y = cam.viewportHeight / 2;
-		//cam.update();
+		// cam.update();
 		// batch.setTransformMatrix(cam.combined.scl(PPM));
 
 		player = lsm.getPlayer();
@@ -92,7 +91,7 @@ public class Level4 extends LevelState {
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 		font.setColor(Color.RED);
 		font.getData().setScale(1f);
-		
+
 		tileObject = new TileObject();
 		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(),
 				"ground");
@@ -105,7 +104,7 @@ public class Level4 extends LevelState {
 		hud = new HUD(cam);
 
 		createDebrisBox2D();
-		
+
 		FireFighterGame.res.loadMusic("sound/Level 1, Level 2.mp3", "l_2");
 	}
 
@@ -133,7 +132,6 @@ public class Level4 extends LevelState {
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			player.use();
 		}
-
 
 		if (player.characterState.equals(CharacterState.ADULT)) {
 			if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
@@ -165,11 +163,11 @@ public class Level4 extends LevelState {
 
 	@Override
 	public void update(float dt) {
-		
-		if(!FireFighterGame.res.getMusic("l_2").isPlaying()){
+
+		if (!FireFighterGame.res.getMusic("l_2").isPlaying()) {
 			FireFighterGame.res.getMusic("l_2").play();
 		}
-		
+
 		handleInput();
 		player.characterState = CharacterState.ADULT;
 		player.update(dt);
@@ -187,7 +185,7 @@ public class Level4 extends LevelState {
 		// System.out.println( "CAM WIDTH " + cam.viewportWidth + " CAM HEIGHT "
 		// + cam.viewportHeight);
 		// System.out.println( "CAM POS " + cam.position);
-		
+
 		if (player.weaponState.equals(WeaponState.AXE)) {
 			hud.hudState = HudState.AXE;
 		} else if (player.weaponState.equals(WeaponState.EXTINGUISHER)) {
@@ -197,7 +195,7 @@ public class Level4 extends LevelState {
 		if (transport.isInRange(player.getWorldPosition().x, player.getWorldPosition().y, 100)) {
 			isTransport = true;
 		}
-		
+
 		if (isTransport) {
 			timeElapsed += dt;
 			if (!lsm.getTe().isStart()) {
@@ -205,7 +203,8 @@ public class Level4 extends LevelState {
 			}
 
 			if (timeElapsed >= 2f) {
-				FireFighterGame.res.getMusic("l_2").stop();;
+				FireFighterGame.res.getMusic("l_2").stop();
+				;
 				lsm.setState(LevelStateManager.Level_5);
 			}
 		} else {
@@ -346,11 +345,12 @@ public class Level4 extends LevelState {
 
 		batch.begin();
 		font.draw(batch, "[1] & [2] to switch weapons", 20, cam.viewportHeight / 2 + 150);
-		font.draw(batch, "[2] and [SPACE] to extinguish" , 800, cam.viewportHeight / 2 + 150);
-		font.draw(batch, "[1] and [SPACE] to chop" , 1600, cam.viewportHeight / 2 + 150);
-		font.draw(batch, "Good Luck!" , 2500, cam.viewportHeight / 2 + 150);
-//		font.draw(batch, "PLAYER HEALTH: " + player.getHealth(), cam.viewportWidth / 2 + 100,
-//				cam.viewportHeight / 2 + 50);
+		font.draw(batch, "[2] and [SPACE] to extinguish", 800, cam.viewportHeight / 2 + 150);
+		font.draw(batch, "[1] and [SPACE] to chop", 1600, cam.viewportHeight / 2 + 150);
+		font.draw(batch, "Good Luck!", 2500, cam.viewportHeight / 2 + 150);
+		// font.draw(batch, "PLAYER HEALTH: " + player.getHealth(),
+		// cam.viewportWidth / 2 + 100,
+		// cam.viewportHeight / 2 + 50);
 
 		batch.end();
 
@@ -459,7 +459,7 @@ public class Level4 extends LevelState {
 				game.getWorld().destroyBody(f.getBody());
 			}
 		}
-		
+
 		if (crap != null) {
 			for (Debris d : crap) {
 				d.dispose();
