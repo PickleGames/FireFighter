@@ -29,7 +29,7 @@ public class Level15 extends LevelState{
 	private Animation collAni;
 	private TextureRegion[] collReg;
 	
-	private Sound playerS, currentSound;
+	private Sound playerS, girlS, catS, currentSound;
 	
 	public Level15(LevelStateManager lsm) {
 		super(lsm);
@@ -40,14 +40,14 @@ public class Level15 extends LevelState{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		d = new Dialogue("dialogue/dialogue6.txt", "Spring, 1995");
+		d = new Dialogue("dialogue/dialogue8.txt", "Spring, 1995");
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 		font.setColor(Color.WHITE);
 		font.getData().scaleX = .4f;
 		layout = new GlyphLayout(); //dont do this every frame! Store it as member
 
 		FireFighterGame.res.loadTexture("image/Character/oldMom.png", "oMom");
-		FireFighterGame.res.loadTexture("image/Character/collegeFace.png", "college");
+		FireFighterGame.res.loadTexture("image/Character/firemanFace.png", "fireman");
 		FireFighterGame.res.loadTexture("image/Backgrounds/momRoom.png", "momRoom");
 		FireFighterGame.res.loadTexture("image/Backgrounds/diaBar.png", "diaBox");
 		
@@ -55,7 +55,7 @@ public class Level15 extends LevelState{
 		mom = new Animation();
 		mom.setFrames(momReg, 8f);
 		
-		collReg = TextureRegion.split(FireFighterGame.res.getTexture("college"), 300, 300)[0];
+		collReg = TextureRegion.split(FireFighterGame.res.getTexture("fireman"), 300, 300)[0];
 		collAni = new Animation();
 		collAni.setFrames(collReg, 16f);
 		
@@ -63,8 +63,17 @@ public class Level15 extends LevelState{
 		bgBar = FireFighterGame.res.getTexture("diaBox");
 		
 		FireFighterGame.res.loadSound("sound/wac.mp3", "playerS");
+		FireFighterGame.res.loadSound("sound/girlWomp.mp3", "girlS");
+		FireFighterGame.res.loadSound("sound/wac.mp3", "catS");
 		playerS = FireFighterGame.res.getSound("playerS");
+		girlS = FireFighterGame.res.getSound("girlS");
+		catS = FireFighterGame.res.getSound("catS");
 		currentSound = playerS;
+		
+		FireFighterGame.res.loadMusic("sound/Dialogue 6.mp3", "d_6");
+		
+		cam.update();
+		
 	}
 
 	@Override
@@ -76,11 +85,23 @@ public class Level15 extends LevelState{
 	@Override
 	public void update(float dt) {
 		// TODO Auto-generated method stub
-		d.update(dt,currentSound);
-		if(d.isFinished()){
-			lsm.setState(LevelStateManager.Level_6);
+		
+		if(!FireFighterGame.res.getMusic("d_6").isPlaying()){
+			FireFighterGame.res.getMusic("d_6").play();
 		}
 		
+		d.update(dt,currentSound);
+//		if(d.isFinished()){
+//			FireFighterGame.res.getMusic("d_6").stop();
+//			lsm.setState(LevelStateManager.Level_6);
+//		}
+		if(d.getName().equals("YOU")){
+			currentSound = playerS;
+		}else if(d.getName().equals("MOM")){
+			currentSound = girlS;
+		}else if(d.getName().equals("CAT")){
+			currentSound = catS;
+		}
 		if(d.isIntroDone()){
 			//teenGirl.update(dt);
 			//teenAni.update(dt);
@@ -105,16 +126,20 @@ public class Level15 extends LevelState{
 		layout.setText(font, d.getCharacterLine());
 		float width = layout.width;// contains the width of the current set text
 		//float height = layout.height; // contains the height of the current set text
+		batch.setProjectionMatrix(cam.combined);
 		
 		batch.begin();
 		
-			batch.draw(bg, 0, 0, FireFighterGame.V_WIDTH, FireFighterGame.V_HEIGHT);
-			batch.draw(bgBar, 0, FireFighterGame.V_HEIGHT -  FireFighterGame.V_HEIGHT / 4, FireFighterGame.V_WIDTH - 50, FireFighterGame.V_HEIGHT / 6);
-			batch.draw(mom.getFrame(), FireFighterGame.V_WIDTH - 505, 5 , 500, 500);
+			batch.draw(bg, 0, 0, cam.viewportWidth, cam.viewportHeight);
+			batch.draw(bgBar, 25, cam.viewportHeight -  cam.viewportHeight / 4, cam.viewportWidth - 50, cam.viewportHeight / 6);
 			batch.draw(collAni.getFrame(), 5, 5 ,500, 500);
+			batch.draw(mom.getFrame(), cam.viewportWidth - 505, 5 , 500, 500);
 			
-			font.draw(batch, d.getName(), FireFighterGame.V_WIDTH/2  - 15, 625);
-			font.draw(batch, d.getCharacterLine(),  FireFighterGame.V_WIDTH/2 - width/2, 600);
+			font.draw(batch, d.getCharacterLine(),  cam.viewportWidth/2 - width/2, 600);
+			layout.setText(font, d.getName());
+			width = layout.width;
+			font.draw(batch, d.getName(), cam.viewportWidth/2  - width/2, 625);
+			
 		batch.end();
 		
 		d.render(batch);

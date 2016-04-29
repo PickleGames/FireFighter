@@ -1,6 +1,7 @@
 package com.picklegames.levelStates;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -74,6 +75,9 @@ public class Level9 extends LevelState{
 		//cam.position.set(FireFighterGame.V_WIDTH / 2 , FireFighterGame.V_HEIGHT/ 2 , 0);
 		cam.update();
 		System.out.println(cam.position.toString());
+		
+		FireFighterGame.res.loadMusic("sound/Dialogue 5.mp3", "d_5");
+		
 	}
 
 	@Override
@@ -85,8 +89,18 @@ public class Level9 extends LevelState{
 	@Override
 	public void update(float dt) {
 		// TODO Auto-generated method stub
+		
+		if(Gdx.input.isKeyPressed(Keys.P)){
+			FireFighterGame.res.getMusic("d_5").stop();
+			lsm.setState(LevelStateManager.Level_10);
+		}
+		
+		if(!FireFighterGame.res.getMusic("d_5").isPlaying()){
+			FireFighterGame.res.getMusic("d_5").play();
+		}
 
 		if(d.isFinished()){
+			FireFighterGame.res.getMusic("d_5").stop();
 			lsm.setState(LevelStateManager.Level_10);
 		}
 		
@@ -157,6 +171,7 @@ public class Level9 extends LevelState{
 		FireFighterGame.res.removeSound("playerS");
 		FireFighterGame.res.removeSound("girldS");
 		FireFighterGame.res.removeSound("catS");
+		FireFighterGame.res.getMusic("d_5").dispose();
 
 	}
 

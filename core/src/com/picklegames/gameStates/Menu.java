@@ -39,6 +39,9 @@ public class Menu extends GameState{
 		textBoxes[1] = new TextBox("Help", cam.viewportWidth - 250, 440);
 		textBoxes[2] = new TextBox("Exit", cam.viewportWidth - 250, 380);
 		
+		FireFighterGame.res.loadMusic("sound/Menu, Dialogue 2.mp3", "men");
+		FireFighterGame.res.getMusic("men").play();
+		
 		
 	}
 	
@@ -83,6 +86,7 @@ public class Menu extends GameState{
 					System.out.println(whitebg.getColor().a);
 					timeElapsed+=dt;
 					if(timeElapsed >= 3f){
+						FireFighterGame.res.getMusic("men").stop();
 						gsm.setState(GameStateManager.PLAY);
 					}
 				}else if(t.text.equals("Help")){

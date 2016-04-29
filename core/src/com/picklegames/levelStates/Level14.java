@@ -101,6 +101,9 @@ public class Level14 extends LevelState {
 		hud = new HUD(cam);
 
 		createDebrisBox2D();
+		
+		FireFighterGame.res.loadMusic("sound/Level 4.mp3", "l_6");
+		
 	}
 
 	@Override
@@ -154,6 +157,16 @@ public class Level14 extends LevelState {
 
 	@Override
 	public void update(float dt) {
+		
+		if(Gdx.input.isKeyPressed(Keys.P)){
+			FireFighterGame.res.getMusic("l_6").stop();
+			lsm.setState(LevelStateManager.Level_15);
+		}
+		
+		if(!FireFighterGame.res.getMusic("l_6").isPlaying()){
+			FireFighterGame.res.getMusic("l_6").play();
+		}
+		
 		handleInput();
 
 		player.update(dt);
@@ -189,6 +202,7 @@ public class Level14 extends LevelState {
 			}
 
 			if (timeElapsed >= 2f) {
+				FireFighterGame.res.getMusic("l_6").stop();
 				lsm.setState(LevelStateManager.Level_15);
 			}
 		} else {
@@ -455,7 +469,7 @@ game.getWorld().destroyBody(transport.getBody());
 		tmr.dispose();
 		b2dr.dispose();
 		font.dispose();
-		
+		FireFighterGame.res.getMusic("l_6").dispose();;
 		hud.dispose();
 
 	}
