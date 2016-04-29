@@ -91,10 +91,10 @@ public class Level15 extends LevelState{
 		}
 		
 		d.update(dt,currentSound);
-//		if(d.isFinished()){
-//			FireFighterGame.res.getMusic("d_6").stop();
-//			lsm.setState(LevelStateManager.Level_6);
-//		}
+		if(d.isFinished()){
+			FireFighterGame.res.getMusic("d_6").stop();
+			lsm.setState(LevelStateManager.End);
+		}
 		if(d.getName().equals("YOU")){
 			currentSound = playerS;
 		}else if(d.getName().equals("MOM")){

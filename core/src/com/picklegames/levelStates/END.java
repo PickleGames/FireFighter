@@ -7,12 +7,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.picklegames.game.FireFighterGame;
 import com.picklegames.managers.LevelStateManager;
 
-public class Dead extends LevelState{
-
+public class END extends LevelState{
 	private Sprite tex;
-	private BitmapFont font;
 	
-	public Dead(LevelStateManager lsm) {
+	public END(LevelStateManager lsm) {
 		super(lsm);
 
 	}
@@ -20,20 +18,21 @@ public class Dead extends LevelState{
 	@Override
 	public void init() {
 	
-		FireFighterGame.res.loadTexture("image/Backgrounds/dead.png", "dead");
+		FireFighterGame.res.loadTexture("image/Backgrounds/end.png", "end");
 		
-		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
-		font.getData().scale(2);
-		tex = new Sprite(FireFighterGame.res.getTexture("dead"));
+		tex = new Sprite(FireFighterGame.res.getTexture("end"));
 		
-		tex.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		tex.setSize(cam.viewportWidth,cam.viewportHeight);
 		tex.setPosition(0, 0);
-		System.out.println(cam.viewportWidth);
+		System.out.println(cam.viewportWidth + 50);
 		System.out.println(cam.viewportHeight);
 		
 		cam.position.set(cam.viewportWidth / 2 , cam.viewportHeight /2 , 0);
 		
 		cam.update();
+		
+		FireFighterGame.res.loadMusic("sound/Dialogue 6.mp3", "d_6");
+		
 		
 	}
 
@@ -57,6 +56,10 @@ public class Dead extends LevelState{
 		handleInput();
 		System.out.println("cam width: " + cam.viewportWidth);
 		System.out.println("cam height: " +cam.viewportHeight);
+		
+		if(!FireFighterGame.res.getMusic("d_6").isPlaying()){
+			FireFighterGame.res.getMusic("d_6").play();
+		}
 	}
 
 	@Override
@@ -68,7 +71,6 @@ public class Dead extends LevelState{
 		
 		batch.begin();
 		tex.draw(batch);
-		font.draw(batch, "Enter to retry", 50, cam.viewportHeight / 2  - 50);
 		batch.end();
 		
 	}
@@ -77,5 +79,6 @@ public class Dead extends LevelState{
 	public void dispose() {
 		FireFighterGame.res.disposeTexture("dead");
 	}
+
 
 }

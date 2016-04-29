@@ -10,6 +10,7 @@ import com.picklegames.game.FireFighterGame;
 import com.picklegames.handlers.CameraStyles;
 import com.picklegames.handlers.TransitionEffect;
 import com.picklegames.levelStates.Dead;
+import com.picklegames.levelStates.END;
 import com.picklegames.levelStates.Level0;
 import com.picklegames.levelStates.Level1;
 import com.picklegames.levelStates.Level10;
@@ -60,6 +61,7 @@ public class LevelStateManager {
 	}
 	
 	public static final int Dead = 420;
+	public static final int End = 6969;
 	public static final int Tutorial = 00;
 	public static final int Level_0 = 01;
 	public static final int Level_1 = 12;
@@ -91,7 +93,7 @@ public class LevelStateManager {
 		camStyle = new CameraStyles();
 
 
-		pushState(Level_8);
+		pushState(Level_15);
 
 
 
@@ -168,6 +170,8 @@ public class LevelStateManager {
 			return new Level14(this);
 		}else if (state == Level_15){
 			return new Level15(this);
+		}else if (state == End){
+			return new END(this);
 		}
 
 		return null;
