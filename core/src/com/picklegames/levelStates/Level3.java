@@ -77,9 +77,11 @@ public class Level3 extends LevelState{
 		cam.position.x = cam.viewportWidth / 2;
 		cam.position.y = cam.viewportHeight / 2;
 		cam.update();
+
 		System.out.println(cam.position.toString());
 		
 		FireFighterGame.res.loadMusic("sound/Menu, Dialogue 2.mp3", "d_2");
+
 	}
 
 	@Override
