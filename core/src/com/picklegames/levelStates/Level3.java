@@ -77,13 +77,17 @@ public class Level3 extends LevelState{
 		cam.position.x = cam.viewportWidth / 2;
 		cam.position.y = cam.viewportHeight / 2;
 		cam.update();
+
+		System.out.println(cam.position.toString());
 		
-//		System.out.println(cam.position.toString());
+		FireFighterGame.res.loadMusic("sound/Menu, Dialogue 2.mp3", "d_2");
+
 	}
 
 	@Override
 	public void handleInput() {
 		if(Gdx.input.isKeyPressed(Keys.P)){
+			FireFighterGame.res.getMusic("d_2").stop();
 			lsm.setState(LevelStateManager.Level_4);
 		}
 		
@@ -91,7 +95,13 @@ public class Level3 extends LevelState{
 	@Override
 	public void update(float dt) {
 		handleInput();
+		
+		if(!FireFighterGame.res.getMusic("d_2").isPlaying()){
+			FireFighterGame.res.getMusic("d_2").play();
+		}
+		
 		if(d.isFinished()){
+			FireFighterGame.res.getMusic("d_2").stop();
 			lsm.setState(LevelStateManager.Level_4);
 		}
 		
@@ -160,6 +170,7 @@ public class Level3 extends LevelState{
 		FireFighterGame.res.removeSound("playerS");
 		FireFighterGame.res.removeSound("girldS");
 		FireFighterGame.res.removeSound("catS");
+		FireFighterGame.res.getMusic("d_2").dispose();;
 	}
 
 }

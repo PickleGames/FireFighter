@@ -101,6 +101,9 @@ public class Level10 extends LevelState {
 		hud = new HUD(cam);
 
 		createDebrisBox2D();
+		
+		FireFighterGame.res.loadMusic("sound/Level 4.mp3", "l_4");
+		
 	}
 
 	@Override
@@ -120,6 +123,11 @@ public class Level10 extends LevelState {
 				player.setVelocityY(-2);
 			} else {
 				player.setVelocityY(0);
+			}
+			
+			if(Gdx.input.isKeyPressed(Keys.P)){
+				FireFighterGame.res.getMusic("l_4").stop();
+				lsm.setState(LevelStateManager.Level_11);
 			}
 		}
 
@@ -154,6 +162,11 @@ public class Level10 extends LevelState {
 
 	@Override
 	public void update(float dt) {
+		
+		if(!FireFighterGame.res.getMusic("l_4").isPlaying()){
+			FireFighterGame.res.getMusic("l_4").play();
+		}
+		
 		handleInput();
 
 		player.update(dt);
@@ -188,6 +201,7 @@ public class Level10 extends LevelState {
 			}
 
 			if (timeElapsed >= 2f) {
+				FireFighterGame.res.getMusic("l_4").stop();
 				lsm.setState(LevelStateManager.Level_11);
 			}
 		} else {
@@ -454,7 +468,7 @@ public class Level10 extends LevelState {
 		tmr.dispose();
 		b2dr.dispose();
 		font.dispose();
-		
+		FireFighterGame.res.getMusic("l_4").dispose();
 		hud.dispose();
 
 	}

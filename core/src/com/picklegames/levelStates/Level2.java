@@ -114,6 +114,8 @@ public class Level2 extends LevelState implements ContactListener{
 		playerS = FireFighterGame.res.getSound("wac");
 		catS = FireFighterGame.res.getSound("meow");
 		currentS = playerS;
+		
+		FireFighterGame.res.loadMusic("sound/Dialogue 1, Dialogue 3.mp3", "d_1");
 	}
 
 	@Override
@@ -145,6 +147,7 @@ public class Level2 extends LevelState implements ContactListener{
 		}
 		
 		if(Gdx.input.isKeyPressed(Keys.P)){
+			FireFighterGame.res.getMusic("d_1").stop();
 			lsm.setState(LevelStateManager.Level_3);
 		}
 	}
@@ -154,6 +157,11 @@ public class Level2 extends LevelState implements ContactListener{
 	boolean isPlayerTouch = false;
 	@Override
 	public void update(float dt) {
+		
+		if(!FireFighterGame.res.getMusic("d_1").isPlaying()){
+			FireFighterGame.res.getMusic("d_1").play();
+		}
+		
 		handleInput();
 		if(isPlayerTouch){
 			d.update(dt, currentS);
@@ -180,6 +188,7 @@ public class Level2 extends LevelState implements ContactListener{
 		if(d.isFinished()){
 			if(cat.isInRange(player.getWorldPosition().x, player.getWorldPosition().y)){
 				if(Gdx.input.isKeyJustPressed(Keys.X)){
+					FireFighterGame.res.getMusic("d_1").stop();
 					lsm.setState(LevelStateManager.Level_3);
 				}
 			}
@@ -241,7 +250,7 @@ public class Level2 extends LevelState implements ContactListener{
 		if(d.isFinished()){
 			font_tutorial.draw(batch, "\"X\" to interact", 600, 400);
 		}else {
-			font_tutorial.draw(batch, "ARROW KEY TO MOVE", 200, 400);
+			font_tutorial.draw(batch, "ARROW KEYS TO MOVE", 200, 400);
 		}
 		batch.end();
 	}
@@ -275,6 +284,7 @@ public class Level2 extends LevelState implements ContactListener{
 		cat.dispose();
 		game.getWorld().destroyBody(streetBound.body);
 		game.getWorld().destroyBody(stopBound.body);
+		FireFighterGame.res.getMusic("l_1").dispose();
 	}
 	
 	boolean ground_cat_contact;

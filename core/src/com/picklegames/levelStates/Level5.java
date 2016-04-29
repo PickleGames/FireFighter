@@ -30,7 +30,7 @@ public class Level5 extends LevelState {
 	private Animation collAni;
 	private TextureRegion[] collReg;
 
-	private Sound playerS, currentSound;
+	private Sound playerS, girlS, catS, currentSound;
 
 	public Level5(LevelStateManager lsm) {
 		super(lsm);
@@ -64,10 +64,17 @@ public class Level5 extends LevelState {
 		bgBar = FireFighterGame.res.getTexture("diaBox");
 
 		FireFighterGame.res.loadSound("sound/wac.mp3", "playerS");
+		FireFighterGame.res.loadSound("sound/girlWomp.mp3", "girlS");
+		FireFighterGame.res.loadSound("sound/wac.mp3", "catS");
 		playerS = FireFighterGame.res.getSound("playerS");
+		girlS = FireFighterGame.res.getSound("girlS");
+		catS = FireFighterGame.res.getSound("catS");
 		currentSound = playerS;
 
 		cam.update();
+		
+		FireFighterGame.res.loadMusic("sound/Dialogue 1, Dialogue 3.mp3", "d_3");
+		
 	}
 
 	@Override
@@ -82,6 +89,7 @@ public class Level5 extends LevelState {
 		}
 
 		if (Gdx.input.isKeyPressed(Keys.P)) {
+			FireFighterGame.res.getMusic("l_2").stop();
 			lsm.setState(LevelStateManager.Level_6);
 		}
 
@@ -89,9 +97,24 @@ public class Level5 extends LevelState {
 
 	@Override
 	public void update(float dt) {
+		
+		if(!FireFighterGame.res.getMusic("d_3").isPlaying()){
+			FireFighterGame.res.getMusic("d_3").play();
+		}
+		
 		handleInput();
 		d.update(dt, currentSound);
+		
+		if(d.getName().equals("YOU")){
+			currentSound = playerS;
+		}else if(d.getName().equals("MOM")){
+			currentSound = girlS;
+		}else if(d.getName().equals("CAT")){
+			currentSound = catS;
+		}
+		
 		if (d.isFinished()) {
+			FireFighterGame.res.getMusic("d_3").stop();
 			lsm.setState(LevelStateManager.Level_6);
 		}
 //		System.out.println("CAM WIDTH " + cam.viewportWidth + " CAM HEIGHT " + cam.viewportHeight);
@@ -144,6 +167,7 @@ public class Level5 extends LevelState {
 	@Override
 	public void dispose() {
 		font.dispose();
+		FireFighterGame.res.getMusic("l_2").dispose();;
 
 	}
 

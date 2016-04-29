@@ -91,11 +91,16 @@ public class Level1 extends LevelState {
 		cam.position.y = cam.viewportHeight / 2;
 		cam.update();
 		System.out.println(cam.position.toString());
+
+		FireFighterGame.res.loadMusic("sound/Level 1, Level 2.mp3", "l_1");
+		FireFighterGame.res.getMusic("l_1").play();
 	}
 
 	@Override
 	public void handleInput() {
+
 		if (Gdx.input.isKeyPressed(Keys.P)) {
+			FireFighterGame.res.getMusic("l_1").stop();
 			lsm.setState(LevelStateManager.Level_2);
 		}
 
@@ -114,17 +119,24 @@ public class Level1 extends LevelState {
 	public void update(float dt) {
 		handleInput();
 
-		System.out.println(white.getColor().a);
+		timeElapsed += dt;
+
+		if (!FireFighterGame.res.getMusic("l_1").isPlaying()) {
+			FireFighterGame.res.getMusic("l_1").play();
+		}
+
 		if (white.getColor().a <= .1f) {
 			if (d.isFinished()) {
+
 				timeElapsed += dt;
 				if (!isCallTween) {
 					callTween();
 				}
-				
 				if (white.getColor().a >= .9f) {
 					lsm.setState(LevelStateManager.Level_2);
 				}
+				FireFighterGame.res.getMusic("l_1").stop();
+
 			}
 
 			if (d.getName().equals("YOU")) {
@@ -156,7 +168,6 @@ public class Level1 extends LevelState {
 			} else {
 				font.setColor(Color.GREEN);
 			}
-
 		}
 
 	}
@@ -198,6 +209,7 @@ public class Level1 extends LevelState {
 		FireFighterGame.res.removeSound("playerS");
 		FireFighterGame.res.removeSound("girldS");
 		FireFighterGame.res.removeSound("catS");
+		FireFighterGame.res.getMusic("l_1").dispose();
 	}
 
 }

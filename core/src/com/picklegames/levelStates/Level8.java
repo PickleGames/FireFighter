@@ -58,7 +58,7 @@ public class Level8 extends LevelState {
 	private ArrayList<Fire> fires;
 	private ArrayList<Explosion> explosions;
 	private ArrayList<Animal> animals;
-	
+
 	private CameraStyles camStyle;
 
 	private HUD hud;
@@ -76,39 +76,47 @@ public class Level8 extends LevelState {
 		tileMap = new TmxMapLoader().load("map/vetlevel1.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
-//		cam.viewportWidth = tmr.getMap().getProperties().get("width", Integer.class) * 32;
-//		cam.viewportHeight = tmr.getMap().getProperties().get("height", Integer.class) * 32;
-//		cam.viewportWidth = tmr.getMap().getProperties().get("width", Integer.class) * 32;
+		// cam.viewportWidth = tmr.getMap().getProperties().get("width",
+		// Integer.class) * 32;
+		// cam.viewportHeight = tmr.getMap().getProperties().get("height",
+		// Integer.class) * 32;
+		// cam.viewportWidth = tmr.getMap().getProperties().get("width",
+		// Integer.class) * 32;
 		cam.viewportHeight = tmr.getMap().getProperties().get("height", Integer.class) * 32;
-//		cam.position.x = cam.viewportWidth / 2;
+		// cam.position.x = cam.viewportWidth / 2;
 		cam.position.y = cam.viewportHeight / 2;
-		
-		//batch.setTransformMatrix(cam.combined.scl(PPM));
-		
+
+		// batch.setTransformMatrix(cam.combined.scl(PPM));
+
 		player = lsm.getPlayer();
+
 		player.characterState = CharacterState.ADULT;
 		player.scl(1f);
-		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 100, 100, player.getWidth() / 3.5f, player.getHeight() / 9,
-				new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp", B2DVars.BIT_PLAYER,
-				B2DVars.BIT_GROUND));
-		
+		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 100, 100, player.getWidth() / 3.5f,
+				player.getHeight() / 9, new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp",
+				B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
+
 		b2dr = new Box2DDebugRenderer();
 
 		font = new BitmapFont();
-		
+
 		tileObject = new TileObject();
-		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
+		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(),
+				"ground");
 
 		crap = new ArrayList<Debris>();
 		people = new ArrayList<Person>();
 		fires = new ArrayList<Fire>();
 		explosions = new ArrayList<Explosion>();
 		animals = new ArrayList<Animal>();
-		
+
 		hud = new HUD(cam);
-		
+
 		createDebrisBox2D();
 		camStyle = new CameraStyles();
+
+		FireFighterGame.res.loadMusic("sound/Level 3 Level 5.mp3", "l_3");
+
 	}
 
 	@Override
@@ -129,6 +137,11 @@ public class Level8 extends LevelState {
 			} else {
 				player.setVelocityY(0);
 			}
+
+			if (Gdx.input.isKeyPressed(Keys.P)) {
+				FireFighterGame.res.getMusic("l_3").stop();
+				lsm.setState(LevelStateManager.Level_9);
+			}
 		}
 
 		// if (player.getCurrentWeapon().isUsable()) {
@@ -136,7 +149,7 @@ public class Level8 extends LevelState {
 			player.use();
 		}
 		// }
-			
+
 		if (player.characterState.equals(CharacterState.ADULT)) {
 			if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
 				player.getCurrentWeapon().reset();
@@ -162,23 +175,28 @@ public class Level8 extends LevelState {
 
 	@Override
 	public void update(float dt) {
+
+		if (!FireFighterGame.res.getMusic("l_3").isPlaying()) {
+			FireFighterGame.res.getMusic("l_3").play();
+		}
+
 		handleInput();
 
 		player.update(dt);
-		//player.getBody().setLinearVelocity(player.getVelocity());
-		//player.setSize(player.getWidth() - 2, player.getHeight() - 2);
-		
+		// player.getBody().setLinearVelocity(player.getVelocity());
+		// player.setSize(player.getWidth() - 2, player.getHeight() - 2);
+
 		transport.update(dt);
 		hud.update(dt);
-		
 		hud.playerHurt(player.isInDanger());
 		if (player.isDead()) {
 			lsm.setState(LevelStateManager.Dead);
 		}
-		
-		if(player.weaponState.equals(WeaponState.AXE)){
+
+		if (player.weaponState.equals(WeaponState.AXE)) {
+
 			hud.hudState = HudState.AXE;
-		}else if(player.weaponState.equals(WeaponState.EXTINGUISHER)){
+		} else if (player.weaponState.equals(WeaponState.EXTINGUISHER)) {
 			hud.hudState = HudState.EXTINGUISHER;
 		}
 
@@ -191,6 +209,7 @@ public class Level8 extends LevelState {
 				lsm.getTe().start();
 			}
 			if (timeElapsed >= 2f) {
+				FireFighterGame.res.getMusic("l_3").stop();
 				lsm.setState(LevelStateManager.Level_9);
 			}
 		} else {
@@ -201,7 +220,7 @@ public class Level8 extends LevelState {
 				if (f.isInRadius(player.getWorldPosition().x, player.getWorldPosition().y, 120)) {
 					player.burn(1f);
 				}
-				
+
 				if (!(player.getCurrentWeapon() instanceof Extinguisher))
 					continue;
 
@@ -236,6 +255,14 @@ public class Level8 extends LevelState {
 				}
 			}
 
+			for (Animal a : animals) {
+				a.update(dt);
+
+				if (a.isInRadius(player.getPosition().x, player.getPosition().y, 2)) {
+					a.animalState = AnimalState.RUN;
+				}
+			}
+
 			for (int i = 0; i < crap.size(); i++) {
 				Debris d = crap.get(i);
 				d.update(dt);
@@ -258,29 +285,28 @@ public class Level8 extends LevelState {
 					i--;
 				}
 			}
-			
-			for (Animal a: animals) {
+
+			for (Animal a : animals) {
 				a.update(dt);
 
 				if (a.isInRadius(player.getPosition().x, player.getPosition().y, 2)) {
 					a.animalState = AnimalState.RUN;
 				}
 			}
-			
+
 			for (int i = 0; i < explosions.size(); i++) {
 				Explosion e = explosions.get(i);
 				e.update(dt);
-				if(e.isInRadius(player.getPosition().x * PPM, player.getPosition().y * PPM, 300)){
+				if (e.isInRadius(player.getPosition().x * PPM, player.getPosition().y * PPM, 300)) {
 					e.push(player.getBody());
 					e.start();
-					
-					
+
 				}
-				if(e.isStart()){
+				if (e.isStart()) {
 					camStyle.Shake(cam, initialCamPos, 500f, 1f);
 				}
-				
-				if(e.isComplete()){
+
+				if (e.isComplete()) {
 					e.dispose();
 					game.getWorld().destroyBody(e.getBody());
 					explosions.remove(e);
@@ -288,7 +314,7 @@ public class Level8 extends LevelState {
 				}
 			}
 		}
-		
+
 		camStyle.update(dt);
 	}
 
@@ -298,32 +324,30 @@ public class Level8 extends LevelState {
 	public void render() {
 		// TODO Auto-generated method stub
 		batch.setProjectionMatrix(cam.combined);
-		
+
 		float startx = cam.viewportWidth / 2;
 		float starty = cam.viewportHeight / 2;
 		float endWidth = tileMap.getProperties().get("width", Integer.class) * 32 - startx * 2;
 		float endHeight = tileMap.getProperties().get("height", Integer.class) * 32 - starty * 2;
 		System.out.println("endx: " + endWidth + " endy: " + endHeight);
 		System.out.println(cam.position);
-		
+
 		camStyle.Lerp(cam, .5f, player.getWorldPosition());
 		camStyle.Boundary(cam, startx, starty, endWidth, endHeight);
 		initialCamPos = new Vector3(cam.position);
-		
-		
+
 		tmr.setView(cam);
 		batch.begin();
-			tmr.render();
-			b2dr.render(game.getWorld(), cam.combined.scl(PPM));
+		tmr.render();
+		b2dr.render(game.getWorld(), cam.combined.scl(PPM));
 		batch.end();
 
 		cam.update();
-		
-		
+
 		player.render(batch);
-		
+
 		hud.render(batch);
-		
+
 		batch.begin();
 		transport.render(batch);
 
@@ -335,14 +359,18 @@ public class Level8 extends LevelState {
 			p.render(batch);
 		}
 
-		for (Fire f : fires) {
-			f.render(batch);
-		}
-		
 		for (Animal a : animals) {
 			a.render(batch);
 		}
-		
+
+		for (Fire f : fires) {
+			f.render(batch);
+		}
+
+		for (Animal a : animals) {
+			a.render(batch);
+		}
+
 		for (Explosion e : explosions) {
 			e.render(batch);
 		}
@@ -402,92 +430,107 @@ public class Level8 extends LevelState {
 				fires.add(f);
 
 			}
-		}
 
-		layer = tileMap.getLayers().get("animals");
-		if (layer != null) {
-			for (MapObject mo : layer.getObjects()) {
+			layer = tileMap.getLayers().get("animals");
+			if (layer != null) {
+				for (MapObject mo : layer.getObjects()) {
 
-				// get people position from tile map object layer
-				float x = (float) mo.getProperties().get("x", Float.class);
-				float y = (float) mo.getProperties().get("y", Float.class);
+					// get people position from tile map object layer
+					float x = (float) mo.getProperties().get("x", Float.class);
+					float y = (float) mo.getProperties().get("y", Float.class);
 
-				// create new person and add to people list
-				Animal a = new Animal(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1,
-						BodyType.DynamicBody, "people", B2DVars.BIT_GROUND, B2DVars.BIT_GROUND));
-				animals.add(a);
-			}
-		}
-		
-		layer = tileMap.getLayers().get("explosion");
-		if (layer != null) {
-			for (MapObject mo : layer.getObjects()) {
-
-				// get transport position from tile map object layer
-				float x = (float) mo.getProperties().get("x", Float.class);
-				float y = (float) mo.getProperties().get("y", Float.class);
-
-				// create new transport
-
-				Explosion e = new Explosion(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1,
-						BodyType.StaticBody, "transport", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
-				explosions.add(e);
+					// create new person and add to people list
+					Animal a = new Animal(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1,
+							BodyType.DynamicBody, "people", B2DVars.BIT_GROUND, B2DVars.BIT_GROUND));
+					animals.add(a);
+				}
 			}
 
-		}
+			layer = tileMap.getLayers().get("animals");
+			if (layer != null) {
+				for (MapObject mo : layer.getObjects()) {
 
-		layer = tileMap.getLayers().get("end");
-		if (layer != null) {
+					// get people position from tile map object layer
+					float x = (float) mo.getProperties().get("x", Float.class);
+					float y = (float) mo.getProperties().get("y", Float.class);
 
-			for (MapObject mo : layer.getObjects()) {
+					// create new person and add to people list
+					Animal a = new Animal(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1,
+							BodyType.DynamicBody, "people", B2DVars.BIT_GROUND, B2DVars.BIT_GROUND));
+					animals.add(a);
+				}
+			}
 
-				// get transport position from tile map object layer
-				float x = (float) mo.getProperties().get("x", Float.class);
-				float y = (float) mo.getProperties().get("y", Float.class);
+			layer = tileMap.getLayers().get("explosion");
+			if (layer != null) {
+				for (MapObject mo : layer.getObjects()) {
 
-				// create new transport
+					// get transport position from tile map object layer
+					float x = (float) mo.getProperties().get("x", Float.class);
+					float y = (float) mo.getProperties().get("y", Float.class);
 
-				transport = new Transport(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1,
-						BodyType.StaticBody, "transport", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+					// create new transport
+
+					Explosion e = new Explosion(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1,
+							BodyType.StaticBody, "transport", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+					explosions.add(e);
+				}
 
 			}
+
+			layer = tileMap.getLayers().get("end");
+			if (layer != null) {
+
+				for (MapObject mo : layer.getObjects()) {
+
+					// get transport position from tile map object layer
+					float x = (float) mo.getProperties().get("x", Float.class);
+					float y = (float) mo.getProperties().get("y", Float.class);
+
+					// create new transport
+
+					transport = new Transport(CreateBox2D.createCircle(game.getWorld(), x, y, 15, false, 1,
+							BodyType.StaticBody, "transport", B2DVars.BIT_GROUND, B2DVars.BIT_PLAYER));
+
+				}
+			}
 		}
-		
 	}
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 		game.getWorld().destroyBody(transport.getBody());
-		
-		for(Explosion e : explosions){
-			game.getWorld().destroyBody(e.getBody());;
+
+		for (Explosion e : explosions) {
+			game.getWorld().destroyBody(e.getBody());
+			;
 		}
-		
-		if(fires != null){
-			for(Fire f: fires){
+
+		if (fires != null) {
+			for (Fire f : fires) {
 				f.dispose();
 				game.getWorld().destroyBody(f.getBody());
 			}
 		}
-		if(crap != null){
-			for(Debris d: crap){
+		if (crap != null) {
+			for (Debris d : crap) {
 				d.dispose();
 				game.getWorld().destroyBody(d.getBody());
 			}
 		}
-		if(people != null){
-			for(Person p: people){
+		if (people != null) {
+			for (Person p : people) {
 				p.dispose();
 				game.getWorld().destroyBody(p.getBody());
 			}
 		}
-		
+
 		tileMap.dispose();
 		tmr.dispose();
 		b2dr.dispose();
 		font.dispose();
-		
+		FireFighterGame.res.getMusic("l_3").dispose();
 		hud.dispose();
 
 	}
