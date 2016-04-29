@@ -44,6 +44,8 @@ public class Level2 extends LevelState implements ContactListener{
 	
 	private OrthogonalTiledMapRenderer tmr;
 	private TiledMap tileMap;
+	private TileObject tileObject;
+	private TileObject tileObject2;
 	private Dialogue d;
 	private Box2DDebugRenderer b2dr;
 	private Lamp player;
@@ -96,10 +98,13 @@ public class Level2 extends LevelState implements ContactListener{
 
 		font = new BitmapFont();
 		
+
 		streetBound = new TileObject();
 		stopBound = new TileObject();
 		streetBound.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
 		stopBound.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("stop").getObjects(), "stop");
+
+
 
 //		hud = new HUD(cam);
 
@@ -117,23 +122,21 @@ public class Level2 extends LevelState implements ContactListener{
 	public void handleInput() {
 		// TODO Auto-generated method stub
 		if (!player.getCurrentWeapon().isUse()) {
-			if (Gdx.input.isKeyPressed(Keys.D)) {
+			if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
 				player.setVelocityX(2);
-			} else if (Gdx.input.isKeyPressed(Keys.A)) {
+			} else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
 				player.setVelocityX(-2);
 			} else {
 				player.setVelocityX(0);
 			}
-			if (Gdx.input.isKeyPressed(Keys.W)) {
+			if (Gdx.input.isKeyPressed(Keys.UP)) {
 				player.setVelocityY(2);
-			} else if (Gdx.input.isKeyPressed(Keys.S)) {
+			} else if (Gdx.input.isKeyPressed(Keys.DOWN)) {
 				player.setVelocityY(-2);
 			} else {
 				player.setVelocityY(0);
 			}
 		}
-
-
 
 		if (Gdx.input.isKeyPressed(Keys.Q)) {
 			cam.viewportHeight += 10;

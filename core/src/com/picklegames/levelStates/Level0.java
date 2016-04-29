@@ -34,6 +34,7 @@ public class Level0 extends LevelState {
 
 	private OrthogonalTiledMapRenderer tmr;
 	private TiledMap tileMap;
+	private TileObject tileObject;
 	private Box2DDebugRenderer b2dr;
 	private ArrayList<Fire> fires;
 
@@ -41,7 +42,7 @@ public class Level0 extends LevelState {
 	private Transport transport;
 	private Lamp player;
 	
-	private TileObject tileObject;
+
 	
 	public Level0(LevelStateManager lsm) {
 		super(lsm);
@@ -66,7 +67,7 @@ public class Level0 extends LevelState {
 		
 		tileObject = new TileObject();
 		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
-		
+
 		player = lsm.getPlayer();
 		player.scl(3f);
 		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 100, 0, player.getWidth() / 3.5f,

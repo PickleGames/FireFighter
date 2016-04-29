@@ -47,6 +47,7 @@ public class Tutorial extends LevelState {
 	private OrthogonalTiledMapRenderer tmr;
 	private TiledMap tileMap;
 
+
 	private Box2DDebugRenderer b2dr;
 	private Lamp player;
 	private Transport transport;
@@ -84,7 +85,7 @@ public class Tutorial extends LevelState {
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 		font.getData().setScale(.5f, .5f);
 		layout = new GlyphLayout();
-
+		
 		tileObject = new TileObject();
 		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
 

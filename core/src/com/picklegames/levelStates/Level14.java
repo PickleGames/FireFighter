@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
+import com.picklegames.TweenAccessor.SpriteTweenAccessor;
 import com.picklegames.entities.Debris;
 import com.picklegames.entities.Explosion;
 import com.picklegames.entities.Fire;
@@ -38,8 +39,9 @@ import com.picklegames.handlers.Box2D.CreateBox2D;
 import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
 
-public class Level4 extends LevelState {
+public class Level14 extends LevelState {
 
 	private BitmapFont font;
 	private OrthogonalTiledMapRenderer tmr;
@@ -57,7 +59,7 @@ public class Level4 extends LevelState {
 
 	private HUD hud;
 
-	public Level4(LevelStateManager lsm) {
+	public Level14(LevelStateManager lsm) {
 		super(lsm);
 
 	}
@@ -67,7 +69,7 @@ public class Level4 extends LevelState {
 
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
-		tileMap = new TmxMapLoader().load("map/Level1.tmx");
+		tileMap = new TmxMapLoader().load("map/Level5.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
 		// cam.viewportWidth = tmr.getMap().getProperties().get("width",
@@ -87,7 +89,7 @@ public class Level4 extends LevelState {
 		b2dr = new Box2DDebugRenderer();
 
 		font = new BitmapFont();
-
+		
 		tileObject = new TileObject();
 		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
 
@@ -187,7 +189,7 @@ public class Level4 extends LevelState {
 			}
 
 			if (timeElapsed >= 2f) {
-				lsm.setState(LevelStateManager.Level_5);
+				lsm.setState(LevelStateManager.Level_15);
 			}
 		} else {
 			for (int i = 0; i < fires.size(); i++) {
@@ -423,9 +425,8 @@ public class Level4 extends LevelState {
 
 	@Override
 	public void dispose() {
-
 		// TODO Auto-generated method stub
-		game.getWorld().destroyBody(transport.getBody());
+game.getWorld().destroyBody(transport.getBody());
 		
 		for(Explosion e : explosions){
 			game.getWorld().destroyBody(e.getBody());;
@@ -456,7 +457,6 @@ public class Level4 extends LevelState {
 		font.dispose();
 		
 		hud.dispose();
-
 
 	}
 

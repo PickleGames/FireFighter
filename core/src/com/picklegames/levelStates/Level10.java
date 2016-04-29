@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
+import com.picklegames.TweenAccessor.SpriteTweenAccessor;
 import com.picklegames.entities.Debris;
 import com.picklegames.entities.Explosion;
 import com.picklegames.entities.Fire;
@@ -38,8 +39,9 @@ import com.picklegames.handlers.Box2D.CreateBox2D;
 import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
 
-public class Level4 extends LevelState {
+public class Level10 extends LevelState {
 
 	private BitmapFont font;
 	private OrthogonalTiledMapRenderer tmr;
@@ -57,7 +59,7 @@ public class Level4 extends LevelState {
 
 	private HUD hud;
 
-	public Level4(LevelStateManager lsm) {
+	public Level10(LevelStateManager lsm) {
 		super(lsm);
 
 	}
@@ -67,7 +69,7 @@ public class Level4 extends LevelState {
 
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
-		tileMap = new TmxMapLoader().load("map/Level1.tmx");
+		tileMap = new TmxMapLoader().load("map/Level4.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
 		// cam.viewportWidth = tmr.getMap().getProperties().get("width",
@@ -75,7 +77,7 @@ public class Level4 extends LevelState {
 		cam.viewportHeight = tmr.getMap().getProperties().get("height", Integer.class) * 32;
 		// cam.position.x = cam.viewportWidth / 2;
 		cam.position.y = cam.viewportHeight / 2;
-		cam.update();
+
 		// batch.setTransformMatrix(cam.combined.scl(PPM));
 
 		player = lsm.getPlayer();
@@ -87,7 +89,7 @@ public class Level4 extends LevelState {
 		b2dr = new Box2DDebugRenderer();
 
 		font = new BitmapFont();
-
+		
 		tileObject = new TileObject();
 		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
 
@@ -168,7 +170,6 @@ public class Level4 extends LevelState {
 			lsm.setState(LevelStateManager.Dead);
 		}
 		
-		System.out.println( "CAM WIDTH " + cam.viewportWidth + " CAM HEIGHT" + cam.viewportHeight);
 		
 		if(player.weaponState.equals(WeaponState.AXE)){
 			hud.hudState = HudState.AXE;
@@ -187,7 +188,7 @@ public class Level4 extends LevelState {
 			}
 
 			if (timeElapsed >= 2f) {
-				lsm.setState(LevelStateManager.Level_5);
+				lsm.setState(LevelStateManager.Level_11);
 			}
 		} else {
 			for (int i = 0; i < fires.size(); i++) {
@@ -195,7 +196,7 @@ public class Level4 extends LevelState {
 				f.update(dt);
 				
 				if(f.isInRadius(player.getWorldPosition().x, player.getWorldPosition().y, 100)){
-					player.burn(.15f);
+					player.burn(.05f);
 				}
 				
 				if (!(player.getCurrentWeapon() instanceof Extinguisher))
@@ -236,7 +237,7 @@ public class Level4 extends LevelState {
 
 				if (player.getCurrentWeapon().isInRange(d.getPosition().x * PPM, d.getPosition().y * PPM)) {
 					if (player.getCurrentWeapon().isUse()) {
-						if (!player.getCurrentWeapon().isUsable() && Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+						if (!player.getCurrentWeapon().isUsable() && Gdx.input.isKeyJustPressed(Keys.J)) {
 							d.doHit();
 						}
 					}
@@ -423,7 +424,6 @@ public class Level4 extends LevelState {
 
 	@Override
 	public void dispose() {
-
 		// TODO Auto-generated method stub
 		game.getWorld().destroyBody(transport.getBody());
 		
@@ -456,7 +456,6 @@ public class Level4 extends LevelState {
 		font.dispose();
 		
 		hud.dispose();
-
 
 	}
 
