@@ -87,7 +87,8 @@ public class Level1 extends LevelState {
 		catS = FireFighterGame.res.getSound("catS");
 		currentSound = playerS;
 
-		cam.position.set(FireFighterGame.V_WIDTH / 2, FireFighterGame.V_HEIGHT / 2, 0);
+		cam.position.x = cam.viewportWidth / 2;
+		cam.position.y = cam.viewportHeight / 2;
 		cam.update();
 		System.out.println(cam.position.toString());
 	}

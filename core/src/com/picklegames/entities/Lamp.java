@@ -25,7 +25,7 @@ public class Lamp extends Entity {
 	private Weapon currentWeapon;
 	
 	private float health = 100;
-	private float healthLast;
+
 
 	private boolean isInDanger = false;
 	
@@ -116,20 +116,22 @@ public class Lamp extends Entity {
 	boolean isSetExtWalk = false;
 	boolean isSetAxeUse = false;
 	boolean isSetExtUse = false;
-	boolean isSetYoung= false;
+	boolean isSetYoung = false;
+	boolean isSetAdult = false;
 	float timeHealthElapsed;
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+		
 		if(health >= 100){
 			health = 100;
 		}
 		
 
 		timeHealthElapsed+=dt;
-		if(timeHealthElapsed >= 1f){
+		if(timeHealthElapsed >= 5f){
 			if(health < 100 ) {
-				if(health+5 < 100)	health+=5;
+				if(health + 5 < 100) health+=5;
 				else health = 100;
 				
 			}
@@ -149,6 +151,10 @@ public class Lamp extends Entity {
 			if (currentWeapon.isUse()) {
 				setVelocity(0, 0);
 			}
+			if(!isSetAdult){
+				animation.setFrames(textureAdult_ext, 1 / 8f);
+				isSetAdult = true;
+			}
 			
 			if (weaponState.equals(WeaponState.EXTINGUISHER)) {
 				if (currentWeapon.isUse() && !isSetExtUse) {
@@ -159,7 +165,7 @@ public class Lamp extends Entity {
 				}
 				if (!currentWeapon.isUse() && !isSetExtWalk) {
 					currentWeapon = weapons[0];
-					// currentWeapon.reset();
+					System.out.println("set ex");
 					animation.setFrames(textureAdult_ext, 1 / 8f);
 					isSetExtWalk = true;
 					isSetAxeWalk = false;
@@ -195,10 +201,10 @@ public class Lamp extends Entity {
 			if(!isSetYoung){
 				animation.setFrames(textureR, 1 / 8f);
 				isSetYoung = true;
+				isSetAdult = false;
 			}
 		}
 		
-		healthLast = health;
 	}
 
 	public void resetScl(){

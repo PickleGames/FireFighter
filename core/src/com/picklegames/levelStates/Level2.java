@@ -44,8 +44,6 @@ public class Level2 extends LevelState implements ContactListener{
 	
 	private OrthogonalTiledMapRenderer tmr;
 	private TiledMap tileMap;
-	private TileObject tileObject;
-	private TileObject tileObject2;
 	private Dialogue d;
 	private Box2DDebugRenderer b2dr;
 	private Lamp player;
@@ -145,6 +143,10 @@ public class Level2 extends LevelState implements ContactListener{
 			cam.viewportHeight -= 10;
 			cam.viewportWidth -= 10;
 		}
+		
+		if(Gdx.input.isKeyPressed(Keys.P)){
+			lsm.setState(LevelStateManager.Level_3);
+		}
 	}
 
 	private float timeElapsed = 0;
@@ -177,7 +179,7 @@ public class Level2 extends LevelState implements ContactListener{
 
 		if(d.isFinished()){
 			if(cat.isInRange(player.getWorldPosition().x, player.getWorldPosition().y)){
-				if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
+				if(Gdx.input.isKeyJustPressed(Keys.X)){
 					lsm.setState(LevelStateManager.Level_3);
 				}
 			}
@@ -227,8 +229,8 @@ public class Level2 extends LevelState implements ContactListener{
 		// float height = layout.height; // contains the height of the current
 
 		batch.begin();
-		font.draw(batch, "Level 6, time: " + timeElapsed, Gdx.graphics.getWidth() / 2,
-				Gdx.graphics.getHeight() / 2 + 50);
+//		font.draw(batch, "Level 6, time: " + timeElapsed, Gdx.graphics.getWidth() / 2,
+//				Gdx.graphics.getHeight() / 2 + 50);
 		if(d.getName().equals("LAMP")){
 		//font.draw(batch, d.getName(), player.getWorldPosition().x, player.getWorldPosition().y);
 			font.draw(batch, d.getCharacterLine(), player.getWorldPosition().x, player.getWorldPosition().y + 100);

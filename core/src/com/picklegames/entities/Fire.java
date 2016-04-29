@@ -36,7 +36,9 @@ public class Fire extends Entity {
 	}
 
 	public boolean isInRadius(float x2, float y2, float radius) {
-		return MathHelper.distanceEquation(body.getPosition().x * B2DVars.PPM, body.getPosition().y * B2DVars.PPM, x2, y2) < radius;
+		float d = MathHelper.distanceEquation(body.getPosition().x * B2DVars.PPM, body.getPosition().y * B2DVars.PPM, x2, y2);
+		System.out.println("distance " + d);
+		return d < radius;
 	}
 
 	public float findDistance(float x2, float y2) {
