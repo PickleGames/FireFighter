@@ -41,7 +41,7 @@ public class Level11 extends LevelState{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		d = new Dialogue("dialogue/dialogue6.txt", "Spring, 1995");
+		d = new Dialogue("dialogue/dialogue6.txt", "January, 1999");
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 		font.setColor(Color.WHITE);
 		font.getData().scaleX = .4f;
