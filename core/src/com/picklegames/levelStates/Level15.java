@@ -12,7 +12,7 @@ import com.picklegames.handlers.Animation;
 import com.picklegames.handlers.dialogue.Dialogue;
 import com.picklegames.managers.LevelStateManager;
 
-public class Level5 extends LevelState{
+public class Level15 extends LevelState{
 	
 	//3rd dialogue with mom in college
 	
@@ -31,7 +31,7 @@ public class Level5 extends LevelState{
 	
 	private Sound playerS, currentSound;
 	
-	public Level5(LevelStateManager lsm) {
+	public Level15(LevelStateManager lsm) {
 		super(lsm);
 		// TODO Auto-generated constructor stub
 		init();
@@ -40,18 +40,18 @@ public class Level5 extends LevelState{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		d = new Dialogue("dialogue/dialogue3.txt", "Spring, 1995");
+		d = new Dialogue("dialogue/dialogue6.txt", "Spring, 1995");
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 		font.setColor(Color.WHITE);
 		font.getData().scaleX = .4f;
 		layout = new GlyphLayout(); //dont do this every frame! Store it as member
 
-		FireFighterGame.res.loadTexture("image/Character/momFace.png", "mom");
+		FireFighterGame.res.loadTexture("image/Character/oldMom.png", "oMom");
 		FireFighterGame.res.loadTexture("image/Character/collegeFace.png", "college");
-		FireFighterGame.res.loadTexture("image/Backgrounds/dorm.png", "dorm_bg");
+		FireFighterGame.res.loadTexture("image/Backgrounds/momRoom.png", "momRoom");
 		FireFighterGame.res.loadTexture("image/Backgrounds/diaBar.png", "diaBox");
 		
-		momReg = TextureRegion.split(FireFighterGame.res.getTexture("mom"), 300, 300)[0];
+		momReg = TextureRegion.split(FireFighterGame.res.getTexture("oMom"), 300, 300)[0];
 		mom = new Animation();
 		mom.setFrames(momReg, 8f);
 		
@@ -59,13 +59,12 @@ public class Level5 extends LevelState{
 		collAni = new Animation();
 		collAni.setFrames(collReg, 16f);
 		
-		bg = FireFighterGame.res.getTexture("dorm_bg");
+		bg = FireFighterGame.res.getTexture("momRoom");
 		bgBar = FireFighterGame.res.getTexture("diaBox");
 		
 		FireFighterGame.res.loadSound("sound/wac.mp3", "playerS");
 		playerS = FireFighterGame.res.getSound("playerS");
 		currentSound = playerS;
-		
 	}
 
 	@Override

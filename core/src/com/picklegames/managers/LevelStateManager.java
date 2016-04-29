@@ -12,6 +12,12 @@ import com.picklegames.handlers.TransitionEffect;
 import com.picklegames.levelStates.Dead;
 import com.picklegames.levelStates.Level0;
 import com.picklegames.levelStates.Level1;
+import com.picklegames.levelStates.Level10;
+import com.picklegames.levelStates.Level11;
+import com.picklegames.levelStates.Level12;
+import com.picklegames.levelStates.Level13;
+import com.picklegames.levelStates.Level14;
+import com.picklegames.levelStates.Level15;
 import com.picklegames.levelStates.Level2;
 import com.picklegames.levelStates.Level3;
 import com.picklegames.levelStates.Level4;
@@ -63,6 +69,12 @@ public class LevelStateManager {
 	public static final int Level_7 = 78;
 	public static final int Level_8 = 89;
 	public static final int Level_9 = 910;
+	public static final int Level_10 = 912;
+	public static final int Level_11 = 923;
+	public static final int Level_12 = 934;
+	public static final int Level_13 = 945;
+	public static final int Level_14 = 956;
+	public static final int Level_15 = 967;
 
 	public LevelStateManager(FireFighterGame game, GameStateManager gsm) {
 		this.game = game;
@@ -76,7 +88,7 @@ public class LevelStateManager {
 		player = new Lamp();
 		camStyle = new CameraStyles();
 
-		pushState(Level_2);
+		pushState(Level_3);
 
 
 //		player.setBody(CreateBox2D.createBox(game.getWorld(), 100, 100, player.getWidth() / 2, player.getHeight() / 8,
@@ -134,6 +146,18 @@ public class LevelStateManager {
 			return new Level8(this);
 		}else if (state == Level_9){
 			return new Level9(this);
+		}else if (state == Level_10){
+			return new Level10(this);
+		}else if (state == Level_11){
+			return new Level11(this);
+		}else if (state == Level_12){
+			return new Level12(this);
+		}else if (state == Level_13){
+			return new Level13(this);
+		}else if (state == Level_14){
+			return new Level14(this);
+		}else if (state == Level_15){
+			return new Level15(this);
 		}
 
 		return null;
@@ -142,8 +166,8 @@ public class LevelStateManager {
 
 	public void setState(int state) {
 		popState();
-		pushState(state);
 		game.getCam().setToOrtho(false, FireFighterGame.V_WIDTH / FireFighterGame.SCALE, FireFighterGame.V_HEIGHT / FireFighterGame.SCALE);
+		pushState(state);
 	}
 
 	public void pushState(int state) {

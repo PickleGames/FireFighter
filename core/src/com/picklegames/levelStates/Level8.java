@@ -69,7 +69,7 @@ public class Level8 extends LevelState {
 
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
-		tileMap = new TmxMapLoader().load("map/catlevel.tmx");
+		tileMap = new TmxMapLoader().load("map/Level3.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
 //		cam.viewportWidth = tmr.getMap().getProperties().get("width", Integer.class) * 32;
@@ -107,28 +107,28 @@ public class Level8 extends LevelState {
 	@Override
 	public void handleInput() {
 		// TODO Auto-generated method stub
-		if(!player.getCurrentWeapon().isUse()){
-			if (Gdx.input.isKeyPressed(Keys.D)) {
+		if (!player.getCurrentWeapon().isUse()) {
+			if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
 				player.setVelocityX(2);
-			} else if (Gdx.input.isKeyPressed(Keys.A)) {
+			} else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
 				player.setVelocityX(-2);
 			} else {
 				player.setVelocityX(0);
 			}
-			if (Gdx.input.isKeyPressed(Keys.W)) {
+			if (Gdx.input.isKeyPressed(Keys.UP)) {
 				player.setVelocityY(2);
-			} else if (Gdx.input.isKeyPressed(Keys.S)) {
+			} else if (Gdx.input.isKeyPressed(Keys.DOWN)) {
 				player.setVelocityY(-2);
 			} else {
 				player.setVelocityY(0);
 			}
 		}
 
-		//if (player.getCurrentWeapon().isUsable()) {
-			if (Gdx.input.isKeyJustPressed(Keys.J)) {
-				player.use();
-			}
-		//}
+		// if (player.getCurrentWeapon().isUsable()) {
+		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+			player.use();
+		}
+		// }
 			
 		if (player.characterState.equals(CharacterState.ADULT)) {
 			if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
@@ -179,7 +179,7 @@ public class Level8 extends LevelState {
 				lsm.getTe().start();
 			}
 			if (timeElapsed >= 2f) {
-				lsm.setState(LevelStateManager.Level_3);
+				lsm.setState(LevelStateManager.Level_9);
 			}
 		} else {
 			for (int i = 0; i < fires.size(); i++) {
@@ -418,6 +418,37 @@ public class Level8 extends LevelState {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
+		game.getWorld().destroyBody(transport.getBody());
+		
+		for(Explosion e : explosions){
+			game.getWorld().destroyBody(e.getBody());;
+		}
+		
+		if(fires != null){
+			for(Fire f: fires){
+				f.dispose();
+				game.getWorld().destroyBody(f.getBody());
+			}
+		}
+		if(crap != null){
+			for(Debris d: crap){
+				d.dispose();
+				game.getWorld().destroyBody(d.getBody());
+			}
+		}
+		if(people != null){
+			for(Person p: people){
+				p.dispose();
+				game.getWorld().destroyBody(p.getBody());
+			}
+		}
+		
+		tileMap.dispose();
+		tmr.dispose();
+		b2dr.dispose();
+		font.dispose();
+		
+		hud.dispose();
 
 	}
 

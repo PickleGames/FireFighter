@@ -19,8 +19,11 @@ public class Dead extends LevelState{
 		
 		FireFighterGame.res.loadTexture("image/Backgrounds/dead.png", "dead");
 		
+		
 		tex = new Sprite(FireFighterGame.res.getTexture("dead"));
-		tex.setSize(cam.viewportWidth, cam.viewportHeight);
+		tex.setSize(cam.viewportWidth, cam.viewportHeight / 2);
+		
+		
 	}
 
 	@Override

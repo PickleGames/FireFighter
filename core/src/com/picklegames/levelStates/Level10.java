@@ -41,7 +41,7 @@ import com.picklegames.managers.LevelStateManager;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 
-public class Level6 extends LevelState {
+public class Level10 extends LevelState {
 
 	private BitmapFont font;
 	private OrthogonalTiledMapRenderer tmr;
@@ -58,7 +58,7 @@ public class Level6 extends LevelState {
 
 	private HUD hud;
 
-	public Level6(LevelStateManager lsm) {
+	public Level10(LevelStateManager lsm) {
 		super(lsm);
 
 	}
@@ -68,7 +68,7 @@ public class Level6 extends LevelState {
 
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
-		tileMap = new TmxMapLoader().load("map/Level2.tmx");
+		tileMap = new TmxMapLoader().load("map/Level4.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
 		// cam.viewportWidth = tmr.getMap().getProperties().get("width",
@@ -76,7 +76,7 @@ public class Level6 extends LevelState {
 		cam.viewportHeight = tmr.getMap().getProperties().get("height", Integer.class) * 32;
 		// cam.position.x = cam.viewportWidth / 2;
 		cam.position.y = cam.viewportHeight / 2;
-		cam.update();
+
 		// batch.setTransformMatrix(cam.combined.scl(PPM));
 
 		player = lsm.getPlayer();
@@ -168,7 +168,6 @@ public class Level6 extends LevelState {
 			lsm.setState(LevelStateManager.Dead);
 		}
 		
-		System.out.println( "CAM WIDTH " + cam.viewportWidth + " CAM HEIGHT" + cam.viewportHeight);
 		
 		if(player.weaponState.equals(WeaponState.AXE)){
 			hud.hudState = HudState.AXE;
@@ -187,7 +186,7 @@ public class Level6 extends LevelState {
 			}
 
 			if (timeElapsed >= 2f) {
-				lsm.setState(LevelStateManager.Level_7);
+				lsm.setState(LevelStateManager.Level_11);
 			}
 		} else {
 			for (int i = 0; i < fires.size(); i++) {
@@ -195,7 +194,7 @@ public class Level6 extends LevelState {
 				f.update(dt);
 				
 				if(f.isInRadius(player.getWorldPosition().x, player.getWorldPosition().y, 100)){
-					player.burn(.15f);
+					player.burn(.05f);
 				}
 				
 				if (!(player.getCurrentWeapon() instanceof Extinguisher))
@@ -236,7 +235,7 @@ public class Level6 extends LevelState {
 
 				if (player.getCurrentWeapon().isInRange(d.getPosition().x * PPM, d.getPosition().y * PPM)) {
 					if (player.getCurrentWeapon().isUse()) {
-						if (!player.getCurrentWeapon().isUsable() && Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+						if (!player.getCurrentWeapon().isUsable() && Gdx.input.isKeyJustPressed(Keys.J)) {
 							d.doHit();
 						}
 					}
@@ -424,7 +423,6 @@ public class Level6 extends LevelState {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
 		game.getWorld().destroyBody(transport.getBody());
 		
 		for(Explosion e : explosions){

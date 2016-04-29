@@ -102,5 +102,13 @@ public class HUD {
 
 		batch.end();
 	}
+	
+	public void dispose(){
+		FireFighterGame.res.getTexture("weapons").dispose();
+		weapons.dispose();
+		FireFighterGame.res.getTexture("hbox").dispose();
+		box.dispose();
+		danger.getTexture().dispose();
+	}
 
 }

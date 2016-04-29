@@ -86,9 +86,9 @@ public class Level9 extends LevelState{
 	public void update(float dt) {
 		// TODO Auto-generated method stub
 
-//		if(d.isFinished()){
-//			lsm.setState(LevelStateManager.Level_7);
-//		}
+		if(d.isFinished()){
+			lsm.setState(LevelStateManager.Level_10);
+		}
 		
 		if(d.getName().equals("YOU")){
 			currentSound = playerS;

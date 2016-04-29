@@ -41,7 +41,7 @@ import com.picklegames.managers.LevelStateManager;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 
-public class Level6 extends LevelState {
+public class Level12 extends LevelState {
 
 	private BitmapFont font;
 	private OrthogonalTiledMapRenderer tmr;
@@ -58,7 +58,7 @@ public class Level6 extends LevelState {
 
 	private HUD hud;
 
-	public Level6(LevelStateManager lsm) {
+	public Level12(LevelStateManager lsm) {
 		super(lsm);
 
 	}
@@ -68,7 +68,7 @@ public class Level6 extends LevelState {
 
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
-		tileMap = new TmxMapLoader().load("map/Level2.tmx");
+		tileMap = new TmxMapLoader().load("map/Level5.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
 		// cam.viewportWidth = tmr.getMap().getProperties().get("width",
@@ -187,7 +187,7 @@ public class Level6 extends LevelState {
 			}
 
 			if (timeElapsed >= 2f) {
-				lsm.setState(LevelStateManager.Level_7);
+				lsm.setState(LevelStateManager.Level_3);
 			}
 		} else {
 			for (int i = 0; i < fires.size(); i++) {
@@ -236,7 +236,7 @@ public class Level6 extends LevelState {
 
 				if (player.getCurrentWeapon().isInRange(d.getPosition().x * PPM, d.getPosition().y * PPM)) {
 					if (player.getCurrentWeapon().isUse()) {
-						if (!player.getCurrentWeapon().isUsable() && Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+						if (!player.getCurrentWeapon().isUsable() && Gdx.input.isKeyJustPressed(Keys.J)) {
 							d.doHit();
 						}
 					}
@@ -424,7 +424,6 @@ public class Level6 extends LevelState {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
 		game.getWorld().destroyBody(transport.getBody());
 		
 		for(Explosion e : explosions){

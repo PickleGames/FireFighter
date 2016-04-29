@@ -103,16 +103,16 @@ public class Level2 extends LevelState implements ContactListener{
 	public void handleInput() {
 		// TODO Auto-generated method stub
 		if (!player.getCurrentWeapon().isUse()) {
-			if (Gdx.input.isKeyPressed(Keys.D)) {
+			if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
 				player.setVelocityX(2);
-			} else if (Gdx.input.isKeyPressed(Keys.A)) {
+			} else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
 				player.setVelocityX(-2);
 			} else {
 				player.setVelocityX(0);
 			}
-			if (Gdx.input.isKeyPressed(Keys.W)) {
+			if (Gdx.input.isKeyPressed(Keys.UP)) {
 				player.setVelocityY(2);
-			} else if (Gdx.input.isKeyPressed(Keys.S)) {
+			} else if (Gdx.input.isKeyPressed(Keys.DOWN)) {
 				player.setVelocityY(-2);
 			} else {
 				player.setVelocityY(0);
@@ -120,7 +120,7 @@ public class Level2 extends LevelState implements ContactListener{
 		}
 
 		// if (player.getCurrentWeapon().isUsable()) {
-//		if (Gdx.input.isKeyJustPressed(Keys.J)) {
+//		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 //			player.use();
 //		}
 		// }
