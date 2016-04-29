@@ -344,9 +344,9 @@ public class Level14 extends LevelState {
 		batch.end();
 
 		batch.begin();
-		font.draw(batch, "Level 6, time: " + timeElapsed, cam.viewportWidth / 2, cam.viewportHeight / 2 + 50);
-		font.draw(batch, "PLAYER HEALTH: " + player.getHealth(), cam.viewportWidth / 2 + 100,
-				cam.viewportHeight / 2 + 50);
+//		font.draw(batch, "Level 6, time: " + timeElapsed, cam.viewportWidth / 2, cam.viewportHeight / 2 + 50);
+//		font.draw(batch, "PLAYER HEALTH: " + player.getHealth(), cam.viewportWidth / 2 + 100,
+//				cam.viewportHeight / 2 + 50);
 
 		batch.end();
 
