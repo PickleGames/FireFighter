@@ -196,7 +196,7 @@ public class Level6 extends LevelState {
 			hud.hudState = HudState.EXTINGUISHER;
 		}
 
-		if (transport.isInRange(player.getPosition().x * B2DVars.PPM, player.getPosition().y * B2DVars.PPM, 100)) {
+		if (transport.isInRange(player.getWorldPosition().x, player.getWorldPosition().y , 100)) {
 			isTransport = true;
 		}
 		if (isTransport) {

@@ -18,7 +18,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
-import com.picklegames.TweenAccessor.SpriteTweenAccessor;
 import com.picklegames.entities.Debris;
 import com.picklegames.entities.Explosion;
 import com.picklegames.entities.Fire;
@@ -39,7 +38,6 @@ import com.picklegames.handlers.Box2D.CreateBox2D;
 import com.picklegames.managers.LevelStateManager;
 
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenEquations;
 
 public class Level14 extends LevelState {
 
@@ -194,7 +192,7 @@ public class Level14 extends LevelState {
 			hud.hudState = HudState.EXTINGUISHER;
 		}
 
-		if (transport.isInRange(player.getPosition().x * B2DVars.PPM, player.getPosition().y * B2DVars.PPM, 100)) {
+		if (transport.isInRange(player.getWorldPosition().x, player.getWorldPosition().y, 100)) {
 			isTransport = true;
 		}
 		if (isTransport) {

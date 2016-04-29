@@ -208,7 +208,6 @@ public class Level4 extends LevelState {
 
 			if (timeElapsed >= 2f) {
 				FireFighterGame.res.getMusic("l_2").stop();
-				;
 				lsm.setState(LevelStateManager.Level_5);
 			}
 		} else {

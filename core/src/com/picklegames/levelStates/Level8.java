@@ -202,7 +202,7 @@ public class Level8 extends LevelState {
 			hud.hudState = HudState.EXTINGUISHER;
 		}
 
-		if (transport.isInRange(player.getPosition().x, player.getPosition().y, 1)) {
+		if (transport.isInRange(player.getWorldPosition().x, player.getWorldPosition().y, 100)) {
 			isTransport = true;
 		}
 		if (isTransport) {
