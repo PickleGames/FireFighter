@@ -135,7 +135,7 @@ public class Level7 extends LevelState{
 		if(d.getName().equals("YOU")){
 			font.setColor(Color.BLUE);
 		}else if(d.getName().equals("CHIEF MIGGY")){
-			font.setColor(Color.PURPLE);
+			font.setColor(Color.FIREBRICK);
 		}else{
 			font.setColor(Color.GREEN);
 		}

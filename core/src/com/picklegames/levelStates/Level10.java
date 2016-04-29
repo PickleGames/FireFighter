@@ -19,6 +19,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.picklegames.TweenAccessor.ParticleEffectTweenAccessor;
 import com.picklegames.TweenAccessor.SpriteTweenAccessor;
+import com.picklegames.entities.Animal;
 import com.picklegames.entities.Debris;
 import com.picklegames.entities.Explosion;
 import com.picklegames.entities.Fire;
@@ -28,6 +29,7 @@ import com.picklegames.entities.Lamp.WeaponState;
 import com.picklegames.entities.Person;
 import com.picklegames.entities.Person.PersonState;
 import com.picklegames.entities.Transport;
+import com.picklegames.entities.Animal.AnimalState;
 import com.picklegames.entities.weapons.Axe;
 import com.picklegames.entities.weapons.Extinguisher;
 import com.picklegames.game.FireFighterGame;
@@ -81,7 +83,7 @@ public class Level10 extends LevelState {
 		// batch.setTransformMatrix(cam.combined.scl(PPM));
 
 		player = lsm.getPlayer();
-		player.scl(2f);
+		player.scl(1f);
 		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 10, 100, player.getWidth() / 3.5f,
 				player.getHeight() / 9, new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp",
 				B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
@@ -102,7 +104,7 @@ public class Level10 extends LevelState {
 
 		createDebrisBox2D();
 		
-		FireFighterGame.res.loadMusic("sound/Level 4.mp3", "l_4");
+		FireFighterGame.res.loadMusic("sound/actionMusic2.mp3", "l_4");
 		
 	}
 
@@ -183,6 +185,7 @@ public class Level10 extends LevelState {
 			lsm.setState(LevelStateManager.Dead);
 		}
 		
+		//System.out.println( "CAM WIDTH " + cam.viewportWidth + " CAM HEIGHT" + cam.viewportHeight);
 		
 		if(player.weaponState.equals(WeaponState.AXE)){
 			hud.hudState = HudState.AXE;
@@ -210,7 +213,7 @@ public class Level10 extends LevelState {
 				f.update(dt);
 				
 				if(f.isInRadius(player.getWorldPosition().x, player.getWorldPosition().y, 100)){
-					player.burn(.05f);
+					player.burn(.25f);
 				}
 				
 				if (!(player.getCurrentWeapon() instanceof Extinguisher))
@@ -242,6 +245,7 @@ public class Level10 extends LevelState {
 					p.personState = PersonState.RUN;
 				}
 			}
+			
 
 			for (int i = 0; i < crap.size(); i++) {
 				Debris d = crap.get(i);
@@ -251,7 +255,7 @@ public class Level10 extends LevelState {
 
 				if (player.getCurrentWeapon().isInRange(d.getPosition().x * PPM, d.getPosition().y * PPM)) {
 					if (player.getCurrentWeapon().isUse()) {
-						if (!player.getCurrentWeapon().isUsable() && Gdx.input.isKeyJustPressed(Keys.J)) {
+						if (!player.getCurrentWeapon().isUsable() && Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 							d.doHit();
 						}
 					}
@@ -287,7 +291,7 @@ public class Level10 extends LevelState {
 				}
 			}
 		}
-
+		
 		lsm.getCamStyle().update(dt);
 	}
 
@@ -341,10 +345,10 @@ public class Level10 extends LevelState {
 		batch.end();
 
 		batch.begin();
-		font.draw(batch, "Level 6, time: " + timeElapsed, cam.viewportWidth / 2,
-				cam.viewportHeight / 2 + 50);
-		font.draw(batch, "PLAYER HEALTH: " + player.getHealth(),cam.viewportWidth / 2 + 100,
-				cam.viewportHeight / 2 + 50);
+//		font.draw(batch, "Level 6, time: " + timeElapsed, cam.viewportWidth / 2,
+//				cam.viewportHeight / 2 + 50);
+//		font.draw(batch, "PLAYER HEALTH: " + player.getHealth(),cam.viewportWidth / 2 + 100,
+//				cam.viewportHeight / 2 + 50);
 		
 		batch.end();
 

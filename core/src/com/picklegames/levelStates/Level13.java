@@ -130,8 +130,10 @@ public class Level13 extends LevelState{
 		}
 		if(d.getName().equals("YOU")){
 			font.setColor(Color.BLUE);
-		}else{
+		}else if(d.getName().equals("MOM")){
 			font.setColor(Color.PURPLE);
+		}else if(d.getName().equals("JOYCE")){
+			font.setColor(Color.RED);
 		}
 		
 	}

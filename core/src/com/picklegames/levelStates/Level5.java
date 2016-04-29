@@ -73,7 +73,7 @@ public class Level5 extends LevelState {
 
 		cam.update();
 		
-		FireFighterGame.res.loadMusic("sound/Dialogue 1, Dialogue 3.mp3", "d_3");
+		FireFighterGame.res.loadMusic("sound/Dialogue1,Dialogue3.mp3", "d_3");
 		
 	}
 

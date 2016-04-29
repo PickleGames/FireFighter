@@ -106,7 +106,7 @@ public class Level4 extends LevelState {
 
 		createDebrisBox2D();
 		
-		FireFighterGame.res.loadMusic("sound/Level 1, Level 2.mp3", "l_2");
+		FireFighterGame.res.loadMusic("sound/actionMusic1.mp3", "l_2");
 	}
 
 	@Override

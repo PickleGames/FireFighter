@@ -81,7 +81,7 @@ public class Level12 extends LevelState {
 		// batch.setTransformMatrix(cam.combined.scl(PPM));
 
 		player = lsm.getPlayer();
-		player.scl(2f);
+		player.scl(1f);
 		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 10, 100, player.getWidth() / 3.5f,
 				player.getHeight() / 9, new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp",
 				B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
@@ -102,7 +102,7 @@ public class Level12 extends LevelState {
 
 		createDebrisBox2D();
 		
-		FireFighterGame.res.loadMusic("sound/Level 3 Level 5.mp3", "l_5");
+		FireFighterGame.res.loadMusic("sound/actionMusic1.mp3", "l_5");
 		
 	}
 
@@ -183,7 +183,7 @@ public class Level12 extends LevelState {
 			lsm.setState(LevelStateManager.Dead);
 		}
 		
-		System.out.println( "CAM WIDTH " + cam.viewportWidth + " CAM HEIGHT" + cam.viewportHeight);
+		//System.out.println( "CAM WIDTH " + cam.viewportWidth + " CAM HEIGHT" + cam.viewportHeight);
 		
 		if(player.weaponState.equals(WeaponState.AXE)){
 			hud.hudState = HudState.AXE;
@@ -211,7 +211,7 @@ public class Level12 extends LevelState {
 				f.update(dt);
 				
 				if(f.isInRadius(player.getWorldPosition().x, player.getWorldPosition().y, 100)){
-					player.burn(.15f);
+					player.burn(.25f);
 				}
 				
 				if (!(player.getCurrentWeapon() instanceof Extinguisher))
@@ -243,6 +243,7 @@ public class Level12 extends LevelState {
 					p.personState = PersonState.RUN;
 				}
 			}
+			
 
 			for (int i = 0; i < crap.size(); i++) {
 				Debris d = crap.get(i);
@@ -252,7 +253,7 @@ public class Level12 extends LevelState {
 
 				if (player.getCurrentWeapon().isInRange(d.getPosition().x * PPM, d.getPosition().y * PPM)) {
 					if (player.getCurrentWeapon().isUse()) {
-						if (!player.getCurrentWeapon().isUsable() && Gdx.input.isKeyJustPressed(Keys.J)) {
+						if (!player.getCurrentWeapon().isUsable() && Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 							d.doHit();
 						}
 					}

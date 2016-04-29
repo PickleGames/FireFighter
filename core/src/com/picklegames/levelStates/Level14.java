@@ -81,7 +81,7 @@ public class Level14 extends LevelState {
 		// batch.setTransformMatrix(cam.combined.scl(PPM));
 
 		player = lsm.getPlayer();
-		player.scl(2f);
+		player.scl(1f);
 		player.setBody(CreateBox2D.createBox(FireFighterGame.world, 10, 100, player.getWidth() / 3.5f,
 				player.getHeight() / 9, new Vector2(0, -player.getHeight() / 2.5f), BodyType.DynamicBody, "lamp",
 				B2DVars.BIT_PLAYER, B2DVars.BIT_GROUND));
@@ -102,7 +102,7 @@ public class Level14 extends LevelState {
 
 		createDebrisBox2D();
 		
-		FireFighterGame.res.loadMusic("sound/Level 4.mp3", "l_6");
+		FireFighterGame.res.loadMusic("sound/actionMusic1.mp3", "l_6");
 		
 	}
 
@@ -183,7 +183,7 @@ public class Level14 extends LevelState {
 			lsm.setState(LevelStateManager.Dead);
 		}
 		
-		System.out.println( "CAM WIDTH " + cam.viewportWidth + " CAM HEIGHT" + cam.viewportHeight);
+		//System.out.println( "CAM WIDTH " + cam.viewportWidth + " CAM HEIGHT" + cam.viewportHeight);
 		
 		if(player.weaponState.equals(WeaponState.AXE)){
 			hud.hudState = HudState.AXE;
@@ -203,7 +203,7 @@ public class Level14 extends LevelState {
 
 			if (timeElapsed >= 2f) {
 				FireFighterGame.res.getMusic("l_6").stop();
-				lsm.setState(LevelStateManager.Level_15);
+				lsm.setState(LevelStateManager.Level_11);
 			}
 		} else {
 			for (int i = 0; i < fires.size(); i++) {
@@ -211,7 +211,7 @@ public class Level14 extends LevelState {
 				f.update(dt);
 				
 				if(f.isInRadius(player.getWorldPosition().x, player.getWorldPosition().y, 100)){
-					player.burn(.15f);
+					player.burn(.5f);
 				}
 				
 				if (!(player.getCurrentWeapon() instanceof Extinguisher))
@@ -243,6 +243,7 @@ public class Level14 extends LevelState {
 					p.personState = PersonState.RUN;
 				}
 			}
+			
 
 			for (int i = 0; i < crap.size(); i++) {
 				Debris d = crap.get(i);

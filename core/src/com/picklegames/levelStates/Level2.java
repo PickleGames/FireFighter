@@ -115,7 +115,7 @@ public class Level2 extends LevelState implements ContactListener{
 		catS = FireFighterGame.res.getSound("meow");
 		currentS = playerS;
 		
-		FireFighterGame.res.loadMusic("sound/Dialogue 1, Dialogue 3.mp3", "d_1");
+		//FireFighterGame.res.loadMusic("sound/Dialogue 1, Dialogue 3.mp3", "d_1");
 	}
 
 	@Override

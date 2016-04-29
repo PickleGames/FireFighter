@@ -71,7 +71,7 @@ public class Level6 extends LevelState {
 
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
-		tileMap = new TmxMapLoader().load("map/Level1.tmx");
+		tileMap = new TmxMapLoader().load("map/Level2.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
 		// cam.viewportWidth = tmr.getMap().getProperties().get("width",
@@ -104,7 +104,7 @@ public class Level6 extends LevelState {
 
 		createDebrisBox2D();
 		
-		FireFighterGame.res.loadMusic("sound/Level 1, Level 2.mp3", "l_2");
+		FireFighterGame.res.loadMusic("sound/actionMusic2.mp3", "l_2");
 
 	}
 
@@ -213,7 +213,7 @@ public class Level6 extends LevelState {
 				f.update(dt);
 				
 				if(f.isInRadius(player.getWorldPosition().x, player.getWorldPosition().y, 100)){
-					player.burn(.15f);
+					player.burn(.25f);
 				}
 				
 				if (!(player.getCurrentWeapon() instanceof Extinguisher))

@@ -143,10 +143,13 @@ public class Level1 extends LevelState {
 
 			if (d.getName().equals("YOU")) {
 				currentSound = playerS;
+				font.setColor(Color.BLUE);
 			} else if (d.getName().equals("JOYCE")) {
 				currentSound = girlS;
+				font.setColor(Color.RED);
 			} else if (d.getName().equals("CAT")) {
 				currentSound = catS;
+				font.setColor(Color.GREEN);
 
 			}
 
@@ -163,13 +166,6 @@ public class Level1 extends LevelState {
 				}
 			}
 
-			if (d.getName().equals("YOU")) {
-				font.setColor(Color.BLUE);
-			} else if (d.getName().equals("JOYCE")) {
-				font.setColor(Color.PURPLE);
-			} else {
-				font.setColor(Color.GREEN);
-			}
 		}
 
 	}
