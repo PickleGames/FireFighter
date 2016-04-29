@@ -46,6 +46,7 @@ public class Tutorial extends LevelState {
 	private GlyphLayout layout;
 	private OrthogonalTiledMapRenderer tmr;
 	private TiledMap tileMap;
+	private TileObject tileObject;
 
 	private Box2DDebugRenderer b2dr;
 	private Lamp player;
@@ -83,8 +84,9 @@ public class Tutorial extends LevelState {
 		font = new BitmapFont(Gdx.files.internal("font/comicsan.fnt"));
 		font.getData().setScale(.5f, .5f);
 		layout = new GlyphLayout();
-
-		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects());
+		
+		tileObject = new TileObject();
+		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
 
 		crap = new ArrayList<Debris>();
 		people = new ArrayList<Person>();

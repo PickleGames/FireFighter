@@ -46,6 +46,7 @@ public class Level14 extends LevelState {
 	private BitmapFont font;
 	private OrthogonalTiledMapRenderer tmr;
 	private TiledMap tileMap;
+	private TileObject tileObject;
 
 	private Box2DDebugRenderer b2dr;
 	private Lamp player;
@@ -88,8 +89,9 @@ public class Level14 extends LevelState {
 		b2dr = new Box2DDebugRenderer();
 
 		font = new BitmapFont();
-
-		TileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects());
+		
+		tileObject = new TileObject();
+		tileObject.parseTiledObjectLayer(game.getWorld(), tileMap.getLayers().get("streetbound").getObjects(), "ground");
 
 		crap = new ArrayList<Debris>();
 		people = new ArrayList<Person>();

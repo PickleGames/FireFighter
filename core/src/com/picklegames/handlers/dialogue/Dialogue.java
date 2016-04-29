@@ -142,9 +142,6 @@ public class Dialogue {
 		return false;
 	}
 
-	public void intro() {
-
-	}
 
 	public boolean isIntroDone() {
 		return (font.getScaleX() < .2f);
