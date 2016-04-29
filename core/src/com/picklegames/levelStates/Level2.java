@@ -185,8 +185,8 @@ public class Level2 extends LevelState implements ContactListener{
 			}
 		}
 
-		System.out.println("width " + player.getWidth());
-		System.out.println("height " + player.getHeight());
+//		System.out.println("width " + player.getWidth());
+//		System.out.println("height " + player.getHeight());
 		camStyle.update(dt);
 	}
 

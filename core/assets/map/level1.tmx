@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="75" height="12" tilewidth="32" tileheight="32" nextobjectid="185">
- <tileset firstgid="1" name="FLOOR THINGS " tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="FLOOR THINGS " tilewidth="32" tileheight="32" tilecount="784" columns="28">
   <image source="combined tiles.png" width="900" height="900"/>
  </tileset>
- <tileset firstgid="785" name="TO THE WINDOW -- TO THE WALL" tilewidth="32" tileheight="32">
+ <tileset firstgid="785" name="TO THE WINDOW -- TO THE WALL" tilewidth="32" tileheight="32" tilecount="16" columns="4">
   <image source="combined walls.png" width="128" height="128"/>
   <terraintypes>
    <terrain name="New Terrain" tile="-1"/>
   </terraintypes>
  </tileset>
- <tileset firstgid="801" name="EXTRA" tilewidth="32" tileheight="32">
+ <tileset firstgid="801" name="EXTRA" tilewidth="32" tileheight="32" tilecount="1419" columns="43">
   <image source="combined extra.png" width="1388" height="1082"/>
  </tileset>
  <layer name="Tile Layer 1" width="75" height="12">

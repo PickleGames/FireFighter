@@ -201,7 +201,7 @@ public class Level4 extends LevelState {
 				f.update(dt);
 
 				if (f.isInRadius(player.getWorldPosition().x, player.getWorldPosition().y, 120)) {
-					player.burn(2f);
+					player.burn(1.5f);
 				}
 
 				if (!(player.getCurrentWeapon() instanceof Extinguisher))

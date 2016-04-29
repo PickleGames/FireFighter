@@ -115,8 +115,8 @@ public class Level0 extends LevelState {
 			lsm.setState(LevelStateManager.Level_1);
 		}
 		
-		System.out.println("width " + player.getWidth());
-		System.out.println("height " + player.getHeight());
+//		System.out.println("width " + player.getWidth());
+//		System.out.println("height " + player.getHeight());
 	}
 
 	@Override

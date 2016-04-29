@@ -77,7 +77,8 @@ public class Level3 extends LevelState{
 		cam.position.x = cam.viewportWidth / 2;
 		cam.position.y = cam.viewportHeight / 2;
 		cam.update();
-		System.out.println(cam.position.toString());
+		
+//		System.out.println(cam.position.toString());
 	}
 
 	@Override
