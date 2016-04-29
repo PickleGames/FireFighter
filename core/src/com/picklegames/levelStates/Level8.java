@@ -144,6 +144,13 @@ public class Level8 extends LevelState {
 				FireFighterGame.res.getMusic("l_3").stop();
 				lsm.setState(LevelStateManager.Level_9);
 			}
+			if (Gdx.input.isKeyPressed(Keys.Q)) {
+				cam.viewportHeight += 10;
+				cam.viewportWidth += 10;
+			} else if (Gdx.input.isKeyPressed(Keys.E)) {
+				cam.viewportHeight -= 10;
+				cam.viewportWidth -= 10;
+			}
 		}
 		// if (player.getCurrentWeapon().isUsable()) {
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
@@ -162,13 +169,7 @@ public class Level8 extends LevelState {
 			}
 		}
 
-		if (Gdx.input.isKeyPressed(Keys.Q)) {
-			cam.viewportHeight += 10;
-			cam.viewportWidth += 10;
-		} else if (Gdx.input.isKeyPressed(Keys.E)) {
-			cam.viewportHeight -= 10;
-			cam.viewportWidth -= 10;
-		}
+		
 	}
 
 	private float timeElapsed = 0;

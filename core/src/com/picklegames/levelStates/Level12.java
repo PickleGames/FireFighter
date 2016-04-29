@@ -67,7 +67,7 @@ public class Level12 extends LevelState {
 
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
-		tileMap = new TmxMapLoader().load("map/Level5.tmx");
+		tileMap = new TmxMapLoader().load("map/level5.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
 		// cam.viewportWidth = tmr.getMap().getProperties().get("width",
@@ -130,6 +130,13 @@ public class Level12 extends LevelState {
 				FireFighterGame.res.getMusic("l_5").stop();
 				lsm.setState(LevelStateManager.Level_13);
 			}
+			if (Gdx.input.isKeyPressed(Keys.Q)) {
+				cam.viewportHeight += 10;
+				cam.viewportWidth += 10;
+			} else if (Gdx.input.isKeyPressed(Keys.E)) {
+				cam.viewportHeight -= 10;
+				cam.viewportWidth -= 10;
+			}
 		}
 		// if (player.getCurrentWeapon().isUsable()) {
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
@@ -148,13 +155,7 @@ public class Level12 extends LevelState {
 			}
 		}
 
-		if (Gdx.input.isKeyPressed(Keys.Q)) {
-			cam.viewportHeight += 10;
-			cam.viewportWidth += 10;
-		} else if (Gdx.input.isKeyPressed(Keys.E)) {
-			cam.viewportHeight -= 10;
-			cam.viewportWidth -= 10;
-		}
+		
 	}
 
 	private float timeElapsed = 0;

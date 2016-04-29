@@ -69,7 +69,7 @@ public class Level14 extends LevelState {
 
 		Tween.registerAccessor(ParticleEffect.class, new ParticleEffectTweenAccessor());
 
-		tileMap = new TmxMapLoader().load("map/Level5.tmx");
+		tileMap = new TmxMapLoader().load("map/level6.tmx");
 		tmr = new OrthogonalTiledMapRenderer(tileMap);
 
 		// cam.viewportWidth = tmr.getMap().getProperties().get("width",
@@ -148,15 +148,16 @@ public class Level14 extends LevelState {
 				FireFighterGame.res.getMusic("l_6").stop();
 				lsm.setState(LevelStateManager.Level_15);
 			}
+			if (Gdx.input.isKeyPressed(Keys.Q)) {
+				cam.viewportHeight += 10;
+				cam.viewportWidth += 10;
+			} else if (Gdx.input.isKeyPressed(Keys.E)) {
+				cam.viewportHeight -= 10;
+				cam.viewportWidth -= 10;
+			}
 		}
 		
-		if (Gdx.input.isKeyPressed(Keys.Q)) {
-			cam.viewportHeight += 10;
-			cam.viewportWidth += 10;
-		} else if (Gdx.input.isKeyPressed(Keys.E)) {
-			cam.viewportHeight -= 10;
-			cam.viewportWidth -= 10;
-		}
+
 	}
 
 	private float timeElapsed = 0;

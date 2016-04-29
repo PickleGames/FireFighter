@@ -91,17 +91,18 @@ public class Level5 extends LevelState {
 	@Override
 	public void handleInput() {
 
-		if (Gdx.input.isKeyPressed(Keys.Q)) {
-			cam.viewportHeight += 10;
-			cam.viewportWidth += 10;
-		} else if (Gdx.input.isKeyPressed(Keys.E)) {
-			cam.viewportHeight -= 10;
-			cam.viewportWidth -= 10;
-		}
+
 		if (FireFighterGame.DEBUG) {
 			if (Gdx.input.isKeyPressed(Keys.P)) {
 				FireFighterGame.res.getMusic("l_2").stop();
 				lsm.setState(LevelStateManager.Level_6);
+			}
+			if (Gdx.input.isKeyPressed(Keys.Q)) {
+				cam.viewportHeight += 10;
+				cam.viewportWidth += 10;
+			} else if (Gdx.input.isKeyPressed(Keys.E)) {
+				cam.viewportHeight -= 10;
+				cam.viewportWidth -= 10;
 			}
 		}
 	}
