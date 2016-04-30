@@ -203,7 +203,7 @@ public class Level14 extends LevelState {
 
 			if (timeElapsed >= 2f) {
 				FireFighterGame.res.getMusic("l_6").stop();
-				lsm.setState(LevelStateManager.Level_11);
+				lsm.setState(LevelStateManager.Level_15);
 			}
 		} else {
 			for (int i = 0; i < fires.size(); i++) {
